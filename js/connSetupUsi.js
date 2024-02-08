@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require('express');
 const app = express();
 const port = process.env.PORT;
+//const db = require('mssql'); // Importe o pacote mssql
 const db = require('./db'); // Importe o arquivo db.js
 const cors = require('cors'); // Importe o pacote CORS
 
@@ -39,14 +40,35 @@ app.get('/setupusi', async (req, res) => {
     }
 });
 //___________________________________________________________________________________
-// Alterar dados no servidor
-//___________________________________________________________________________________
 // Rota para atualizar o status da solicitação
+// Em connSetupUsi.js
 
+app.put('/atualizar-status/:id', async (req, res) => {
+    const setupId = req.params.id;
+    const { status } = req.body;
 
+    try {
+        const result = await db.updateStatus(setupId, status);
+        res.status(200).json({ message: 'Status atualizado com sucesso.' });
+    } catch (error) {
+        console.error('Erro ao atualizar o status:', error);
+        res.status(500).json({ error: 'Erro interno ao atualizar o status.' });
+    }
+});
+//___________________________________________________________________________________
+// Rota para lidar com a exclusão de um setup de usinagem pelo ID
+//___________________________________________________________________________________
+app.delete('/delete/:id', async (req, res) => {
+    const id = req.params.id;
 
-
-
+    try {
+        const result = await db.excluirSetupUsiPorId(id);
+        res.status(200).json({ message: 'Setup de usinagem excluído com sucesso' });
+    } catch (error) {
+        console.error('Erro ao excluir setup de usinagem:', error);
+        res.status(500).json({ error: 'Erro ao excluir setup de usinagem' });
+    }
+});
 //___________________________________________________________________________________
 // Inicia o servidor
 //___________________________________________________________________________________
