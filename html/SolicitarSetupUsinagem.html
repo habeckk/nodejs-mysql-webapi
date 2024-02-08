@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <title>Listagem de Agendamentos</title>
+</head>
+<body>
+    <div class="header">
+        <div class="LOGO1">
+            <img src="/img/Usinagem/Sem título.png" alt="Imagem 3D">
+        </div>
+        <div class="LOGO2">
+            <img src="/img/docol_logo.png" alt="Imagem 3D">
+        </div>
+        <h1>Lista de Equipamentos</h1>
+        <div class="sidebar-buttons-container">
+            <button class="sidebar-button" type="button" onclick="openForm()">Solicitar Setup</button>
+            <button class="sidebar-button" type="button" onclick="MostrarLista()">Mostrar Lista</button>
+            <button class="sidebar-button" type="button" onclick="MostrarGrade()">Mostrar Grade</button>
+            <button id="atualizarDadosButton" type="button">Atualizar Dados</button>
+        </div>
+    </div>
+    <div class="linha-separadora1"></div>
+
+    <!-- Formulário sobreposto -->
+    <div class="overlay" id="overlay">
+        <div class="modal">
+            <h2>Solicitação de Setup</h2>
+            <form id="formNovoSetupUsi">
+                <label for="centro-custo">Centro de Custo:</label>
+                <input type="text" id="centro-custo" name="centro-custo"><br>
+
+                <label for="maquina">Máquina:</label>
+                <input type="text" id="maquina" name="maquina"><br>
+
+                <label for="item">Item:</label>
+                <input type="text" id="item" name="item"><br>
+
+                <label for="hora">Hora:</label>
+                <input type="time" id="hora" name="hora"><br>
+
+                <label for="operacao">Operação:</label>
+                <select id="operacao" name="operacao">
+                    <option value="1">1ª Operação</option>
+                    <option value="2">2ª Operação</option>
+                    <option value="3">3ª Operação</option>
+                </select><br>
+
+                <label for="lote">Lote:</label>
+                <input type="text" id="lote" name="lote"><br>
+
+                <label for="observacao">Observação:</label>
+                <textarea id="observacao" name="observacao"></textarea><br>
+
+                <button type="submit">Solicitar</button>
+                <button type="button" onclick="closeForm()">Cancelar</button>
+
+            </form>
+        </div>
+    </div>
+    <div id="pedidosContainer"></div>
+    <!-- Restante do seu HTML -->
+    <div class="container1">   
+        <div class="scroll-wrapper">
+            <div id="pedidosContainer" class="card-container">
+                <!-- Cartões serão adicionados aqui dinamicamente -->
+            </div>    
+        </div>
+    </div>
+
+    <div id="agendamentosContainer1"></div>
+
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/SolicitarSetupUsinagem.css">
+
+    <script>
+        //___________________________________________________________________________________
+        // Rota para adicionar um novo cliente
+        //___________________________________________________________________________________
+                document.getElementById('formNovoSetupUsi').addEventListener('submit', async function(event) {
+                    event.preventDefault();
+
+
+                    // Obtém a hora atual
+                    const agora = new Date();
+
+                    // Obtém os componentes de data e hora atuais
+                    const dia = agora.getDate().toString().padStart(2, '0'); // Adiciona zero à esquerda se for necessário
+                    const mes = (agora.getMonth() + 1).toString().padStart(2, '0'); // Adiciona zero à esquerda se for necessário
+                    const ano = agora.getFullYear();
+                    const hora = agora.getHours().toString().padStart(2, '0'); // Adiciona zero à esquerda se for necessário
+                    const minutos = agora.getMinutes().toString().padStart(2, '0'); // Adiciona zero à esquerda se for necessário
+                    const segundos = agora.getSeconds().toString().padStart(2, '0'); // Adiciona zero à esquerda se for necessário
+
+                    // Formata a hora atual como uma string no formato desejado
+                    const HRpedido = `${dia}/${mes}/${ano} ${hora}:${minutos}:${segundos}`;
+
+                    const login = "Fernando Habeck";
+                    const cc = document.getElementById('centro-custo').value;
+                    const maquina = document.getElementById('maquina').value;
+                    const item = document.getElementById('item').value;
+                    const operacao = document.getElementById('operacao').value;
+                    const lote = document.getElementById('lote').value;
+                    const horario = document.getElementById('hora').value;
+                    const status = "Aguardando";
+                    const calibrador = "1";
+                    const HRfinalizado = "";
+                    const obs = document.getElementById('observacao').value;
+        
+                    const novoCliente = {
+                        HRpedido: HRpedido,
+                        login: login,
+                        cc: cc,
+                        maquina: maquina,
+                        item: item,
+                        operacao: operacao,
+                        lote: lote,
+                        horario: horario,
+                        status: status,
+                        calibrador: calibrador,
+                        HRfinalizado: HRfinalizado,
+                        obs: obs
+                    };
+        
+                    try {
+                        const response = await fetch('http://localhost:5500/setupusi', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(novoCliente)
+                        });
+        
+                        const data = await response.json();
+                        console.log('Resposta do servidor:', data);
+                    } catch (error) {
+                        console.error('Erro ao enviar solicitação:', error);
+                    }
+                });
+//___________________________________________________________________________________
+                // Adicione um event listener para o botão "Atualizar Dados"
+                document.getElementById('atualizarDadosButton').addEventListener('click', function() {
+                    // Faça uma solicitação fetch para a rota /setupusi
+                    fetch('http://localhost:5500/setupusi')
+                        .then(response => response.json())
+                        .then(data => {
+                            // Limpe o conteúdo do contêiner antes de adicionar novos elementos
+                            const pedidosContainer = document.getElementById('pedidosContainer');
+                            pedidosContainer.innerHTML = '';
+
+                            // Itere sobre os dados recebidos e crie um cartão para cada solicitação
+                            data.forEach(solicitacao => {
+                                // Cria um novo elemento div para representar o cartão
+                                const card = document.createElement('div');
+                                card.classList.add('card');
+
+                                // Crie um novo elemento div para representar o conteúdo do cartão
+                                const cardContent = document.createElement('div');
+                                cardContent.classList.add('card-content');
+
+                                // Defina o conteúdo do cartão com base nos dados da solicitação
+                                cardContent.innerHTML = `
+                                    <button class="menu-button">Menu</button>
+                                    <div class="status-buttons">
+                                        <button class="button-aguardando">Aguardando</button>
+                                        <button class="button-atendendo">Atendendo</button>
+                                        <button class="button-concluido">Concluído</button>
+                                        <button class="button-cancelado">Cancelado</button>
+                                        <button class="button-excluir">Excluir</button>
+                                    </div>
+
+                                    <div class="info0">
+                                        <div><label class="texto1">CentroCusto:</label></div>  
+                                        <div><label class="info-line">${solicitacao.cc}</p></label ></div>
+
+                                        <div class="linha-separadora"></div>    
+                                        <div><label class="texto1">Item:</label></div>  
+                                        <div><label class="info-line">${solicitacao.item}</p></label ></div>
+
+                                        <div class="linha-separadora"></div>    
+                                        <div><label class="texto1">Hora:</label></div>  
+                                        <div><label class="info-line">${solicitacao.horario}</p></label ></div>
+                                        
+                                        <!-- Adicione a linha abaixo para o elemento de status -->
+                                        <div class="linha-separadora"></div>    
+                                        <div class="objeto-card status"><label class="texto1">Status:</label></div>  
+                                        <div class="objeto-card status"><label class="info-line">${solicitacao.status}</p></label></div>
+
+                                        <div class="linha-separadora"></div>    
+                                        <div><label class="texto1">Operacao:</label></div>  
+                                        <div><label class="info-line">${solicitacao.operacao}</p></label></div>
+
+                                        <div class="linha-separadora"></div>    
+                                        <div><label class="texto1">Lote:</label></div>  
+                                        <div><label class="info-line">${solicitacao.lote}</p></label></div>
+
+                                        <div class="linha-separadora"></div>    
+                                        <div><label class="texto1">Observacao:</label></div>  
+                                        <div><label class="info-line1">${solicitacao.obs}</label></div>
+                                    </div>
+                                `;
+
+                                // Adicione os botões de status como variáveis
+                                const botaoAguardando = cardContent.querySelector('.button-aguardando');
+                                const botaoAtendendo = cardContent.querySelector('.button-atendendo');
+                                const botaoConcluido = cardContent.querySelector('.button-concluido');
+                                const botaoCancelado = cardContent.querySelector('.button-cancelado');
+
+                                // Adicione os eventos de clique aos botões
+                                botaoAguardando.addEventListener('click', () => alterarStatus(solicitacao.id, 'Aguardando', card));
+                                botaoAtendendo.addEventListener('click', () => alterarStatus(solicitacao.id, 'Atendendo', card));
+                                botaoConcluido.addEventListener('click', () => alterarStatus(solicitacao.id, 'Concluido', card));
+                                botaoCancelado.addEventListener('click', () => alterarStatus(solicitacao.id, 'Cancelado', card));
+
+                                // Adicione o elemento ID
+                                const idElement = document.createElement('p');
+                                idElement.classList.add('objeto-card');
+                                idElement.textContent = `ID: ${solicitacao.id}`;
+                                cardContent.appendChild(idElement);
+
+                                // Oculte o elemento ID
+                                idElement.style.display = 'none';
+
+                                // Adicione o conteúdo do cartão ao cartão
+                                card.appendChild(cardContent);
+
+                                // Adicione o cartão ao contêiner de pedidos
+                                pedidosContainer.appendChild(card);
+
+                                // Aplique a classe de status ao cartão
+                                card.classList.add(solicitacao.status.toLowerCase());
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Erro ao buscar dados do servidor:', error);
+                        });
+                });
+//___________________________________________________________________________________
+//___________________________________________________________________________________
+
+                function openForm() {
+                    document.getElementById("overlay").style.display = "block";
+                }
+
+                function closeForm() {
+                    document.getElementById("overlay").style.display = "none";
+                }
+    </script>
+</body>
+</html>

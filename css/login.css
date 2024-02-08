@@ -1,0 +1,183 @@
+body {
+    background: #233853;
+    color: #ffffff;
+    display: flex;
+    height: 96vh;
+}
+
+#app {
+    background: #233853;
+    width: 325px;
+    margin: auto;
+    box-shadow: 4px 4px 20px #ffffff;
+    padding: 5px;
+    border-radius: 20px;
+}
+/* _____________________________________________ Imagem Cabeçalho ___________________________________________________*/
+.imagem {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    transition: transform 0.2s;
+    box-shadow: 1px 2px 25px #ffffff; /* Adiciona uma sombra ao redor da imagem */
+    border-radius: 50%; /* Torna a imagem circular */
+    margin-left: 0px;
+}
+
+.imagem:hover {
+    transform: scale(1.2); /* Aumenta a escala da foto ao passar o mouse sobre ela */
+    transform: rotate(10deg); /* Rotaciona a foto em 10 graus */
+    filter: grayscale(100%); /* Converte a foto para escala de cinza */
+}
+
+@keyframes vibrate {
+    0% {
+    transform: translate(0, 0);
+    }
+    10% {
+    transform: translate(-2px, -2px);
+    }
+    20% {
+    transform: translate(2px, 2px);
+    }
+    30% {
+    transform: translate(-2px, -2px);
+    }
+    40% {
+    transform: translate(2px, 2px);
+    }
+    50% {
+    transform: translate(-2px, -2px);
+    }
+    60% {
+    transform: translate(2px, 2px);
+    }
+    70% {
+    transform: translate(-2px, -2px);
+    }
+    80% {
+    transform: translate(2px, 2px);
+    }
+    90% {
+    transform: translate(-2px, -2px);
+    }
+    100% {
+    transform: translate(0, 0);
+    }
+}
+/* ____________________________________________ Cadastro _______________________________________________*/
+.cadastro {
+    margin-bottom: 10px;
+    width: auto;
+    color: #fff;
+    justify-content: center;
+    display: grid;
+    background-color: rgba(249, 249, 249, 0.1);
+    border-radius: 5px;
+}
+
+.cadastro label {
+    font-size: 12px;
+    margin-top: 5px;
+}
+.cadastro input {
+    margin-bottom: 10px;
+    font-size: 12px;
+    height: 20px;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.cadastro button {
+    background-color: #4c4;
+}
+
+/* ____________________________________________ Geral __________________________________________________*/
+
+.center {
+    text-align: center;
+}
+
+.startHidden {
+    display: none;
+}
+
+h3 {
+    margin: 4px;
+    font-weight: normal;
+}
+
+button {
+    font-size: 15px;
+    color: white;
+    padding: 4px;
+    margin: 4px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+}
+
+button:hover {
+    opacity: 0.75;
+    cursor: pointer;
+}
+
+#loading {
+    position: absolute;
+    top: calc(50% - 285px);
+    left: calc(50% - 130px);
+    z-index: 1;
+}
+/* ______________________________________________ Atenticação _________________________________________________*/
+.ImgAuth img{
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    align-items: center;
+    transition: transform 0.2s;
+    box-shadow: 1px 2px 25px #ffffff; /* Adiciona uma sombra ao redor da imagem */
+    border-radius: 50%; /* Torna a imagem circular */
+
+    cursor: pointer;
+}
+#auth img:hover {
+    opacity: 0.75;
+}
+
+/* ____________________________________________ Redefinir - Cadastrar _______________________________________________*/
+.redefinirCadastrar {
+    width: auto;
+    color: #fff;
+    justify-content:left;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: max-content auto; /* Cria duas colunas, uma para os rótulos e outra para os botões */
+    gap: 0px; /* Espaçamento entre as colunas */
+    align-items: center; /* Alinha os itens verticalmente ao centro */ 
+}
+
+p {
+    margin: 0;
+}
+
+.redefinirCadastrar p {
+    font-size: 14px;
+    margin-top: 5px;
+}
+.redefinirCadastrar input {
+    margin-bottom: 10px;
+    font-size: 12px;
+    height: 20px;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.redefinirCadastrar button {
+    background-color: #44c;
+}

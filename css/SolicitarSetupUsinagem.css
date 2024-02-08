@@ -1,0 +1,397 @@
+/* ________________________________________________________________________________________________*/
+/* Estilos do cabeçalho */
+body {
+    background: #ffffff;
+    padding-top: 155px; /* Ajuste conforme a altura do cabeçalho */
+}
+#pedidosContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+    gap: 10px;
+    padding: 20px;
+    margin-top: 10px;
+    margin-left: 0px;
+    margin-right: 10px;
+}
+
+.header {
+    align-items: center; /* Centraliza verticalmente o conteúdo */
+    height: 115px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #03AADB;
+    color: #000000;
+    text-align: center;
+    padding: 20px 0;
+    z-index: 1000; /* Para garantir que o cabeçalho esteja sempre na frente */
+    border: none; /* Remova a borda padrão */
+    box-shadow: 0 3px 10px rgba(3, 170, 219, 0.7); /* Adicione uma sombra com desfoque para criar o efeito luminoso na parte inferior */
+}
+.header h1 {
+    margin-top: 20px;
+    font-size: 20px; /* Altera o tamanho da fonte */
+    font-family: Arial, sans-serif; /* Define a família da fonte */
+    line-height: 1.5; /* Define a altura da linha para melhorar a legibilidade */
+}
+.LOGO1 img{
+    background-color: #00000060;
+    padding: 5px;
+    position: fixed;
+    display:grid;
+    flex-direction: column;
+    border-radius: 10px;
+    margin-left: 10px;
+    width: 40px;
+    height: 60PX;
+    top: 5px;
+    z-index: -1;
+    box-shadow: 0 3px 10px rgba(80, 80, 80, 0.7); /* Adicione uma sombra com desfoque para criar o efeito luminoso na parte inferior */
+
+}
+.LOGO2 img{
+    margin-top: -20px;
+    margin-bottom: -20px;
+    background-color: #000000a4;
+    padding: 5px;
+    border-radius: 10px;
+    margin-left: 0px;
+    width: 60px;
+    height: 30PX;
+    top: 5px;
+    z-index: -1;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+}
+
+/* ________________________________________________________________________________________________*/
+/*-------📌 Estilo para o botão dentro do cartão 📌-------*/
+/* ________________________________________________________________________________________________*/
+.card {
+    width: 170px; /* Ajuste a largura conforme necessário */
+    margin: 10px;
+    height: 350px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    transition: transform 0.3s ease; /* Adiciona uma transição suave para a propriedade transform */
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* Adiciona uma transformação de escala quando o mouse passa por cima */
+.card:hover {
+    transform: scale(1.03); /* Aumenta a escala em 5% */
+}
+
+/* Estilos para diferentes status */
+.card.atendendo {
+    box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.9); /* Sombra 3D */
+    background-color: #f39d1236;
+    border-color: #f39c12;
+}
+
+.card.aguardando {
+    box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.5); /* Sombra 3D */
+    background-color: #3498db36;
+    border-color: #3498db;
+}
+
+.card.concluido {
+    box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.5); /* Sombra 3D */
+    background-color: #2ecc7036;
+    border-color: #2ecc71;
+}
+
+.card.cancelado {
+    box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.5); /* Sombra 3D */
+    background-color: #cc4e2e36;
+    border-color: #cc4e2e;
+}
+/* ________________________________________________________________________________________________*/
+/* ________________________________________________________________________________________________*/
+/* Adicione estilos para outras classes conforme necessário */
+.info0 {
+    margin-top: -3px;
+    text-align: center;
+}
+
+.linha-separadora {
+    margin-top: -20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 95%;
+    height: 2px;
+    background-color: rgba(13, 14, 15, 0.411); /* Cor de fundo da linha */
+}
+.info-line {
+    font-weight: bold;
+    text-align:center;
+    font-size: 18px;
+    width: 180px;
+    height: 230px;
+    margin-bottom: 5px; /* Adicione o estilo desejado para o espaçamento entre linhas */
+}
+.info-line1 {
+    margin-left: 5px;
+    width: 160px;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Número máximo de linhas */
+    -webkit-box-orient: vertical;
+    transition: max-height 0.5s, overflow 0.5s; /* Adiciona uma transição suave */
+}
+
+.info-line1:hover {
+    background-color: #00000054;
+    border-radius: 10px;
+    height: 100px;
+    overflow: visible;
+    white-space: normal;
+    max-height: unset; /* Remove a altura máxima para exibir todo o conteúdo */
+    box-shadow: 0px 2px 4px rgba(3, 3, 3, 0.692); /* Adiciona uma sombra sutil */
+}
+
+.texto1 {
+    color: #555555;
+    font-size: 11px;
+    width: 180px;
+    height: 20px;
+}
+
+.card button {
+    border-radius: 10px;
+    font-size: 18px;
+    text-align: center;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    display: grid;
+    cursor: pointer;
+    font-family: 'Merienda', Arial, Helvetica, sans-serif;
+    transition: background-color 0.8s;
+}
+
+.menu-button {
+    margin-top: 0px;
+    width: 170px;
+    height: 30px;
+    background-color: #25252536;
+    border-color: rgba(37, 37, 37, 0.336);
+    box-shadow: 1px 3px 8px #191a19c5;  
+    color: #fff;
+    cursor: pointer;
+    position: relative; /* Adicione position: relative para posicionar os status-buttons */
+}
+
+.status-buttons {
+    margin-left: 4px;
+    background-color: #130f0fda;
+    height: 50%;
+    width: 160px;
+    display: none;
+    position: absolute;
+    top: 30px; /* Posicione os status-buttons abaixo do menu-button */
+    left: 0; /* Alinhe os status-buttons com o menu-button */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.status-buttons button {
+    margin: 7px;
+}
+
+.menu-button:hover + .status-buttons,
+.status-buttons:hover {
+    display: block; /* Mostra os status-buttons quando o mouse está sobre o menu-button ou os status-buttons */
+}
+
+.button-aguardando{
+    height: 30px;
+    background-color: #3498dbc4;
+    box-shadow: 1px 3px 8px #3498db;
+    border-color: #3498db;
+    color: #000000;
+}
+.button-atendendo{
+    height: 30px;
+    background-color: #f39d12c4;
+    box-shadow: 1px 3px 8px #f39c12;
+    border-color: #f39c12;
+    color: #000000;
+}
+
+.button-concluido{
+    height: 30px;
+    background-color: #2ecc70c4;
+    box-shadow: 1px 3px 8px #2ecc71;
+    border-color: #2ecc71;
+    color: #000000;
+}
+.button-cancelado{
+    height: 30px;
+    background-color: #cc4e2ec4;
+    box-shadow: 1px 3px 8px #cc4e2e;
+    border-color: #cc4e2e;
+    color: #000000;
+}
+/* ________________________________________________________________________________________________*/
+/*-------📌 Botões Cabeçario 📌-------*/
+/* ________________________________________________________________________________________________*/
+.sidebar-buttons-container {
+    margin-top: 10px; /* Ajuste a margem do topo conforme necessário */
+    display: flex;
+    justify-content: center; /* Centraliza os elementos horizontalmente */
+    align-items: center; /* Centraliza os elementos verticalmente */
+}
+
+.sidebar-button {
+    padding: 5px;
+    margin-bottom: 0px; /* Espaçamento entre os botões */
+    border-radius: 4px;
+    width: 150px; /* Ajuste a largura conforme necessário */
+    height: 30px;
+    font-size: 16px;
+    border: 1px solid #03AADB;
+    background-color: white;
+    color: #6c7b81;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar-button:hover {
+    background-color: #6c7b81;
+    color: white;
+}
+
+/* ________________________________________________________________________________________________*/
+/*-------📌 Formulário para solicitação de Setup 📌-------*/
+/* ________________________________________________________________________________________________*/
+/* Estilos para o overlay */
+.overlay {
+    color: #0188b1;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+/* Estilos para o modal */
+.modal {
+    background-color: white;
+    width: 300px;
+    padding: 15px;
+    border-radius: 8px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.modal h2 {
+    font-size: 24px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.modal label {
+    display: block;
+    margin-bottom:2px;
+    font-weight: bold;
+}
+
+.modal input[type="text"],
+.modal textarea{
+    width: 95%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.modal select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+.modal label[for="hora"] {
+    display: block; /* Torna o label um elemento de bloco */
+    text-align: center; /* Centraliza o texto horizontalmente */
+    margin-bottom: 5px; /* Adiciona um espaço entre o label e o campo de hora */
+}
+/* Estilizando o campo de hora */
+.modal input[type="time"] {
+    width: 35%; /* Reduzindo a largura para 50% */
+    padding: 10px;
+    margin: 0 auto; /* Centralizando horizontalmente */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 20px;
+    /* Adicionando espaçamento interno para o texto dentro do campo de hora */
+    padding-left: 8px;
+    display: block; /* Certificando-se de que o input é exibido como bloco */
+}
+
+
+.modal textarea {
+    height: 50px;
+}
+
+.modal button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.modal button:hover {
+    background-color: #0056b3;
+}
+
+.modal button + button {
+    margin-left: 30%;
+}
+
+/* Estilos para animação */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+.fade-out {
+    animation: fadeOut 0.3s ease-out;
+}

@@ -38,6 +38,7 @@
 //___________________________________________________________________________________
 // Rota para adicionar um novo cliente
 //___________________________________________________________________________________
+//  const response = await fetch(`http://localhost:3000/clientes/`
         document.getElementById('formNovoCliente').addEventListener('submit', async function(event) {
             event.preventDefault();
 
@@ -100,7 +101,7 @@ document.getElementById('formAlterarCliente').addEventListener('submit', async f
     if (!novoNome || !novaIdade) {
         return alert('Nome e idade são campos obrigatórios');
     }
-
+    
     try {
         const response = await fetch(`http://localhost:3000/clientes/${clienteId}`, {
             method: 'PUT',
@@ -119,5 +120,6 @@ document.getElementById('formAlterarCliente').addEventListener('submit', async f
     }
 });
     </script>
+        <script src="/index.js"></script>
 </body>
 </html>
