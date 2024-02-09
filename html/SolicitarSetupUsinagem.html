@@ -177,22 +177,16 @@ window.addEventListener('load', function() {
         //___________________________________________________________________________________
         // Rota para adicionar um novo cliente
         //___________________________________________________________________________________
-document.getElementById('formNovoSetupUsi').addEventListener('submit', async function(event) {
+        document.getElementById('formNovoSetupUsi').addEventListener('submit', async function(event) {
     event.preventDefault();
 
-
-    // Obtém a hora atual
     const agora = new Date();
-
-    // Obtém os componentes de data e hora atuais
-    const dia = agora.getDate().toString().padStart(2, '0'); // Adiciona zero à esquerda se for necessário
-    const mes = (agora.getMonth() + 1).toString().padStart(2, '0'); // Adiciona zero à esquerda se for necessário
+    const dia = agora.getDate().toString().padStart(2, '0');
+    const mes = (agora.getMonth() + 1).toString().padStart(2, '0');
     const ano = agora.getFullYear();
-    const hora = agora.getHours().toString().padStart(2, '0'); // Adiciona zero à esquerda se for necessário
-    const minutos = agora.getMinutes().toString().padStart(2, '0'); // Adiciona zero à esquerda se for necessário
-    const segundos = agora.getSeconds().toString().padStart(2, '0'); // Adiciona zero à esquerda se for necessário
-
-    // Formata a hora atual como uma string no formato desejado
+    const hora = agora.getHours().toString().padStart(2, '0');
+    const minutos = agora.getMinutes().toString().padStart(2, '0');
+    const segundos = agora.getSeconds().toString().padStart(2, '0');
     const HRpedido = `${dia}/${mes}/${ano} ${hora}:${minutos}:${segundos}`;
 
     const login = "Fernando Habeck";
@@ -207,7 +201,7 @@ document.getElementById('formNovoSetupUsi').addEventListener('submit', async fun
     const HRfinalizado = "";
     const obs = document.getElementById('observacao').value;
 
-    const novoCliente = {
+    const novoSetup = {
         HRpedido: HRpedido,
         login: login,
         cc: cc,
@@ -228,16 +222,19 @@ document.getElementById('formNovoSetupUsi').addEventListener('submit', async fun
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(novoCliente)
+            body: JSON.stringify(novoSetup)
         });
 
         const data = await response.json();
         console.log('Resposta do servidor:', data);
+        
+        // Após enviar a solicitação, atualize os dados para refletir as alterações
+        atualizarDados();
     } catch (error) {
         console.error('Erro ao enviar solicitação:', error);
     }
-    atualizarDados()
 });
+
 //___________________________________________________________________________________
 
 // Dentro do seu script no HTML
@@ -249,79 +246,94 @@ document.getElementById('pedidosContainer').addEventListener('click', function(e
         target.classList.contains('button-cancelado')) {
         
         const status = target.textContent.trim(); // Obtém o texto do botão, que será o status
-        const id = target.closest('.card').querySelector('.info-line').textContent.trim(); // Obtém o ID do setup
+        const card = target.closest('.card');
 
-        // Faça uma solicitação fetch para atualizar o status do setup
-        fetch(`http://localhost:5500/atualizar-status/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ status: status })
-            
-        })
-        
-        .then(response => {
-            if (response.ok) {
-                console.log(`Status atualizado para ${status} com sucesso.`);
-                // Recarregue os dados após a atualização do status
-                document.getElementById('atualizarDadosButton').click();
+        if (card) {
+            const infoLineElement = card.querySelector('.info-line');
+            if (infoLineElement) {
+                const id = infoLineElement.textContent.trim(); // Define a variável id aqui
+                // Faça o que for necessário com o ID aqui
+
+                // Faça uma solicitação fetch para atualizar o status do setup
+                fetch(`http://localhost:5500/atualizar-status/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: status })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log(`Status atualizado para ${status} com sucesso.`);
+                        // Recarregue os dados após a atualização do status
+                        atualizarDados();
+                    } else {
+                        console.error('Erro ao atualizar o status.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao atualizar o status:', error);
+                });
             } else {
-                console.error('Erro ao atualizar o status.');
+                console.error('Elemento com a classe .info-line não encontrado.');
             }
-        })
-        .catch(error => {
-            console.error('Erro ao atualizar o status:', error);
-        });
-        atualizarDados();
+        } else {
+            console.error('Elemento com a classe .card não encontrado.');
+        }
     } 
-    atualizarDados();
 });
 //___________________________________________________________________________________
 // Excluir setup com sucesso
 //___________________________________________________________________________________
-document.getElementById('pedidosContainer').addEventListener('click', function(event) {
+document.getElementById('pedidosContainer').addEventListener('click', async function(event) {
     const target = event.target;
     if (target.classList.contains('button-excluir')) {
-        
-        const id = target.closest('.card').querySelector('.info-line').textContent.trim(); // Obtém o ID do setup
+        const card = target.closest('.card');
 
-        // Faça uma solicitação fetch para atualizar o status do setup
-        fetch(`http://localhost:5500/delete/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id: id })
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log(`Setup excluído ${id} com sucesso.`);
-                // Recarregue os dados após a atualização do status
-                document.getElementById('atualizarDadosButton').click();
+        if (card) {
+            const infoLineElement = card.querySelector('.info-line');
+            if (infoLineElement) {
+                const id = infoLineElement.textContent.trim(); // Obtém o ID do setup
+
+                try {
+                    const response = await fetch(`http://localhost:5500/delete/${id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ id: id })
+                    });
+
+                    if (response.ok) {
+                        console.log(`Setup excluído ${id} com sucesso.`);
+                        // Recarregue os dados após a exclusão do setup
+                        atualizarDados();
+                    } else {
+                        console.error('Erro ao excluir o setup.');
+                    }
+                } catch (error) {
+                    console.error('Erro ao excluir o setup:', error);
+                }
             } else {
-                console.error('Erro ao atualizar o status.');
+                console.error('Elemento com a classe .info-line não encontrado.');
             }
-        })
-        .catch(error => {
-            console.error('Erro ao excluído o Setup:', error);
-        });
-        atualizarDados()
+        } else {
+            console.error('Elemento com a classe .card não encontrado.');
+        }
     }
-    atualizarDados()
 });
 
 //___________________________________________________________________________________
 // Adicione um evento de clique para cada botão de status
 //___________________________________________________________________________________
                     
-                function openForm() {
-                    document.getElementById("overlay").style.display = "block";
-                }
+function openForm() {
+    document.getElementById("overlay").style.display = "block";
+}
 
-                function closeForm() {
-                    document.getElementById("overlay").style.display = "none";
-                }
+function closeForm() {
+    document.getElementById("overlay").style.display = "none";
+}
     </script>
 </body>
 </html>

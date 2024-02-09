@@ -3,7 +3,6 @@ require("dotenv").config();
 const express = require('express');
 const app = express();
 const port = process.env.PORT;
-//const db = require('mssql'); // Importe o pacote mssql
 const db = require('./db'); // Importe o arquivo db.js
 const cors = require('cors'); // Importe o pacote CORS
 
