@@ -1,0 +1,60 @@
+/*designe para o evento de solicitação de setup*/
+.dialog { 
+  overflow-y: auto;
+  font-size: 12px;
+  margin-top: 50px;
+  margin-right: 0px; /* Adicione a margem direita desejada */
+  margin-block: 20px; /* Adicione a margem direita desejada */
+  margin-left: 20px; /* Adicione a margem direita desejada */
+  display:flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  top: 20;
+  left: 50;
+  }
+
+  .card {
+  width: 200px;
+  height: 175px;
+  margin-top: 8px;
+  margin-right: 8px; /* Adicione a margem direita desejada */
+  margin-block: 20px; /* Adicione a margem direita desejada */
+  margin-left: 8px; /* Adicione a margem direita desejada */
+  flex-direction: row;
+  transition: transform 0.3s ease;
+  margin-bottom: 20px; /* Adicione a margem inferior desejada */
+  border: 1px solid var(--paleta3);
+  background-color: var(--paleta5); /*cor de fundo do card*/
+  padding: 5px; /*Tamanho do card*/
+  border-radius: 5%; /* raio na borda*/
+  box-shadow: 4px 4px 15px var(--paleta1); /* Sombra 3D */
+  }
+  
+  .card:hover {
+    transform: scale(1.1);
+  }
+
+  .card button {
+    width: 202px;
+    height: 178px;
+    color: var(--paleta1); 
+  }
+
+  button {
+    align-items: center;
+    background-color: transparent;
+    border-color: var(--paleta4);
+    padding: 7px;
+    font-weight: bold;
+    font-size: 11pt;
+    margin-top: 0px;
+    border-radius: 5px;
+    cursor:move;
+    font-family:Arial, Helvetica, sans-serif;
+  }
+
+  .label-float2 {
+    font-size: 12px;
+    text-align: center;
+  }

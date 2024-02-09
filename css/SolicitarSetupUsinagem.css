@@ -92,26 +92,26 @@ body {
 /* Estilos para diferentes status */
 .card.atendendo {
     box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.9); /* Sombra 3D */
-    background-color: #f39d1236;
-    border-color: #f39c12;
+    background-color: #f39d1277;
+    border-color: #815103;
 }
 
 .card.aguardando {
     box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.5); /* Sombra 3D */
-    background-color: #3498db36;
-    border-color: #3498db;
+    background-color: #3498db77;
+    border-color: #005288;
 }
 
 .card.concluído {
     box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.5); /* Sombra 3D */
-    background-color: #2ecc7036;
-    border-color: #2ecc71;
+    background-color: #2ecc7077;
+    border-color: #028037;
 }
 
 .card.cancelado {
     box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.5); /* Sombra 3D */
-    background-color: #cc4e2e36;
-    border-color: #cc4e2e;
+    background-color: #b9050577;
+    border-color: #580101;
 }
 /* ________________________________________________________________________________________________*/
 /* ________________________________________________________________________________________________*/
@@ -199,7 +199,7 @@ body {
     top: 30px; /* Posicione os status-buttons abaixo do menu-button */
     left: 0; /* Alinhe os status-buttons com o menu-button */
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 8px;
     z-index: 1;
 }
 
@@ -236,7 +236,7 @@ body {
 }
 .button-cancelado{
     height: 30px;
-    background-color: #cc4e2ec4;
+    background-color: #b90505;
     box-shadow: 1px 3px 8px #cc4e2e;
     border-color: #cc4e2e;
     color: #000000;

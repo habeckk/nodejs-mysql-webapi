@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/imagem/Troca Rapida.ico">
+  <title>Página de Impressão de Etiquetas</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.5.0/fabric.min.js"></script>
+  <script src="/js/tempo.js"></script>
+  <link href="/css/etiquetas.css" rel="stylesheet" />
+</head>
+<body>
+
+  <div class="Borda1">
+    <link rel="stylesheet" href="/css/public.css">
+    <label for="imagem" class="label-imagem">
+      <a href="/html/Menu.html">
+        <img id="myImage1" src="/imagem/icons8-label-printer-80.png" alt="Logo">
+      </a>
+    </label>   
+    <label id="Titulo">Troca Rápida</label>
+    
+    <label for="imagemLogin" class="imagemLogin">
+      <a href="/index.html">
+        <h1>
+          <img id="myImage1" src="/imagem/icons8-logout-24.png" alt="Logo">
+        </h1>
+      </a>
+    </label>   
+  </div>
+
+ <div class="container2">
+    <div id="dialog" class="dialog">
+      <card id="card" class="card">
+        <card id="card0" class="card0">
+          <div class="Divisão1">
+            <label for="width">Largura da Etiqueta:</label>
+            <input type="number" id="width" value="104">  
+          </div>
+          <div class="Divisao1">
+            <label for="height">Altura da Etiqueta:</label>
+            <input type="number" id="height" value="60">  
+          </div>
+          <button onclick="setCanvasSize()">Definir Tamanho da Etiqueta</button>
+          <label for="font-size">Tamanho da Fonte:</label>
+          <select id="font-size" onchange="changeFontSize()">
+            <option value="12">12</option>
+            <option value="16">16</option>
+            <option value="20">20</option>
+            <option value="24">24</option>
+          </select>
+        </card>    
+        <canvas id="canvas" width="390" height="270"></canvas>
+          
+      <div class="buttonMenu">
+        <button id="dropdown-btn1">Menu</button>
+        <div id="hidden1" class="hidden">
+          <div class="cardHidden" style="width: 390px; height: 160px;">
+            <div>Menu</div>
+            <div id="menu" class="menu">
+              <label for="repository">Repositório:</label>
+              <select id="repository">
+                <option value="server">Servidor</option>
+                <option value="local">Navegador (Local Storage)</option>
+                <option value="file">Pasta Local</option>
+              </select>
+              <button id="Button0" class="Button" onclick="saveDesign()">Salvar Design</button>
+              <button id="Button1" class="Button" onclick="loadDesign()">Carregar Design</button>                       
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <div class="buttonMenu">
+          <button id="dropdown-btn2">Menu</button>
+          <div id="hidden2" class="hidden">
+            <div class="cardHidden" style="width: 390px; height:120px;">
+              <div>Menu</div>
+              <div id="menu" class="menu">
+                <button id="Button2" class="Button" onclick="addTextField()">Adicionar Campo de Texto</button>
+                <button id="Button3" class="Button" onclick="addLine()">Adicionar Linha</button>  
+              </div>
+          </div>
+          </div>  
+        </div>
+
+        <div class="buttonMenu">
+          <button id="dropdown-btn3">Menu</button>
+          <div id="hidden3" class="hidden">
+            <div class="cardHidden" style="width: 390px; height: 180px;">
+              <div>Menu</div>
+              <div id="menu" class="menu7
+                grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr)">
+                <button id="Button5" class="Button" onclick="alignLeft()">Alinhar à Esquerda</button>
+                <button id="Button6" class="Button" onclick="alignCenter()">Centralizar Horizontalmente</button>
+                <button id="Button7" class="Button" onclick="alignRight()">Alinhar à Direita</button>
+                <button id="Button8" class="Button" onclick="alignTop()">Alinhar ao Topo</button>
+                <button id="Button9" class="Button" onclick="alignMiddle()">Centralizar Verticalmente</button>
+                <button id="Button10" class="Button" onclick="alignBottom()">Alinhar à Base</button>
+                <button id="Button11" class="Button" onclick="distributeHorizontal()">Distribuir Horizontalmente</button>
+              </div>
+            </div>
+          </div>  
+        </div>
+        
+        <div class="buttonMenu">
+          <button id="dropdown-btn4">Menu</button>
+          <div id="hidden4" class="hidden">
+            <div class="cardHidden" style="width: 390px; height: 100px;">
+              <div>Menu</div>
+              <div id="menu" class="menu">
+                <button id="Button4" class="Button" onclick="deleteSelectedObject()">Deletar</button>
+                <button id="Button12" class="Button"  onclick="printDesign()">Imprimir</button>
+              </div>
+            </div>
+          </div>         
+        </div>
+    </div>
+    </card>
+  </div>
+  <script src="/js/etiquetas.js"></script>
+  <script src="/js/public.js"></script>
+</body>
+</html>
+                      

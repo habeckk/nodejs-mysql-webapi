@@ -1,0 +1,139 @@
+
+
+/*designe para o evento de solicitação de setup*/
+.dialog {
+  top: 10;
+  left: 10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  place-items:center;
+  display: grid;
+  margin-top: 8px;
+  margin-right: 8px; /* Adicione a margem direita desejada */
+  margin-block: 20px; /* Adicione a margem direita desejada */
+  margin-left: 8px; /* Adicione a margem direita desejada */
+  margin-bottom: 20px; /* Adicione a margem inferior desejada */
+  transition: transform 0.3s ease;
+  border: 1px solid #ccc;
+  background-color: #fefefe; /*cor de fundo do card*/
+  padding: 5px; /*Tamanho do card*/
+  border-radius: 2%; /* raio na borda*/
+  box-shadow: 6px 6px 1px 0px #00000060 /*sombra*/ 
+}
+
+.card0 {
+  width: 380px;
+  height: 120px;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #213236b4;
+  display: grid;
+  justify-content: center;
+  transition: transform 0.3s ease;
+  background-color: #c5cacbb4; /*cor de fundo do card*/
+  border-radius: 2%; /* raio na borda*/
+  box-shadow: 6px 6px 1px 0px #00000060 /*sombra*/ 
+}
+
+.card:hover {
+  transform: scale(1.1);
+}
+
+/* Estilos para o canvas */
+canvas {
+  border: 1px solid #777777; /* Bordas do canvas */
+  background-color: #ffffff00; /* Cor de fundo do canvas */
+}
+
+.label-imagem img {
+  width: 50px;
+  height: 70px;
+  margin-top: 8px;
+  margin-right: 8px; /* Adicione a margem direita desejada */
+  margin-block: 20px; /* Adicione a margem direita desejada */
+  margin-left: 8px; /* Adicione a margem direita desejada */
+  flex-direction: row;
+  transition: transform 0.3s ease;
+  margin-bottom: 20px; /* Adicione a margem inferior desejada */
+  border: 1px solid #709aa5b4;
+  background-color: #709aa5b4; /*cor de fundo do card*/
+  padding: 5px; /*Tamanho do card*/
+  border-radius: 5%; /* raio na borda*/
+  box-shadow: 6px 6px 1px 0px #56747cb4 /*sombra*/ 
+}
+/*designe das opções do card*/
+
+.buttonMenu button{
+  background-color:#679fadb4;
+  border-color: #233439b4;
+  color: #0c0c0c;
+  width: 100px;
+  height: 30px;
+  font-weight: bold;
+  font-size: 10pt;
+  margin-top: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  outline: none;
+}
+
+.hidden {
+  margin-top: 8px;
+  margin-right: 8px; /* Adicione a margem direita desejada */
+  margin-block: 20px; /* Adicione a margem direita desejada */
+  margin-left: 8px; /* Adicione a margem direita desejada */
+  flex-direction: row;
+  transition: transform 0.3s ease;
+  margin-bottom: 20px; /* Adicione a margem inferior desejada */
+  border: 1px solid #ccc;
+  background-color: #fefefe; /*cor de fundo do card*/
+  padding: 5px; /*Tamanho do card*/
+  display: none; /* O menu inicialmente estará oculto */
+}
+
+#cardHidden {
+  top: 40px;
+  right: 20px;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.cardHidden button{
+  background-color:#fefefe77;
+  border-color: #233439b4;
+  color: #0c0c0c;
+  width: 180px;
+  height: 30px;
+  font-weight:normal;
+  font-size: 10pt;
+  margin-top: 5px;
+  margin-bottom: -5px;
+  border-radius: 10px;
+  cursor: pointer;
+  outline: none;
+  transition: all .4s ease-out;
+}
+
+.cardHidden {
+  border: 1px solid #213236b4;
+  display: grid;
+  grid-template-columns: repeat(1, auto); /* 3 colunas com a mesma largura */
+  grid-template-rows: repeat(5, auto); /* 3 linhas com a mesma altura */
+  gap: 10px; /* Espaçamento entre os elementos */
+  justify-content: center;
+  transition: transform 0.3s ease;
+  background-color: #679fadb4; /*cor de fundo do card*/
+  border-radius: 2%; /* raio na borda*/
+  box-shadow: 6px 6px 1px 0px #00000060 /*sombra*/ 
+}
+
+.menu {
+  display: grid;
+  gap: 5px; /* Espaçamento entre os botões */
+}
