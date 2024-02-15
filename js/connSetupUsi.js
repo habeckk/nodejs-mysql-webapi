@@ -68,6 +68,20 @@ app.delete('/delete/:id', async (req, res) => {
         res.status(500).json({ error: 'Erro ao excluir setup de usinagem' });
     }
 });
+
+//___________________________________________________________________________________
+// Rota para obter as máquinas associadas a um centro de custo específico
+//___________________________________________________________________________________
+app.get('/maquinas', async (req, res) => {
+    const centroCusto = req.query.centroCusto;
+    try {
+        const maquinas = await db.getMaquinasPorCentroCusto(centroCusto);
+        res.status(200).json(maquinas);
+    } catch (error) {
+        console.error('Erro ao obter máquinas:', error);
+        res.status(500).json({ error: 'Erro ao obter máquinas' });
+    }
+});
 //___________________________________________________________________________________
 // Inicia o servidor
 //___________________________________________________________________________________

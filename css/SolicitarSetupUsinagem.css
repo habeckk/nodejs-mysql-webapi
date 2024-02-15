@@ -1,9 +1,6 @@
 /* ________________________________________________________________________________________________*/
 /* Estilos do cabeçalho */
-body {
-    background: #ffffff;
-    padding-top: 155px; /* Ajuste conforme a altura do cabeçalho */
-}
+
 #pedidosContainer {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
@@ -12,58 +9,6 @@ body {
     margin-top: 10px;
     margin-left: 0px;
     margin-right: 10px;
-}
-
-.header {
-    align-items: center; /* Centraliza verticalmente o conteúdo */
-    height: 115px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #03AADB;
-    color: #000000;
-    text-align: center;
-    padding: 20px 0;
-    z-index: 1000; /* Para garantir que o cabeçalho esteja sempre na frente */
-    border: none; /* Remova a borda padrão */
-    box-shadow: 0 3px 10px rgba(3, 170, 219, 0.7); /* Adicione uma sombra com desfoque para criar o efeito luminoso na parte inferior */
-}
-.header h1 {
-    margin-top: 20px;
-    font-size: 20px; /* Altera o tamanho da fonte */
-    font-family: Arial, sans-serif; /* Define a família da fonte */
-    line-height: 1.5; /* Define a altura da linha para melhorar a legibilidade */
-}
-.LOGO1 img{
-    background-color: #00000060;
-    padding: 5px;
-    position: fixed;
-    display:grid;
-    flex-direction: column;
-    border-radius: 10px;
-    margin-left: 10px;
-    width: 40px;
-    height: 60PX;
-    top: 5px;
-    z-index: -1;
-    box-shadow: 0 3px 10px rgba(80, 80, 80, 0.7); /* Adicione uma sombra com desfoque para criar o efeito luminoso na parte inferior */
-
-}
-.LOGO2 img{
-    margin-top: -20px;
-    margin-bottom: -20px;
-    background-color: #000000a4;
-    padding: 5px;
-    border-radius: 10px;
-    margin-left: 0px;
-    width: 60px;
-    height: 30PX;
-    top: 5px;
-    z-index: -1;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
 }
 
 /* ________________________________________________________________________________________________*/
@@ -102,7 +47,7 @@ body {
     border-color: #005288;
 }
 
-.card.concluído {
+.card.pronto {
     box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.5); /* Sombra 3D */
     background-color: #2ecc7077;
     border-color: #028037;
@@ -113,6 +58,16 @@ body {
     background-color: #b9050577;
     border-color: #580101;
 }
+.card.esperando {
+    box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.5); /* Sombra 3D */
+    background-color: #b3b90577;
+    border-color: #515402e5;
+}
+.card.parado {
+    box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.5); /* Sombra 3D */
+    background-color: #e0470077;
+    border-color: #842a01e4;
+}
 /* ________________________________________________________________________________________________*/
 /* ________________________________________________________________________________________________*/
 /* Adicione estilos para outras classes conforme necessário */
@@ -122,11 +77,11 @@ body {
 }
 
 .linha-separadora {
-    margin-top: -20px;
+    margin-top: -21px;
     margin-left: auto;
     margin-right: auto;
     width: 95%;
-    height: 2px;
+    height: 1px;
     background-color: rgba(13, 14, 15, 0.411); /* Cor de fundo da linha */
 }
 .info-line {
@@ -134,8 +89,7 @@ body {
     text-align:center;
     font-size: 18px;
     width: 180px;
-    height: 230px;
-    margin-bottom: 5px; /* Adicione o estilo desejado para o espaçamento entre linhas */
+    height: 230px
 }
 .info-line1 {
     margin-left: 5px;
@@ -147,6 +101,12 @@ body {
     -webkit-line-clamp: 3; /* Número máximo de linhas */
     -webkit-box-orient: vertical;
     transition: max-height 0.5s, overflow 0.5s; /* Adiciona uma transição suave */
+}
+.infoId {
+    margin-top: -24px;
+    margin-bottom: 25px;
+    margin-left: 130px;
+    font-weight: bold;
 }
 
 .info-line1:hover {
@@ -167,8 +127,8 @@ body {
 }
 
 .card button {
-    border-radius: 10px;
-    font-size: 18px;
+    border-radius: 15px;
+    font-size: 16px;
     text-align: center;
     grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
     display: grid;
@@ -190,9 +150,9 @@ body {
 }
 
 .status-buttons {
-    margin-left: 4px;
+    margin-left: 5px;
     background-color: #130f0fda;
-    height: 50%;
+    height: 65%;
     width: 160px;
     display: none;
     position: absolute;
@@ -204,7 +164,8 @@ body {
 }
 
 .status-buttons button {
-    margin: 7px;
+    margin-left: 13px;
+    margin-top: 5px;
 }
 
 .menu-button:hover + .status-buttons,
@@ -215,61 +176,46 @@ body {
 .button-aguardando{
     height: 30px;
     background-color: #3498dbc4;
-    box-shadow: 1px 3px 8px #3498db;
+    box-shadow: 1px 1px 5px #3498db;
     border-color: #3498db;
     color: #000000;
 }
 .button-atendendo{
     height: 30px;
     background-color: #f39d12c4;
-    box-shadow: 1px 3px 8px #f39c12;
+    box-shadow: 1px 1px 5px #f39c12;
     border-color: #f39c12;
     color: #000000;
 }
 
-.button-concluido{
+.button-pronto{
     height: 30px;
     background-color: #2ecc70c4;
-    box-shadow: 1px 3px 8px #2ecc71;
+    box-shadow: 1px 1px 5px #2ecc71;
     border-color: #2ecc71;
     color: #000000;
 }
 .button-cancelado{
     height: 30px;
     background-color: #b90505;
-    box-shadow: 1px 3px 8px #cc4e2e;
+    box-shadow: 1px 1px 5px #cc4e2e;
     border-color: #cc4e2e;
     color: #000000;
 }
-/* ________________________________________________________________________________________________*/
-/*-------📌 Botões Cabeçario 📌-------*/
-/* ________________________________________________________________________________________________*/
-.sidebar-buttons-container {
-    margin-top: 10px; /* Ajuste a margem do topo conforme necessário */
-    display: flex;
-    justify-content: center; /* Centraliza os elementos horizontalmente */
-    align-items: center; /* Centraliza os elementos verticalmente */
-}
-
-.sidebar-button {
-    padding: 5px;
-    margin-bottom: 0px; /* Espaçamento entre os botões */
-    border-radius: 4px;
-    width: 150px; /* Ajuste a largura conforme necessário */
+.button-folha{
     height: 30px;
-    font-size: 16px;
-    border: 1px solid #03AADB;
-    background-color: white;
-    color: #6c7b81;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    background-color: #ffffff;
+    box-shadow: 1px 1px 5px #454545;
+    border-color: #484848;
+    color: #000000;
 }
-
-.sidebar-button:hover {
-    background-color: #6c7b81;
-    color: white;
+.button-excluir{
+    height: 30px;
+    background-color: #ffffff;
+    box-shadow: 1px 1px 5px #454545;
+    border-color: #484848;
+    color: #000000;
 }
-
 /* ________________________________________________________________________________________________*/
 /*-------📌 Formulário para solicitação de Setup 📌-------*/
 /* ________________________________________________________________________________________________*/

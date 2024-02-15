@@ -61,4 +61,18 @@ async function excluirSetupUsiPorId(id) {
     }
 }
 
-module.exports = { selectCustomers, insertCustomer, updateStatus, excluirSetupUsiPorId };
+// db.js
+
+async function getMaquinasPorCentroCusto(centroCusto) {
+    try {
+        await sql.connect(config);
+        const result = await sql.query`SELECT Maquina FROM rotina_faci_status_maquina WHERE C_C = ${centroCusto}`;
+        return result.recordset;
+    } catch (error) {
+        throw error;
+    } finally {
+        await sql.close();
+    }
+}
+
+module.exports = { selectCustomers, insertCustomer, updateStatus, excluirSetupUsiPorId, getMaquinasPorCentroCusto };

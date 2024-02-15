@@ -1,0 +1,14 @@
+[
+    {
+        "IdMsg": "1",
+        "tipo": "sucesso",
+        "descricao": "Solicitação enviada com sucesso!",
+        "caminhoImagem": "/img/icons8-ok.svg"
+    },
+    {
+        "IdMsg": "2",
+        "tipo": "erro",
+        "descricao": "Status alterado com Sucesso.",
+        "caminhoImagem": "/img/icons8-ok.svg"
+    }
+]
