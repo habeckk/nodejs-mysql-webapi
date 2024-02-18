@@ -1,16 +1,41 @@
 require("dotenv").config();
 
 const express = require('express');
+
+const fs = require('fs');
+const path = require('path');
 const app = express();
 const port = process.env.PORT;
 const db = require('./db'); // Importe o arquivo db.js
 const cors = require('cors'); // Importe o pacote CORS
 
+const bodyParser = require('body-parser');
+
 app.use(express.json());
 app.use(cors()); // Use o middleware do CORS para permitir solicitações de todas as origens
+//___________________________________________________________________________________
+// Rota para lidar com solicitações GET para o arquivo PDF
+//___________________________________________________________________________________
+app.get('/pdf/:id', (req, res) => {
+    const id = req.params.id;
+    // Supondo que você tenha uma pasta chamada "pdfs" onde os PDFs estão armazenados
+    const filePath = path.join(__dirname, 'C:/Users/fernandoh/Downloads/', `${id}.pdf`);
 
+    // Verifica se o arquivo existe
+    if (fs.existsSync(filePath)) {
+        // Define o cabeçalho Content-Type para indicar que é um arquivo PDF
+        res.setHeader('Content-Type', 'application/pdf');
+        // Envia o arquivo PDF como resposta à solicitação
+        fs.createReadStream(filePath).pipe(res);
+    } else {
+        // Se o arquivo não existir, envie uma resposta 404 (não encontrado)
+        res.status(404).send('Arquivo não encontrado');
+    }
+});
+//___________________________________________________________________________________
+// Defina a rota principal
+//___________________________________________________________________________________
 app.get('/', (req, res) => res.json({ message: 'Funcionando!' }));
-
 //___________________________________________________________________________________
 // Rota para adicionar um novo cliente
 //___________________________________________________________________________________
@@ -82,9 +107,42 @@ app.get('/maquinas', async (req, res) => {
         res.status(500).json({ error: 'Erro ao obter máquinas' });
     }
 });
+
+//___________________________________________________________________________________
+// IMPRESSÃO DE ETIQUETAS
+//___________________________________________________________________________________
+
+// Configuração do body-parser para analisar pedidos JSON
+app.use(bodyParser.json());
+
+// Rota para gerar etiquetas ZPL
+app.post('/api/gerar-zpl', (req, res) => {
+    try {
+        const { labels } = req.body;
+
+        // Gere o conteúdo ZPL com base nos dados recebidos
+        let zplContent = "^XA\n^CF0,30\n";
+        labels.forEach(label => {
+            zplContent += `^FO${label.x},${label.y}^A${label.rotation},${label.fontSize}^FD${label.text}^FS\n`;
+        });
+        zplContent += "^XZ";
+
+        // Salve o conteúdo ZPL em um arquivo temporário
+        const filePath = 'label_template.zpl';
+        fs.writeFileSync(filePath, zplContent);
+
+        // Responda com o caminho do arquivo gerado
+        res.status(200).json({ filePath });
+    } catch (error) {
+        console.error('Erro ao gerar etiquetas ZPL:', error);
+        res.status(500).json({ error: 'Erro ao gerar etiquetas ZPL' });
+    }
+});
+
 //___________________________________________________________________________________
 // Inicia o servidor
 //___________________________________________________________________________________
+
 app.listen(port, () => {
     console.log(`API funcionando na porta ${port}`);
 });

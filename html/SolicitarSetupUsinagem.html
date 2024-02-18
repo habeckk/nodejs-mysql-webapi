@@ -76,10 +76,6 @@
 
     <div id="agendamentosContainer1"></div>
 
-    <link rel="stylesheet" href="/css/global.css">
-    <link rel="stylesheet" href="/css/public.css">
-    <link rel="stylesheet" href="/css/SolicitarSetupUsinagem.css">
-
     <script>
 // Defina a função para atualizar os dados
 function atualizarDados() {
@@ -119,6 +115,7 @@ function atualizarDados() {
                                         <button class="button-pronto">Pronto</button>
                                         <button class="button-cancelado">Cancelado</button>
                                         <button class="button-folha">Folha Processo</button>
+                                        <button class="button-fip">FIP</button>
                                         <button class="button-excluir">Excluir</button>
                                     </div>
 
@@ -398,6 +395,44 @@ document.getElementById('formNovoSetupUsi').addEventListener('submit', async fun
     }
 });
     //___________________________________________________________________________________
+    // Abrir folha de processo
+    //___________________________________________________________________________________
+    document.getElementById('pedidosContainer').addEventListener('click', async function(event) {
+    const target = event.target;
+    if (target.classList.contains('button-fip')) {
+        const card = target.closest('.card');
+
+        if (card) {
+            const infoLineElement = card.querySelector('.info-line');
+            if (infoLineElement) {
+                const id = infoLineElement.textContent.trim(); // Obtém o ID do setup
+
+                try {
+                    // Faz uma solicitação AJAX para obter o arquivo PDF do servidor
+                    const response = await fetch(`http://localhost:5500/pdf/${id}`);
+                    if (response.ok) {
+                        // Se a resposta estiver ok, obtenha o conteúdo do arquivo PDF
+                        const blob = await response.blob();
+                        const pdfUrl = URL.createObjectURL(blob);
+
+                        // Abre o arquivo PDF em uma nova janela
+                        window.open(pdfUrl, '_blank');
+                    } else {
+                        console.error('Erro ao obter o arquivo PDF:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Erro ao abrir o PDF:', error);
+                }
+            } else {
+                console.error('Elemento com a classe .info-line não encontrado.');
+            }
+        } else {
+            console.error('Elemento com a classe .card não encontrado.');
+        }
+    }
+});
+
+    //___________________________________________________________________________________
     // Adicione um evento de escuta ao elemento <select> de centro de custo
     //___________________________________________________________________________________
     document.getElementById('centro-custo').addEventListener('change', function() {
@@ -436,7 +471,11 @@ document.getElementById('formNovoSetupUsi').addEventListener('submit', async fun
         document.getElementById("overlay").style.display = "none";
     }
     </script>
+
+    <link rel="stylesheet" href="/css/public.css">
+    <link rel="stylesheet" href="/css/SolicitarSetupUsinagem.css">
     <script src="/js/SolicitarSetupUsinagem.js"></script>
     <script src="/js/public.js"></script>
+
 </body>
 </html>
