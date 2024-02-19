@@ -4,18 +4,13 @@
     <meta charset="UTF-8">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="/img/INOPROSYS.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="/img/INOPROSYS.jpg" type="image/x-icon">  
     <link rel="stylesheet" href="/css/login.css">
     <title>Login</title>
 </head>
 
 <body>
-    <div id="app">
-        <div class="overlay" id="overlay">
-                <div class="spinner"></div>
-                <p>Carregando...</p>
-        </div>
-    
+    <div id="app">   
         <div id="auth" class="center">
             <a href="/login.html">
                 <img id="INFO1" class="imagem" src="/img/INOPROSYS.jpg" alt="imagem">
@@ -24,108 +19,61 @@
                 <form id="authForm">
                     <h3 id="authFormTitle">Acesse a sua conta para continuar</h3>
 
-                    <label for="email">E-mail: </label>
+                    <label for="username">Usuário: </label>
                     <br>
-                    <input type="email" placeholder="seu@email.com" onchange="onChangeEmail()" id="email"/>
-                    <div class="error" id="email-required-error" style="display: none;">
+                    <input type="username" placeholder="Usuário" id="username"/>
+                    <div class="error" id="username-required-error" style="display: none;">
                         Email é obrigatório
                     </div>
-                    <div class="error" id="email-invalid-error" style="display: none;">
+                    <div class="error" id="username-invalid-error" style="display: none;">
                         Email é inválido
                     </div>
 
                     <label for="password">Senha: </label>
                     <br>
-                    <input type="password" placeholder="Senha" id="password" onchange="onChangePassword()"/>
-                    
-                    <div class="error" id="password-required-error">
-                        Senha é obrigatório
-                    </div>
-                    <div class="error" id="password-min-length-error">
-                        Senha deve ter pelo menos 6 caracteres
-                    </div>
+                    <input type="password" placeholder="Senha" id="password"/>
 
-                    <div id="card">
-                        <div><label>Confirmar senha</label></div>
-                        <input type="password" placeholder="Confirmar Senha" id="confirmPassword" onchange="onChangeConfirmPassword()">
-                        <div class="error" id="password-doesnt-match-error">
-                            Senha e confirmar senha devem ser iguais
-                        </div>
-                        <button type="button" class="solid" disabled="true" onclick="register()" id="register-button">
-                            Registrar
-                        </button>
-                    </div>
-
-                    <button type="submit" onclick="login()">Login</button>
-                    </form>
-
+                    <button type="submit" id="loginButton">Login</button>
+                </form>
             </div>
-
-            <div class="redefinirCadastrar">
-                <p id="passwordReset">
-                    Esqueceu a senha?
-                </p>
-                <button class="alternative" onclick="sendPasswordResetEmail()">
-                    Redefinir minha senha
-                </button>
-
-                <p id="register">
-                    Não possui uma conta?
-                </p>
-                <button id="access" onclick="toggleToRegister()">Cadastrar uma nova conta</button>
-                <div id="contentContainer"></div>
-            </div>
-
-            <!--Outros provedores de autenticação-->
-            <div class="ImgAuth">
-                <p>
-                    <br>
-                    Ou acesse usando:<br>
-                        <img src="/img/Login/google48.png" alt="Autenticação pelo Google" onclick="signInWithGoogle()">
-                        <img src="/img/Login/githubgif.gif" alt="Autenticação pelo GitHub" onclick="signInWithGitHub()">
-                        <img src="/img/Login/facebookGif.gif" alt="Autenticação pelo Facebook" onclick="signInWithFacebook()">
-                        <img src="/img/Login/telefone48.png" alt="Autenticação por telefone" onclick="WithTelefone()">
-                    </p>  
-                    
-                    <div id="recaptcha-container" class="cadastro" style="display: none;">
-                        <select id="pais" class="cadastro">
-                            <option value="55">Brasil (+55)</option>
-                        </select>
-                        <label for="ddd">DDD:</label>
-                        <input type="text" id="ddd" placeholder="Digite o DDD">
-                        <label for="numero">Número de Telefone:</label>
-                        <input type="text" id="numero" placeholder="Digite o número de telefone">
-                        <button onclick="signInWithTelefone()">Autenticar por Telefone</button>
-                        <!-- Adicione o elemento recaptcha-container -->
-                        <div id="recaptcha-container"></div>
-                    </div>
-
-            </div>
-        </div>
-
-        <!--Conteúdo destinado para usuários autenticados-->
-        <div id="userContent" class="startHidden">
-            <hr>
-            <div id="userInfo" class="center">
-                <img id="userImg" alt="">
-                <p id="userName"></p>
-                <p id="userEmail"></p>
-                <p id="emailVerified"></p>
-
-            </div>
-            <hr>
         </div>
     </div>
-    
-<link rel="stylesheet" href="/css/global.css">
+<script>
+    function login() {
 
-<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-auth-compat.js"></script> 
-<script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore-compat.js"></script>
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
 
-<script src="/js/global.js"></script>
-<script src="/js/login.js"></script>
+        fetch('http://localhost:5500/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username: username, password: password })
+        })
+        .then(response => {
+            if (response.ok) {
+                // Se a resposta do servidor for bem-sucedida, redirecione para a página menu.html
+                window.location.href = '/html/Menu.html';
+            } else {
+                // Se houver um erro no login, exiba uma mensagem de erro para o usuário
+                console.log('Credenciais inválidas');
+                // Aqui você pode exibir uma mensagem de erro para o usuário, recarregar a página de login, etc.
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao tentar fazer login:', error);
+        });
+    }
 
-<script></script>
+    // Adiciona um ouvinte de evento para o botão de login
+    document.getElementById('loginButton').addEventListener('click', function(event) {
+    // Previne o comportamento padrão do formulário de ser enviado
+    event.preventDefault();
+    // Chama a função login() quando o botão de login é clicado
+    login();
+    });
+
+</script>
 </body>
 </html>

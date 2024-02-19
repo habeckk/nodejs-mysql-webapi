@@ -1,63 +1,39 @@
-let btn = document.querySelector('.fa-eye')
+// login.js
 
-btn.addEventListener('click', ()=>{
-  let inputSenha = document.querySelector('#senha')
-  
-  if(inputSenha.getAttribute('type') == 'password'){
-    inputSenha.setAttribute('type', 'text')
-  } else {
-    inputSenha.setAttribute('type', 'password')
-  }
-})
+// Função para lidar com o login
+function login() {
 
-function entrar(){
-  let usuario = document.querySelector('#usuario')
-  let userLabel = document.querySelector('#userLabel')
-  
-  let senha = document.querySelector('#senha')
-  let senhaLabel = document.querySelector('#senhaLabel')
-  
-  let msgError = document.querySelector('#msgError')
-  let listaUser = []
-  
-  let userValid = {
-    nome: null,
-    user: null,
-    senha: null
-  }
-  
-  listaUser = JSON.parse(localStorage.getItem('listaUser'))
-  
-  listaUser?.forEach((item) => {
-    if(usuario.value == item.userCad && senha.value == item.senhaCad){
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
-      userValid = {
-        nome: item.nomeCad,
-        user: item.userCad,
-        senha: item.senhaCad
-      }   
-    }
-  })
-
-  if(usuario.value == userValid.user && senha.value == userValid.senha){
-  
-    window.location.href = '/html/Menu.html'
-
-    let mathRandom = Math.random().toString(16)
-    let token = mathRandom + mathRandom
-    
-    localStorage.setItem('token', token)
-    localStorage.setItem('userLogado', JSON.stringify(userValid))
-  } else {
-    userLabel.setAttribute('style', 'color: red')
-    usuario.setAttribute('style', 'border-color: red')
-    senhaLabel.setAttribute('style', 'color: red')
-    senha.setAttribute('style', 'border-color: red')
-    msgError.setAttribute('style', 'display: block')
-    msgError.innerHTML = 'Usuário ou senha incorretos'
-    usuario.focus()
-  }
-  
+    fetch('http://localhost:5500/api/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: username, password: password })
+    })
+    .then(response => {
+        if (response.ok) {
+            // Se a resposta do servidor for bem-sucedida, você pode redirecionar o usuário ou fazer outras ações necessárias
+            console.log('Login bem-sucedido');
+            // Aqui você pode redirecionar o usuário para outra página, exibir uma mensagem de sucesso, etc.
+        } else {
+            // Se houver um erro no login, você pode exibir uma mensagem de erro para o usuário
+            console.log('Credenciais inválidas');
+            // Aqui você pode exibir uma mensagem de erro para o usuário, recarregar a página de login, etc.
+        }
+    })
+    .catch(error => {
+        console.error('Erro ao tentar fazer login:', error);
+    });
 }
 
+// Adiciona um ouvinte de evento para o botão de login
+document.getElementById('loginButton').addEventListener('click', function(event) {
+  // Previne o comportamento padrão do formulário de ser enviado
+  event.preventDefault();
+  // Chama a função login() quando o botão de login é clicado
+  login();
+});
 

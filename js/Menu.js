@@ -61,7 +61,7 @@ function saveCardPositions() {
   localStorage.setItem('cardPositions', JSON.stringify(cardPositions));
 }
 function carregarValores2() {
-  window.location.href = '/html/SolicitarSetupUsinagem.html'
+  window.location.href = '/html/SSU.html'
 }
 function carregarValores3() {
   window.location.href = '/html/usinagem_setup.html'

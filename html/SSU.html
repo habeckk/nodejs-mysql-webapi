@@ -177,23 +177,6 @@ function atualizarDados() {
 }
 
 //___________________________________________________________________________________
-//___________________________________________________________________________________
-    // Chame a função de atualização quando a página carregar
-    window.addEventListener('load', function() {
-        atualizarDados();
-
-        // Atualize os dados a cada 5 minutos
-        setInterval(atualizarDados, 1 * 60 * 1000); // 5 minutos * 60 segundos * 1000 milissegundos
-    });                
-    
-    // Após enviar a solicitação, exiba a mensagem personalizada e oculte-a após 2 segundos
-    const successMessage = document.getElementById('successMessage');
-    successMessage.style.display = 'block'; // Exibe a mensagem
-
-    setTimeout(() => {
-        successMessage.style.display = 'none'; // Oculta a mensagem após 2 segundos
-    }, 2000);
-//___________________________________________________________________________________
 // Rota para adicionar um novo cliente
 //___________________________________________________________________________________
 document.getElementById('formNovoSetupUsi').addEventListener('submit', async function(event) {
@@ -263,7 +246,7 @@ document.getElementById('formNovoSetupUsi').addEventListener('submit', async fun
 
         setTimeout(() => {
             successMessage.style.display = 'none'; // Oculta a mensagem após 2 segundos
-        }, 2000);
+        }, 500);
 
         closeForm();
         atualizarDados();
@@ -470,11 +453,29 @@ document.getElementById('formNovoSetupUsi').addEventListener('submit', async fun
     function closeForm() {
         document.getElementById("overlay").style.display = "none";
     }
+    //___________________________________________________________________________________
+    // Chame a função de atualização quando a página carregar
+    //___________________________________________________________________________________
+    window.addEventListener('load', function() {
+        atualizarDados();
+
+        // Atualize os dados a cada 5 minutos
+        setInterval(atualizarDados, 1 * 60 * 1000); // 5 minutos * 60 segundos * 1000 milissegundos
+    });                
+
+    // Após enviar a solicitação, exiba a mensagem personalizada e oculte-a após 2 segundos
+    const successMessage = document.getElementById('successMessage');
+    successMessage.style.display = 'block'; // Exibe a mensagem
+
+    setTimeout(() => {
+        successMessage.style.display = 'none'; // Oculta a mensagem após 2 segundos
+    }, 500);
+
     </script>
 
     <link rel="stylesheet" href="/css/public.css">
-    <link rel="stylesheet" href="/css/SolicitarSetupUsinagem.css">
-    <script src="/js/SolicitarSetupUsinagem.js"></script>
+    <link rel="stylesheet" href="/css/SSU.css">
+    <script src="/js/SSU.js"></script>
     <script src="/js/public.js"></script>
 
 </body>

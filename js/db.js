@@ -1,4 +1,4 @@
-const sql = require('mssql');
+const sql = require('msql');
 
 const config = {
     user: process.env.DB_USER,
