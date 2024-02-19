@@ -70,7 +70,7 @@ function carregarValores7() {
   window.location.href = '/html/gravartela.html'
 }
 function carregarValores6() {
-  window.location.href = '/html/etiquetas.html'
+  window.location.href = '/html/ETQ.html'
 }
 function carregarValores8() {
   window.location.href = '/Teste/app.html'

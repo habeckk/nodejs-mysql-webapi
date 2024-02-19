@@ -1,139 +1,119 @@
-
-
-/*designe para o evento de solicitação de setup*/
-.dialog {
-  top: 10;
-  left: 10;
-  width: 100%;
-  height: 100%;
+.card-container {
   display: flex;
   justify-content: center;
+  align-items: center;
+  height: 80vh;
 }
 
 .card {
-  place-items:center;
-  display: grid;
-  margin-top: 8px;
-  margin-right: 8px; /* Adicione a margem direita desejada */
-  margin-block: 20px; /* Adicione a margem direita desejada */
-  margin-left: 8px; /* Adicione a margem direita desejada */
-  margin-bottom: 20px; /* Adicione a margem inferior desejada */
-  transition: transform 0.3s ease;
   border: 1px solid #ccc;
-  background-color: #fefefe; /*cor de fundo do card*/
-  padding: 5px; /*Tamanho do card*/
-  border-radius: 2%; /* raio na borda*/
-  box-shadow: 6px 6px 1px 0px #00000060 /*sombra*/ 
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  background-color: #fff;
+  max-width: 400px;
+  width: 90%;
+  margin: auto;
 }
 
-.card0 {
-  width: 380px;
-  height: 120px;
-  padding: 5px;
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input[type="text"],
+textarea {
+  width: calc(100% - 20px);
+  padding: 10px;
   margin-bottom: 10px;
-  border: 1px solid #213236b4;
-  display: grid;
-  justify-content: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+textarea {
+  height: 150px;
+}
+
+button[type="submit"] {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: #555;
+}
+
+
+
+
+
+
+
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+.card {
+  width: 300px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
   transition: transform 0.3s ease;
-  background-color: #c5cacbb4; /*cor de fundo do card*/
-  border-radius: 2%; /* raio na borda*/
-  box-shadow: 6px 6px 1px 0px #00000060 /*sombra*/ 
 }
 
 .card:hover {
-  transform: scale(1.1);
+  transform: translateY(-5px);
 }
 
-/* Estilos para o canvas */
-canvas {
-  border: 1px solid #777777; /* Bordas do canvas */
-  background-color: #ffffff00; /* Cor de fundo do canvas */
+.card-content {
+  padding: 20px;
 }
 
-.label-imagem img {
-  width: 50px;
-  height: 70px;
-  margin-top: 8px;
-  margin-right: 8px; /* Adicione a margem direita desejada */
-  margin-block: 20px; /* Adicione a margem direita desejada */
-  margin-left: 8px; /* Adicione a margem direita desejada */
-  flex-direction: row;
-  transition: transform 0.3s ease;
-  margin-bottom: 20px; /* Adicione a margem inferior desejada */
-  border: 1px solid #709aa5b4;
-  background-color: #709aa5b4; /*cor de fundo do card*/
-  padding: 5px; /*Tamanho do card*/
-  border-radius: 5%; /* raio na borda*/
-  box-shadow: 6px 6px 1px 0px #56747cb4 /*sombra*/ 
+h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  color: #333;
 }
-/*designe das opções do card*/
 
-.buttonMenu button{
-  background-color:#679fadb4;
-  border-color: #233439b4;
-  color: #0c0c0c;
-  width: 100px;
-  height: 30px;
-  font-weight: bold;
-  font-size: 10pt;
-  margin-top: 10px;
-  border-radius: 20px;
+p {
+  margin: 0;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #666;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
   cursor: pointer;
-  outline: none;
+  transition: background-color 0.3s ease;
 }
 
-.hidden {
-  margin-top: 8px;
-  margin-right: 8px; /* Adicione a margem direita desejada */
-  margin-block: 20px; /* Adicione a margem direita desejada */
-  margin-left: 8px; /* Adicione a margem direita desejada */
-  flex-direction: row;
-  transition: transform 0.3s ease;
-  margin-bottom: 20px; /* Adicione a margem inferior desejada */
-  border: 1px solid #ccc;
-  background-color: #fefefe; /*cor de fundo do card*/
-  padding: 5px; /*Tamanho do card*/
-  display: none; /* O menu inicialmente estará oculto */
+button:hover {
+  background-color: #0056b3;
 }
 
-#cardHidden {
-  top: 40px;
-  right: 20px;
-  background-color: #f9f9f9;
-  padding: 10px;
-  border: 1px solid #ccc;
-}
-
-.cardHidden button{
-  background-color:#fefefe77;
-  border-color: #233439b4;
-  color: #0c0c0c;
-  width: 180px;
-  height: 30px;
-  font-weight:normal;
-  font-size: 10pt;
-  margin-top: 5px;
-  margin-bottom: -5px;
-  border-radius: 10px;
-  cursor: pointer;
-  outline: none;
-  transition: all .4s ease-out;
-}
-
-.cardHidden {
-  border: 1px solid #213236b4;
-  display: grid;
-  grid-template-columns: repeat(1, auto); /* 3 colunas com a mesma largura */
-  grid-template-rows: repeat(5, auto); /* 3 linhas com a mesma altura */
-  gap: 10px; /* Espaçamento entre os elementos */
-  justify-content: center;
-  transition: transform 0.3s ease;
-  background-color: #679fadb4; /*cor de fundo do card*/
-  border-radius: 2%; /* raio na borda*/
-  box-shadow: 6px 6px 1px 0px #00000060 /*sombra*/ 
-}
-
-.menu {
-  display: grid;
-  gap: 5px; /* Espaçamento entre os botões */
+/* Estilo para o texto "Código ZPL" */
+.cod-zpl-label {
+  font-size: 0.8rem; /* Defina o tamanho da fonte desejado */
+  color: #888; /* Cor do texto */
+  display: -webkit-box;
+  -webkit-line-clamp: 6; /* Número de linhas que você deseja exibir */
+  -webkit-box-orient: vertical;
+  overflow: hidden; /* Oculta o conteúdo que ultrapassa as linhas especificadas */
 }
