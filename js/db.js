@@ -87,4 +87,17 @@ async function getEtiquetas() {
     }
 }
 
-module.exports = { selectCustomers, insertCustomer, updateStatus, excluirSetupUsiPorId, getMaquinasPorCentroCusto, getEtiquetas };
+async function insertEtq(modelo, nome, cod_etq, grf, cod_zpl, obs) {
+    try {
+        await sql.connect(config);
+        const result = await sql.query`INSERT INTO zpl_data (modelo, nome, cod_etq, grf, cod_zpl, obs) 
+                                    VALUES (${modelo}, ${nome}, ${cod_etq}, ${grf}, ${cod_zpl}, ${obs})`;
+        return result;
+    } catch (error) {
+        throw error;
+    } finally {
+        await sql.close();
+    }
+}
+
+module.exports = { selectCustomers, insertCustomer, updateStatus, excluirSetupUsiPorId, getMaquinasPorCentroCusto, getEtiquetas, insertEtq };

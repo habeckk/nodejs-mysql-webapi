@@ -155,6 +155,24 @@ app.get('/etiqueta', async (req, res) => {
     }
 });
 
+
+
+//___________________________________________________________________________________
+// GAVAÇÃO DE DADOS DAS ETIQUETAS
+//___________________________________________________________________________________
+app.post('/salvaEtq', async (req, res) => {
+    const { modelo, nome, cod_etq, grf, cod_zpl, obs} = req.body;
+
+    try {
+        const result = await db.insertEtq( modelo, nome, cod_etq, grf, cod_zpl, obs);
+        res.status(201).json({ message: 'ETIQUETAS adicionado com sucesso', id: result.insertId });
+    } catch (error) {
+        console.error('Erro ao adicionar ETIQUETAS:', error);
+        res.status(500).json({ error: 'Erro ao adicionar ETIQUETAS' });
+    }
+});
+
+
 //___________________________________________________________________________________
 // Inicia o servidor
 //___________________________________________________________________________________

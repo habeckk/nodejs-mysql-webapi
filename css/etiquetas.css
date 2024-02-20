@@ -1,19 +1,11 @@
-.card-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 80vh;
-}
-
-.card {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+#pedidosContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(335px, 1fr));
+  gap: 10px;
   padding: 20px;
-  background-color: #fff;
-  max-width: 400px;
-  width: 90%;
-  margin: auto;
+  margin-top: 10px;
+  margin-left: 0px;
+  margin-right: 10px;
 }
 
 label {
@@ -49,17 +41,13 @@ button[type="submit"]:hover {
   background-color: #555;
 }
 
-
-
-
-
-
-
-
+/*📌 card" 📌*/
 .card-container {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
   flex-wrap: wrap;
-  justify-content: space-around;
   padding: 20px;
 }
 
@@ -70,6 +58,9 @@ button[type="submit"]:hover {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
   transition: transform 0.3s ease;
+  border: 1px solid #ccc;
+  padding: 20px;
+  max-width: 400px;
 }
 
 .card:hover {
