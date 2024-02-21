@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMPRESSÃO DE ETIQUETAS</title>
+    <link rel="stylesheet" href="/css/public.css">
+    <link rel="stylesheet" href="/css/etiquetas.css">
+</head>
+<body>
+    <div class="header">
+        <div class="LOGO1">
+            <a href="/html/Menu.html">
+                <img src="/img/Zebra Logo.png" alt="Imagem 3D">
+            </a>
+        </div>
+        <h1>IMPRESSÃO DE ETIQUETAS</h1>
+
+        <div class="sidebar-buttons-container">
+            <button class="sidebar-button" type="button" onclick="openForm()">Cadastrar Etiquetas</button>
+            <button class="sidebar-button" type="button" onclick="openForm1()">Imprimir</button>
+        </div>
+    </div>
+
+        <!-- Formulário sobreposto -->
+        <div class="overlay" id="overlay">
+            <div class="modal">
+                <h2>Cadastrar Etiquetas</h2>
+                <form id="formNovoEtq" enctype="multipart/form-data">
+                    <label for="modelo-etq">Modelo Etiqueta:</label>
+                    <input type="text" id="modelo-etq" name="modelo-etq"><br>
+                    
+                    <label for="nome-etq">Nome Etiqueta:</label>
+                    <input type="text" id="nome-etq" name="nome-etq"><br>                
+                    
+                    <label for="cod-etq">Código Etiqueta:</label>
+                    <input type="text" id="cod-etq" name="cod-etq"><br>
+                    
+                    <label for="img-etq">Arraste ou selecione uma imagem:</label>
+                    <input type="file" id="img-etq" name="img-etq" accept="image/*" onchange="previewImage(event)" style="display:none;">
+                    <div id="drop-area" ondragover="handleDragOver(event)" ondrop="handleDrop(event)" onclick="document.getElementById('img-etq').click()">
+                        Solte a imagem aqui ou clique para selecionar
+                    </div>
+                    <br>
+                    
+                    <label for="grf-etq">GRF:</label>
+                    <textarea id="grf-etq" name="grf-etq"></textarea><br>
+                    
+                    <label for="zpl-etq">ZPL Etiqueta:</label>
+                    <textarea type="zpl-etq" id="zpl-etq" name="zpl-etq"></textarea><br>
+                    
+                    <label for="observacao">Observação:</label>
+                    <textarea id="observacao" name="observacao"></textarea><br>
+                    
+                    <button type="submit">Cadastrar</button>
+                    <button type="button" onclick="closeForm()">Cancelar</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="overlay1" id="overlay1">
+            <div class="card-container">
+                <div class="card">
+                    <h1>Cadastro de Impressora e ZPL</h1>
+                    <form action="http://localhost:5500/zpl" method="POST" onsubmit="return validateForm()">
+                        <label for="printerDirectory">Diretório da Impressora:</label><br>
+                        <input type="text" id="printerDirectory" name="printerDirectory"><br>
+                        <label for="zplData">Código ZPL:</label><br>
+                        <textarea id="zplData" name="zplData"></textarea><br>
+                        <button type="submit">Enviar para Impressão</button>
+                        <button type="button" onclick="closeForm1()">Cancelar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    <div id="pedidosContainer"></div>
+    <!-- Restante do seu HTML -->
+    <div class="container1">   
+        <div class="scroll-wrapper">
+            <div id="pedidosContainer" class="card-container">
+                <!-- Cartões serão adicionados aqui dinamicamente -->
+            </div>    
+        </div>
+    </div>
+
+    <script>
+//___________________________________________________________________________________
+// Rota para adicionar uma nova Etiqueta
+//___________________________________________________________________________________
+        document.getElementById('formNovoEtq').addEventListener('submit', async function(event) {
+            // Evite que o formulário seja enviado automaticamente
+            event.preventDefault();
+
+            // Verifique se todos os campos obrigatórios foram preenchidos antes de enviar o formulário
+            const modelo = document.getElementById('modelo-etq').value;
+            const nome = document.getElementById('nome-etq').value;
+            const cod = document.getElementById('cod-etq').value;
+            const grf = document.getElementById('grf-etq').value;
+            const zpl = document.getElementById('zpl-etq').value;
+            const obs = document.getElementById('observacao').value;
+
+            // Verifique se algum dos campos obrigatórios está vazio
+            if (!modelo || !nome || !cod ) {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return; // Pare a execução se algum campo estiver vazio
+            }
+
+            const novoSetup = {
+                modelo: modelo,
+                nome: nome,
+                cod_etq: cod,
+                grf: grf,
+                cod_zpl: zpl,
+                obs: obs
+            };
+
+            try {
+                const response = await fetch('http://localhost:5500/salvaEtq', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(novoSetup)
+                });
+
+                const data = await response.json();
+                console.log('Resposta do servidor:', data);
+
+                closeForm();
+                atualizarDados();
+                
+            } catch (error) {
+                console.error('Erro ao enviar solicitação:', error);
+            }
+        });
+
+//___________________________________________________________________________________
+// Abrir formulário
+//___________________________________________________________________________________   
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'copy';
+        }
+    
+        function handleDrop(event) {
+            event.preventDefault();
+            var files = event.dataTransfer.files;
+            document.getElementById('img-etq').files = files;
+            previewImage(event);
+        }
+    
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                var imgElement = document.createElement('img');
+                imgElement.src = reader.result;
+                imgElement.style.maxWidth = '100%';
+                document.getElementById('drop-area').innerHTML = '';
+                document.getElementById('drop-area').appendChild(imgElement);
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+//___________________________________________________________________________________
+// Adicione um evento de clique para cada botão de status
+//___________________________________________________________________________________                        
+        function openForm() {
+            document.getElementById("overlay").style.display = "block";
+        }
+
+        function closeForm() {
+            document.getElementById("overlay").style.display = "none";
+        }
+        function openForm1() {
+            document.getElementById("overlay1").style.display = "block";
+        }
+
+        function closeForm1() {
+            document.getElementById("overlay1").style.display = "none";
+        }
+//___________________________________________________________________________________
+// Chame a função de atualização quando a página carregar
+//___________________________________________________________________________________
+        window.addEventListener('load', function() {
+            atualizarDados();
+
+//___________________________________________________________________________________
+// Atualize os dados a cada 5 minutos
+//___________________________________________________________________________________
+setInterval(atualizarDados, 1 * 60 * 1000); // 5 minutos * 60 segundos * 1000 milissegundos
+        });     
+
+        function atualizarDados() {
+            fetch('http://localhost:5500/etiqueta')
+                .then(response => response.json())
+                .then(data => {
+                    const pedidosContainer = document.getElementById('pedidosContainer');
+                    pedidosContainer.innerHTML = '';
+        
+                    data.forEach(etiqueta => {
+                        const card = document.createElement('div');
+                        card.classList.add('card');
+        
+                        const cardContent = document.createElement('div');
+                        cardContent.classList.add('card-content');
+
+                        cardContent.innerHTML = `
+                        <div class="card-content">
+                            <h2>${etiqueta.Tipo}</h2>
+                            <p><strong>Nome:</strong> ${etiqueta.nome}</p>
+                            <p><strong>GRF:</strong> ${etiqueta.grf}</p>
+                            <p class="cod-zpl-label">><strong>Código ZPL:</strong> ${etiqueta.cod_zpl}</p>
+                            <button onclick="selecionarEtiqueta(${etiqueta.Id})">Selecionar</button>
+                            <button id="copyButton">Copiar Código ZPL</button>
+                            <div id="codigoZPL">
+                                <!-- Seu código ZPL aqui -->
+                            </div>
+                        </div>
+                        `;
+        
+                        card.appendChild(cardContent);
+                        pedidosContainer.appendChild(card);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar dados do servidor:', error);
+                });
+        }
+
+//___________________________________________________________________________________
+// Função para selecionar uma etiqueta
+//___________________________________________________________________________________
+function selecionarEtiqueta(id) {
+            alert(`Etiqueta selecionada com ID: ${id}`);
+        }
+
+        function validateForm() {
+            var printerDirectory = document.getElementById('printerDirectory').value;
+            var zplData = document.getElementById('zplData').value;
+
+            if (printerDirectory.trim() === '' || zplData.trim() === '') {
+                alert('Por favor, preencha todos os campos antes de enviar.');
+                return false; // Impede o envio do formulário se algum campo estiver vazio
+            }
+
+            return true; // Permite o envio do formulário se todos os campos estiverem preenchidos
+        }
+    </script>
+</body>
+</html>

@@ -1,18 +1,19 @@
 require("dotenv").config();
 
 const express = require('express');
-
 const fs = require('fs');
 const path = require('path');
+const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT;
 const db = require('./db'); // Importe o arquivo db.js
 const cors = require('cors'); // Importe o pacote CORS
 
-const bodyParser = require('body-parser');
-
 app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); // Middleware para analisar dados do formulário
 app.use(cors()); // Use o middleware do CORS para permitir solicitações de todas as origens
+
 //___________________________________________________________________________________
 // Rota para lidar com solicitações GET para o arquivo PDF
 //___________________________________________________________________________________
@@ -111,33 +112,66 @@ app.get('/maquinas', async (req, res) => {
 //___________________________________________________________________________________
 // IMPRESSÃO DE ETIQUETAS
 //___________________________________________________________________________________
+app.post('/zpl', async (req, res) => {
+    const fs = require('fs');
+    const path = require('path');
 
-// Configuração do body-parser para analisar pedidos JSON
-app.use(bodyParser.json());
+    // Capturando os dados do formulário HTML
+    const { printerDirectory, zplData } = req.body;
 
-// Rota para gerar etiquetas ZPL
-app.post('/api/gerar-zpl', (req, res) => {
+    // Imprimindo os dados recebidos no console
+    console.log('Diretório da Impressora:', printerDirectory);
+    console.log('Código ZPL:', zplData);
+
+    // Diretório da impressora compartilhada
+    const printerDir = "//172.18.1.232/DPRJ" + printerDirectory.trim();
+
+    // Conteúdo ZPL a ser impresso
+    const zplContent = zplData.trim();
+
+    // Nome do arquivo de impressão
+    const fileName = 'label_template.zpl';
+
+    // Caminho completo do arquivo de impressão
+    const filePath = path.join(printerDir, fileName);
+
+    // Escrever os comandos ZPL no arquivo
+    fs.writeFile(filePath, zplContent, (err) => {
+        if (err) {
+            console.error('Erro ao escrever arquivo ZPL:', err);
+        } else {
+            console.log('Arquivo ZPL criado com sucesso:', filePath);
+        }
+    });
+});
+
+app.get('/etiqueta', async (req, res) => {
     try {
-        const { labels } = req.body;
-
-        // Gere o conteúdo ZPL com base nos dados recebidos
-        let zplContent = "^XA\n^CF0,30\n";
-        labels.forEach(label => {
-            zplContent += `^FO${label.x},${label.y}^A${label.rotation},${label.fontSize}^FD${label.text}^FS\n`;
-        });
-        zplContent += "^XZ";
-
-        // Salve o conteúdo ZPL em um arquivo temporário
-        const filePath = 'label_template.zpl';
-        fs.writeFileSync(filePath, zplContent);
-
-        // Responda com o caminho do arquivo gerado
-        res.status(200).json({ filePath });
+        const etiquetas = await db.getEtiquetas(); // Função para obter os dados da tabela zpl_data do banco de dados
+        res.status(200).json(etiquetas); // Envie os dados obtidos como resposta
     } catch (error) {
-        console.error('Erro ao gerar etiquetas ZPL:', error);
-        res.status(500).json({ error: 'Erro ao gerar etiquetas ZPL' });
+        console.error('Erro ao buscar dados da etiqueta:', error);
+        res.status(500).json({ error: 'Erro ao buscar dados da etiqueta' });
     }
 });
+
+
+
+//___________________________________________________________________________________
+// GAVAÇÃO DE DADOS DAS ETIQUETAS
+//___________________________________________________________________________________
+app.post('/salvaEtq', async (req, res) => {
+    const { modelo, nome, cod_etq, grf, cod_zpl, obs} = req.body;
+
+    try {
+        const result = await db.insertEtq( modelo, nome, cod_etq, grf, cod_zpl, obs);
+        res.status(201).json({ message: 'ETIQUETAS adicionado com sucesso', id: result.insertId });
+    } catch (error) {
+        console.error('Erro ao adicionar ETIQUETAS:', error);
+        res.status(500).json({ error: 'Erro ao adicionar ETIQUETAS' });
+    }
+});
+
 
 //___________________________________________________________________________________
 // Inicia o servidor

@@ -1,0 +1,7 @@
+{
+    "impressoras": [
+        {"id": 1, "nome": "94"},
+        {"id": 2, "nome": "Impressora 2"},
+        {"id": 3, "nome": "Impressora 3"}
+    ]
+}

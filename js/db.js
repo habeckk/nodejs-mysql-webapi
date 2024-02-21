@@ -1,4 +1,4 @@
-const sql = require('msql');
+const sql = require('mssql');
 
 const config = {
     user: process.env.DB_USER,
@@ -75,4 +75,29 @@ async function getMaquinasPorCentroCusto(centroCusto) {
     }
 }
 
-module.exports = { selectCustomers, insertCustomer, updateStatus, excluirSetupUsiPorId, getMaquinasPorCentroCusto };
+async function getEtiquetas() {
+    try {
+        await sql.connect(config);
+        const result = await sql.query`SELECT * FROM zpl_data`;
+        return result.recordset;
+    } catch (error) {
+        throw error;
+    } finally {
+        await sql.close();
+    }
+}
+
+async function insertEtq(modelo, nome, cod_etq, grf, cod_zpl, obs) {
+    try {
+        await sql.connect(config);
+        const result = await sql.query`INSERT INTO zpl_data (modelo, nome, cod_etq, grf, cod_zpl, obs) 
+                                    VALUES (${modelo}, ${nome}, ${cod_etq}, ${grf}, ${cod_zpl}, ${obs})`;
+        return result;
+    } catch (error) {
+        throw error;
+    } finally {
+        await sql.close();
+    }
+}
+
+module.exports = { selectCustomers, insertCustomer, updateStatus, excluirSetupUsiPorId, getMaquinasPorCentroCusto, getEtiquetas, insertEtq };
