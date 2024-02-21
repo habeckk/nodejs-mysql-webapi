@@ -100,4 +100,10 @@ async function insertEtq(modelo, nome, cod_etq, grf, cod_zpl, obs) {
     }
 }
 
-module.exports = { selectCustomers, insertCustomer, updateStatus, excluirSetupUsiPorId, getMaquinasPorCentroCusto, getEtiquetas, insertEtq };
+
+async function buscarEtiquetaPorId(id) {
+    // Supondo que você esteja usando um ORM ou driver de banco de dados SQL
+    const resultado = await suaConexaoDeBancoDeDados.query('SELECT * FROM etiquetas WHERE id = ?', [id]);
+    return resultado[0]; // Supondo que 'resultado' é um array de etiquetas
+}
+module.exports = { selectCustomers, insertCustomer, updateStatus, excluirSetupUsiPorId, getMaquinasPorCentroCusto, getEtiquetas, insertEtq, buscarEtiquetaPorId };

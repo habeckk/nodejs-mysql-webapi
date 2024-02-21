@@ -172,7 +172,18 @@ app.post('/salvaEtq', async (req, res) => {
     }
 });
 
-
+app.get('/getEtiquetaById/:id', async (req, res) => {
+    const id = req.params.id;
+    
+    try {
+        // Supondo que você tenha uma função 'buscarEtiquetaPorId' que retorne os dados da etiqueta
+        const etiqueta = await buscarEtiquetaPorId(id);
+        res.json(etiqueta);
+    } catch (error) {
+        console.error('Erro ao buscar etiqueta:', error);
+        res.status(500).send('Erro ao buscar etiqueta');
+    }
+});
 //___________________________________________________________________________________
 // Inicia o servidor
 //___________________________________________________________________________________

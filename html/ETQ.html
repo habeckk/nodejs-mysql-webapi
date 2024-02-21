@@ -204,20 +204,18 @@ setInterval(atualizarDados, 1 * 60 * 1000); // 5 minutos * 60 segundos * 1000 mi
                         card.classList.add('card');
         
                         const cardContent = document.createElement('div');
-                        cardContent.classList.add('card-content');
 
                         cardContent.innerHTML = `
-                        <div class="card-content">
-                            <h2>${etiqueta.Tipo}</h2>
-                            <p><strong>Nome:</strong> ${etiqueta.nome}</p>
-                            <p><strong>GRF:</strong> ${etiqueta.grf}</p>
-                            <p class="cod-zpl-label">><strong>Código ZPL:</strong> ${etiqueta.cod_zpl}</p>
-                            <button onclick="selecionarEtiqueta(${etiqueta.Id})">Selecionar</button>
-                            <button id="copyButton">Copiar Código ZPL</button>
-                            <div id="codigoZPL">
-                                <!-- Seu código ZPL aqui -->
+                        <form action="http://localhost:5500/zpl" method="POST" onsubmit="return validateForm()">
+                            <div class="card-content">
+                                <h2>${etiqueta.Id}</h2>
+                                <p><strong>Nome:</strong> ${etiqueta.nome}</p>
+                                <div class="card-image-container">
+                                    <img src="/img/etq/${etiqueta.Id}.png" alt="Imagem da Etiqueta">
+                                </div>
+                                <button onclick="selecionarEtiqueta(${etiqueta.Id})">Selecionar</button>
                             </div>
-                        </div>
+                        </form>
                         `;
         
                         card.appendChild(cardContent);
@@ -232,21 +230,16 @@ setInterval(atualizarDados, 1 * 60 * 1000); // 5 minutos * 60 segundos * 1000 mi
 //___________________________________________________________________________________
 // Função para selecionar uma etiqueta
 //___________________________________________________________________________________
-function selecionarEtiqueta(id) {
-            alert(`Etiqueta selecionada com ID: ${id}`);
+        function selecionarEtiqueta(id) {
+            fetch(`/getEtiquetaById/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                // Supondo que os dados incluam 'printerDirectory' e 'zplData'
+                document.getElementById('printerDirectory').value = data.printerDirectory;
+                document.getElementById('zplData').value = data.zplData;
+            })
+            .catch(error => console.error('Erro ao buscar etiqueta:', error));
         }
-
-        function validateForm() {
-            var printerDirectory = document.getElementById('printerDirectory').value;
-            var zplData = document.getElementById('zplData').value;
-
-            if (printerDirectory.trim() === '' || zplData.trim() === '') {
-                alert('Por favor, preencha todos os campos antes de enviar.');
-                return false; // Impede o envio do formulário se algum campo estiver vazio
-            }
-
-            return true; // Permite o envio do formulário se todos os campos estiverem preenchidos
-        }
-    </script>
+</script>
 </body>
 </html>

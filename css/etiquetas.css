@@ -3,7 +3,7 @@
   grid-template-columns: repeat(auto-fit, minmax(335px, 1fr));
   gap: 10px;
   padding: 20px;
-  margin-top: 10px;
+  margin-top:20px;
   margin-left: 0px;
   margin-right: 10px;
 }
@@ -67,25 +67,8 @@ button[type="submit"]:hover {
   transform: translateY(-5px);
 }
 
-.card-content {
-  padding: 20px;
-}
-
-h2 {
-  margin-top: 0;
-  margin-bottom: 10px;
-  font-size: 1.5rem;
-  color: #333;
-}
-
-p {
-  margin: 0;
-  margin-bottom: 10px;
-  font-size: 1rem;
-  color: #666;
-}
-
 button {
+  margin-top: 10px;
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -107,4 +90,19 @@ button:hover {
   -webkit-line-clamp: 6; /* Número de linhas que você deseja exibir */
   -webkit-box-orient: vertical;
   overflow: hidden; /* Oculta o conteúdo que ultrapassa as linhas especificadas */
+}
+.card-image-container {
+    width: 300px; /* Largura do retângulo */
+    height: 150px; /* Altura do retângulo */
+    overflow: hidden; /* Esconde qualquer parte da imagem que exceda o tamanho do contêiner */
+    display: flex; /* Usa Flexbox para centralizar a imagem */
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    border: 1px solid #ccc; /* Adiciona uma borda ao contêiner, se desejar */
+}
+
+.card-image-container img {
+    max-width: 100%; /* Garante que a largura da imagem não exceda o contêiner */
+    max-height: 100%; /* Garante que a altura da imagem não exceda o contêiner */
+    object-fit: contain; /* Mantém a proporção da imagem ao ajustar */
 }
