@@ -4,13 +4,33 @@
   }
 
 :root {
-    --paleta1: #1e577b;/* Borda 1 */
+    --paleta1: #42667c;/* Borda 1 */
     --paleta2: #7b3d1e;/* Borda 1 */
     --paleta3: #768d9d;
     --paleta4: rgb(255, 255, 255);/* Fundo do projeto 1*/
     --paleta5: #ffffff;/* Fundo do projeto 2*/
-    --paleta6: #ffffff;    
-}
+    --paleta6: #0b0707;   
+    --paleta7: #ffffff;/* Título Header 2*/
+    --paleta8: #3a8ec2;/* Botão Header 2*/
+
+/* -------------------------- Cores Formulário -------------------------------   */
+    --paleta9: #2b2b2baa;/* fundo Formulário 2*/
+    --paleta10: #f9f9f9;/* fundo Formulário 2*/
+    --paleta11:  #ccc;/* Borda dos campos do Formulário 2*/
+
+/* -------------------------- Cores Status Cartões -------------------------------   */
+    --paleta100:  #f39d1277;/* Cartão atentendo*/
+    --paleta200:  #815103;/* Borda Cartão atentendo*/
+    --paleta101:  #3498db77;/* Cartão aguardando*/
+    --paleta201:  #005288;/* Borda Cartão aguardando*/
+    --paleta102:  #2ecc7077;/* Cartão pronto*/
+    --paleta202:  #028037;/* Borda Cartão pronto*/
+    --paleta103:  #b9050577;/* Cartão cancelado*/
+    --paleta203:  #580101;/* Borda Cartão cancelado*/
+    --paleta104:  #b3b90577;/* Borda Cartão esperando*/
+    --paleta204:  #515402e5;/* Borda Cartão esperando*/
+    --paleta105:  #e0470077;/* Borda Cartão parado*/
+    --paleta205:  #842a01e4;/* Borda Cartão parado*/
 
 body {
   background: linear-gradient(to bottom, var(--paleta4), var(--paleta5));
@@ -33,12 +53,12 @@ h1{ /*Relacionado ao titulo*/
   left: 0;
   width: 100%;
   background: var(--paleta1);
-  color: #ffffff;
+  color: var(--paleta7);
   text-align: center;
   padding: 20px 0;
   z-index: 1000; /* Para garantir que o cabeçalho esteja sempre na frente */
   border: none; /* Remova a borda padrão */
-  box-shadow: 0 3px 10px rgba(3, 170, 219, 0.7); /* Adicione uma sombra com desfoque para criar o efeito luminoso na parte inferior */
+  box-shadow: 0 3px 10px var(--paleta1); /* Adicione uma sombra com desfoque para criar o efeito luminoso na parte inferior */
   border-bottom-left-radius: 10px; /* Borda arredondada apenas no canto inferior esquerdo */
   border-bottom-right-radius: 10px; /* Borda arredondada apenas no canto inferior direito */
   background-repeat: no-repeat;
@@ -92,12 +112,12 @@ h1{ /*Relacionado ao titulo*/
 
 .Borda1 label{
   font-size: 40px;
-  color: var(--paleta5);
+  color: var(--paleta6);
 }
 
 .LOGOLogin img {
   border: 1px solid var(--paleta4);
-  background-color: #00000060;
+  background-color: var(--paleta1);
   padding: 5px;
   position: fixed;
   display:grid;
@@ -108,7 +128,7 @@ h1{ /*Relacionado ao titulo*/
   height: 30PX;
   top: 5px;
   z-index: -1;
-  box-shadow: 0 3px 10px rgba(80, 80, 80, 0.7); /* Adicione uma sombra com desfoque para criar o efeito luminoso na parte inferior */
+  box-shadow: 0 3px 10px var(--paleta8); /* Adicione uma sombra com desfoque para criar o efeito luminoso na parte inferior */
 }
 
 .LOGOLogin {
@@ -127,7 +147,7 @@ h1{ /*Relacionado ao titulo*/
   left: 50%; /* Altere as unidades de medida conforme necessário */
   transform: translate(-50%, -50%);
   background-color: #4CAF50;
-  color: white;
+  color: var(--paleta6);
   padding: 15px;
   border-radius: 10px;
   z-index: 1000; /* Garanta que a mensagem apareça na frente de outros elementos */
@@ -147,19 +167,19 @@ h1{ /*Relacionado ao titulo*/
 .sidebar-button {
   margin-bottom: 0px; /* Espaçamento entre os botões */
   border-radius: 4px;
-  width: 130px; /* Ajuste a largura conforme necessário */
+  width: 160px; /* Ajuste a largura conforme necessário */
   height: 30px;
-  font-size: 16px;
-  border: 1px solid #03AADB;
-  background-color: white;
-  color: var(--paleta1);
+  font-size: 14px;
+  border: 1px solid var(--paleta1);
+  background-color: var(--paleta3);
+  color: var(--paleta4);
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .sidebar-button:hover {
-  background-color: #6c7b81;
-  color: white;
+  background-color: var(--paleta7);
+  color: var(--paleta6);
 }
 
 /* Estilo para o texto na mensagem de sucesso */
@@ -183,25 +203,25 @@ h1{ /*Relacionado ao titulo*/
 /* ________________________________________________________________________________________________*/
 /* Estilos para o overlay */
 .overlay {
-  color: #0188b1;
+  color: var(--paleta6);
   display: none;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--paleta9);
   z-index: 1000;
 }
 .overlay1 {
-  color: #0188b1;
+  color: var(--paleta6);
   display: none;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--paleta9);
   z-index: 1000;
 }
 /* Estilos para animação */
@@ -232,7 +252,7 @@ h1{ /*Relacionado ao titulo*/
 }
 
 .modal {
-  background-color: white;
+  background-color: var(--paleta10);
   width: 300px;
   padding: 15px;
   border-radius: 8px;
@@ -245,7 +265,7 @@ h1{ /*Relacionado ao titulo*/
 .modal h2 {
   font-size: 24px;
   margin-bottom: 5px;
-  color: #333;
+  color: var(--paleta8);
 }
 
 .modal label {
@@ -259,7 +279,7 @@ h1{ /*Relacionado ao titulo*/
   width: 95%;
   padding: 8px;
   margin-bottom: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--paleta11);
   border-radius: 4px;
   font-size: 16px;
 }
@@ -268,7 +288,7 @@ h1{ /*Relacionado ao titulo*/
   width: 100%;
   padding: 8px;
   margin-bottom: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--paleta10);
   border-radius: 4px;
   font-size: 16px;
 }
@@ -282,7 +302,7 @@ h1{ /*Relacionado ao titulo*/
   width: 35%; /* Reduzindo a largura para 50% */
   padding: 10px;
   margin: 0 auto; /* Centralizando horizontalmente */
-  border: 1px solid #ccc;
+  border: 1px solid var(--paleta10);
   border-radius: 4px;
   font-size: 20px;
   /* Adicionando espaçamento interno para o texto dentro do campo de hora */
@@ -297,8 +317,8 @@ h1{ /*Relacionado ao titulo*/
 
 .modal button {
   padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
+  background-color: var(--paleta3);
+  color: var(--paleta4);
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -306,9 +326,11 @@ h1{ /*Relacionado ao titulo*/
 }
 
 .modal button:hover {
-  background-color: #0056b3;
+  background-color: var(--paleta7);
+  color: var(--paleta6);
 }
 
 .modal button + button {
   margin-left: 3%;
+}
 }

@@ -100,10 +100,18 @@ async function insertEtq(modelo, nome, cod_etq, grf, cod_zpl, obs) {
     }
 }
 
-
 async function buscarEtiquetaPorId(id) {
-    // Supondo que você esteja usando um ORM ou driver de banco de dados SQL
-    const resultado = await suaConexaoDeBancoDeDados.query('SELECT * FROM etiquetas WHERE id = ?', [id]);
-    return resultado[0]; // Supondo que 'resultado' é um array de etiquetas
+    try {
+        // Supondo que `config` já esteja definido em outro lugar do seu código
+        await sql.connect(config);
+        const result = await sql.query`SELECT * FROM zpl_data WHERE id = ${id}`;
+        return result.recordset; // .recordset contém os registros retornados pela consulta
+    } catch (error) {
+        console.error('Erro na consulta ao banco de dados:', error);
+        throw error; // É uma boa prática relançar o erro após logá-lo
+    } finally {
+        await sql.close(); // Isso pode ser problemático se você estiver usando pool de conexões
+    }
 }
+
 module.exports = { selectCustomers, insertCustomer, updateStatus, excluirSetupUsiPorId, getMaquinasPorCentroCusto, getEtiquetas, insertEtq, buscarEtiquetaPorId };

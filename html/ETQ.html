@@ -63,7 +63,7 @@
             <div class="card-container">
                 <div class="card">
                     <h1>Cadastro de Impressora e ZPL</h1>
-                    <form action="http://localhost:5500/zpl" method="POST" onsubmit="return validateForm()">
+                    <form action="http://localhost:5500/zpl" method="POST">
                         <label for="printerDirectory">Diretório da Impressora:</label><br>
                         <input type="text" id="printerDirectory" name="printerDirectory"><br>
                         <label for="zplData">Código ZPL:</label><br>
@@ -86,6 +86,8 @@
     </div>
 
     <script>
+        const BASE_URL = 'http://localhost:5500';
+
 //___________________________________________________________________________________
 // Rota para adicionar uma nova Etiqueta
 //___________________________________________________________________________________
@@ -117,7 +119,7 @@
             };
 
             try {
-                const response = await fetch('http://localhost:5500/salvaEtq', {
+                const response = await fetch(`${BASE_URL}/salvaEtq`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -193,7 +195,7 @@ setInterval(atualizarDados, 1 * 60 * 1000); // 5 minutos * 60 segundos * 1000 mi
         });     
 
         function atualizarDados() {
-            fetch('http://localhost:5500/etiqueta')
+            fetch(`${BASE_URL}/etiqueta`)
                 .then(response => response.json())
                 .then(data => {
                     const pedidosContainer = document.getElementById('pedidosContainer');
@@ -206,16 +208,14 @@ setInterval(atualizarDados, 1 * 60 * 1000); // 5 minutos * 60 segundos * 1000 mi
                         const cardContent = document.createElement('div');
 
                         cardContent.innerHTML = `
-                        <form action="http://localhost:5500/zpl" method="POST" onsubmit="return validateForm()">
                             <div class="card-content">
                                 <h2>${etiqueta.Id}</h2>
                                 <p><strong>Nome:</strong> ${etiqueta.nome}</p>
                                 <div class="card-image-container">
                                     <img src="/img/etq/${etiqueta.Id}.png" alt="Imagem da Etiqueta">
                                 </div>
-                                <button onclick="selecionarEtiqueta(${etiqueta.Id})">Selecionar</button>
+                                <button onclick="selecionarEtiqueta(${etiqueta.Id})">Carregar</button>
                             </div>
-                        </form>
                         `;
         
                         card.appendChild(cardContent);
@@ -230,16 +230,23 @@ setInterval(atualizarDados, 1 * 60 * 1000); // 5 minutos * 60 segundos * 1000 mi
 //___________________________________________________________________________________
 // Função para selecionar uma etiqueta
 //___________________________________________________________________________________
-        function selecionarEtiqueta(id) {
-            fetch(`/getEtiquetaById/${id}`)
-            .then(response => response.json())
-            .then(data => {
-                // Supondo que os dados incluam 'printerDirectory' e 'zplData'
-                document.getElementById('printerDirectory').value = data.printerDirectory;
-                document.getElementById('zplData').value = data.zplData;
-            })
-            .catch(error => console.error('Erro ao buscar etiqueta:', error));
-        }
+function selecionarEtiqueta(id) {
+    fetch(`${BASE_URL}/getEtiquetaById/${id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro na rede ou endpoint não encontrado');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Supondo que a resposta seja um array e você esteja interessado no primeiro item
+            const etiqueta = data[0]; // Ajuste conforme a estrutura real da sua resposta
+            document.getElementById('zplData').value = etiqueta.cod_zpl || '';
+            document.getElementById("overlay1").style.display = "block";
+        })
+        .catch(error => console.error('Erro ao buscar etiqueta:', error));
+}
+
 </script>
 </body>
 </html>

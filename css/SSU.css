@@ -31,37 +31,37 @@
 
 /* Estilos para diferentes status */
 .card.atendendo {
-    box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.9); /* Sombra 3D */
-    background-color: #f39d1277;
-    border-color: #815103;
+    box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+    background-color: var(--paleta100);
+    border-color: var(--paleta200);
 }
 
 .card.aguardando {
-    box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.5); /* Sombra 3D */
-    background-color: #3498db77;
-    border-color: #005288;
+    box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+    background-color: var(--paleta101);
+    border-color: var(--paleta201);
 }
 
 .card.pronto {
-    box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.5); /* Sombra 3D */
-    background-color: #2ecc7077;
-    border-color: #028037;
+    box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+    background-color: var(--paleta102);
+    border-color: var(--paleta202);
 }
 
 .card.cancelado {
-    box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.5); /* Sombra 3D */
-    background-color: #b9050577;
-    border-color: #580101;
+    box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+    background-color: var(--paleta103);
+    border-color: var(--paleta203);
 }
 .card.esperando {
-    box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.5); /* Sombra 3D */
-    background-color: #b3b90577;
-    border-color: #515402e5;
+    box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+    background-color: var(--paleta104);
+    border-color: var(--paleta204);
 }
 .card.parado {
-    box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.5); /* Sombra 3D */
-    background-color: #e0470077;
-    border-color: #842a01e4;
+    box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+    background-color: var(--paleta105);
+    border-color: var(--paleta205);
 }
 /* ________________________________________________________________________________________________*/
 /* ________________________________________________________________________________________________*/

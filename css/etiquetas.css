@@ -55,7 +55,7 @@ button[type="submit"]:hover {
   width: 300px;
   background-color: #f9f9f9;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
   margin-bottom: 20px;
   transition: transform 0.3s ease;
   border: 1px solid #ccc;
@@ -69,9 +69,8 @@ button[type="submit"]:hover {
 
 button {
   margin-top: 10px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
+  border: 1px solid var(--paleta1);
+  background-color: var(--paleta3);
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
@@ -79,7 +78,8 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: var(--paleta7);
+  color: var(--paleta6);
 }
 
 /* Estilo para o texto "Código ZPL" */
