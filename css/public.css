@@ -9,14 +9,21 @@
     --paleta3: #768d9d;
     --paleta4: rgb(255, 255, 255);/* Fundo do projeto 1*/
     --paleta5: #ffffff;/* Fundo do projeto 2*/
-    --paleta6: #0b0707;   
     --paleta7: #ffffff;/* Título Header 2*/
     --paleta8: #3a8ec2;/* Botão Header 2*/
-
 /* -------------------------- Cores Formulário -------------------------------   */
-    --paleta9: #2b2b2baa;/* fundo Formulário 2*/
-    --paleta10: #f9f9f9;/* fundo Formulário 2*/
-    --paleta11:  #ccc;/* Borda dos campos do Formulário 2*/
+    --paleta6: #2b2323;    /* Fonte Formulário*/
+    --paleta9: #2b2b2baa;  /* fundo Formulário*/
+    --paleta10: #f9f9f9;   /* fundo Formulário*/
+    --paleta11:  #ccc;     /* Borda dos campos do Formulário*/
+    --paleta12:  rgb(222, 222, 222);/* Borda dos campos do Formulário*/
+
+/* -------------------------- Cores Botões -------------------------------   */
+    --paleta30:  #ffffff;/* Cor da fonte color Button*/    
+    --paleta31:  #42667c;/* Cor da fonte background Button*/    
+    --paleta32:  #2b2323;/* Cor da fonte Button color hover*/    
+    --paleta33:  #ffffff;/* Cor da fonte Button background hover*/    
+    --paleta34:  #42667c;/* Cor */    
 
 /* -------------------------- Cores Status Cartões -------------------------------   */
     --paleta100:  #f39d1277;/* Cartão atentendo*/
@@ -32,12 +39,24 @@
     --paleta105:  #e0470077;/* Borda Cartão parado*/
     --paleta205:  #842a01e4;/* Borda Cartão parado*/
 
+    --paleta250:  #f9f9f9;/* Cartão atentendo*/
+    --paleta251:  #b0afaf;/* Borda Cartão atentendo*/
+    --paleta252:  #42667c;/* Borda Cartão atentendo*/
+
+    --paleta300:  #787878f6;/* Linha de separação (linha-separadora)*/
+    --paleta301:  #040404e4;/* Fonte dos Títulos do Card (texto1 )*/
+    --paleta302:  #25252536;/* background-color (menu-button )*/
+    --paleta303:  rgba(37, 37, 37, 0.336);/* border-color (menu-button )*/
+    --paleta304:  #4b4b4bda;/* border-color (menu-button )*/
+
+
+
 body {
   background: linear-gradient(to bottom, var(--paleta4), var(--paleta5));
   background-repeat: no-repeat;
   background-size:cover;
   background-attachment: fixed;
-  padding-top: 125px; /* Ajuste conforme a altura do cabeçalho */
+  padding-top: 135px; /* Ajuste conforme a altura do cabeçalho */
 }
 
 h1{ /*Relacionado ao titulo*/
@@ -66,12 +85,15 @@ h1{ /*Relacionado ao titulo*/
   background-attachment: fixed;
 }
 .header h1 {
-  margin-top: 20px;
+  margin-top: 10px;
   font-size: 25px; /* Altera o tamanho da fonte */
   font-family: Arial, sans-serif; /* Define a família da fonte */
   line-height: 1.5; /* Define a altura da linha para melhorar a legibilidade */
 }
 
+.header button {
+  margin: 10px;
+}
 /* ________________________________________________________________________________________________*/
 /* Estilos do cabeçalho */
 
@@ -93,21 +115,17 @@ h1{ /*Relacionado ao titulo*/
   margin-left: 5px;
   top: 5px;
   z-index: -1;
-}
-.LOGO2 img{
-  margin-top: -20px;
-  margin-bottom: -20px;
-  background-color: #000000a4;
-  padding: 5px;
+} 
+
+.titulo-escopo {
+  box-shadow: 0 0px 5px var(--paleta4); /* Adicione uma sombra com desfoque para criar o efeito luminoso na parte inferior */
   border-radius: 10px;
-  margin-left: 0px;
-  width: 70px;
-  height: 30PX;
-  top: 5px;
-  z-index: -1;
-  flex-direction: column;
-  text-align: center;
-  align-items: center;
+  font-size: 18px;
+  color: var(--paleta7);
+  padding: 5px;
+  margin-top: 20px;
+  font-family: Arial, sans-serif; /* Define a família da fonte */
+  line-height: 1.5; /* Define a altura da linha para melhorar a legibilidade */
 }
 
 .Borda1 label{
@@ -116,7 +134,6 @@ h1{ /*Relacionado ao titulo*/
 }
 
 .LOGOLogin img {
-  border: 1px solid var(--paleta4);
   background-color: var(--paleta1);
   padding: 5px;
   position: fixed;
@@ -128,7 +145,7 @@ h1{ /*Relacionado ao titulo*/
   height: 30PX;
   top: 5px;
   z-index: -1;
-  box-shadow: 0 3px 10px var(--paleta8); /* Adicione uma sombra com desfoque para criar o efeito luminoso na parte inferior */
+  box-shadow: 0 3px 10px var(--paleta4); /* Adicione uma sombra com desfoque para criar o efeito luminoso na parte inferior */
 }
 
 .LOGOLogin {
@@ -170,16 +187,17 @@ h1{ /*Relacionado ao titulo*/
   width: 160px; /* Ajuste a largura conforme necessário */
   height: 30px;
   font-size: 14px;
-  border: 1px solid var(--paleta1);
-  background-color: var(--paleta3);
-  color: var(--paleta4);
+  background-color: var(--paleta30);
+  color: var(--paleta31);
+  border: 1px solid var(--paleta31);
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .sidebar-button:hover {
-  background-color: var(--paleta7);
-  color: var(--paleta6);
+  background-color: var(--paleta31);
+  color: var(--paleta30);
+  border: 1px solid var(--paleta30);
 }
 
 /* Estilo para o texto na mensagem de sucesso */
@@ -317,8 +335,8 @@ h1{ /*Relacionado ao titulo*/
 
 .modal button {
   padding: 10px 20px;
-  background-color: var(--paleta3);
-  color: var(--paleta4);
+  background-color: var(--paleta31);
+  color: var(--paleta30);
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -326,8 +344,9 @@ h1{ /*Relacionado ao titulo*/
 }
 
 .modal button:hover {
-  background-color: var(--paleta7);
-  color: var(--paleta6);
+  background-color: var(--paleta33);
+  color: var(--paleta32);
+  border: 1px solid var(--paleta31);
 }
 
 .modal button + button {

@@ -18,9 +18,10 @@
 
 .card-content {
   width: 300px;
-  background-color: #f9f9f9;
+  background-color: var(--paleta250);
+  border: 1px solid var(--paleta251);
+  box-shadow: 1px 3px 8px var(--paleta252); /* Sombra 3D */
   border-radius: 8px;
-  box-shadow: 1px 3px 8px var(--paleta1); /* Sombra 3D */
   transition: transform 0.3s ease;
   padding: 10px;
   max-width: 400px;
@@ -49,8 +50,9 @@
 
 button {
   margin-top: 10px;
-  border: 1px solid var(--paleta1);
-  background-color: var(--paleta3);
+  border: 1px solid var(--paleta31);
+  background-color: var(--paleta31);
+  color: var(--paleta30);
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
@@ -58,14 +60,14 @@ button {
 }
 
 button:hover {
-  background-color: var(--paleta7);
-  color: var(--paleta6);
+  background-color: var(--paleta33);
+  color: var(--paleta32);
+  border: 1px solid var(--paleta31);
 }
 
 /* Estilo para o texto "Código ZPL" */
 .cod-zpl-label {
   font-size: 0.8rem; /* Defina o tamanho da fonte desejado */
-  color: #888; /* Cor do texto */
   display: -webkit-box;
   -webkit-line-clamp: 6; /* Número de linhas que você deseja exibir */
   -webkit-box-orient: vertical;
@@ -78,7 +80,7 @@ button:hover {
     display: flex; /* Usa Flexbox para centralizar a imagem */
     justify-content: center; /* Centraliza horizontalmente */
     align-items: center; /* Centraliza verticalmente */
-    border: 1px solid #ccc; /* Adiciona uma borda ao contêiner, se desejar */
+    border: 1px solid var(--paleta12); /* Adiciona uma borda ao contêiner, se desejar */
 }
 
 .card-image-container img {

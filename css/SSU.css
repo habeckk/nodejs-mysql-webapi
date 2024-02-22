@@ -6,7 +6,7 @@
     margin-top: 10px;
     margin-left: 0px;
     margin-right: 10px;
-  }/* ________________________________________________________________________________________________*/
+}/* ________________________________________________________________________________________________*/
 /*-------📌 Estilo para o botão dentro do cartão 📌-------*/
 /* ________________________________________________________________________________________________*/
 .card {
@@ -14,7 +14,7 @@
     margin: 10px;
     height: 350px;
     border-radius: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid;
     transition: transform 0.3s ease; /* Adiciona uma transição suave para a propriedade transform */
     font-family: Arial, Helvetica, sans-serif;
     display: flex;
@@ -77,7 +77,7 @@
     margin-right: auto;
     width: 95%;
     height: 1px;
-    background-color: rgba(13, 14, 15, 0.411); /* Cor de fundo da linha */
+    background-color: var(--paleta300); /* Cor de fundo da linha */
 }
 .info-line {
     font-weight: bold;
@@ -105,17 +105,16 @@
 }
 
 .info-line1:hover {
-    background-color: #00000054;
+    background-color: var(--paleta300);
     border-radius: 10px;
     height: 100px;
     overflow: visible;
     white-space: normal;
     max-height: unset; /* Remove a altura máxima para exibir todo o conteúdo */
-    box-shadow: 0px 2px 4px rgba(3, 3, 3, 0.692); /* Adiciona uma sombra sutil */
 }
 
 .texto1 {
-    color: #555555;
+    color:  var(--paleta301);
     font-size: 11px;
     width: 180px;
     height: 20px;
@@ -136,24 +135,22 @@
     margin-top: 0px;
     width: 170px;
     height: 30px;
-    background-color: #25252536;
-    border-color: rgba(37, 37, 37, 0.336);
-    box-shadow: 1px 3px 8px #191a19c5;  
-    color: #fff;
+    background-color: var(--paleta302);
+    border-color: var(--paleta303);
+    color: var(--paleta301);
     cursor: pointer;
     position: relative; /* Adicione position: relative para posicionar os status-buttons */
 }
 
 .status-buttons {
     margin-left: 5px;
-    background-color: #130f0fda;
+    background-color:var(--paleta304);
     height: 65%;
     width: 160px;
     display: none;
     position: absolute;
     top: 30px; /* Posicione os status-buttons abaixo do menu-button */
     left: 0; /* Alinhe os status-buttons com o menu-button */
-    border: 1px solid #ccc;
     border-radius: 8px;
     z-index: 1;
 }
@@ -169,45 +166,39 @@
 }
 
 .button-aguardando{
-    height: 30px;
-    background-color: #3498dbc4;
-    box-shadow: 1px 1px 5px #3498db;
-    border-color: #3498db;
-    color: #000000;
+    height: 25px;
+    color: var(--paleta200);
+    box-shadow: 1px 1px 5px var(--paleta1); /* Sombra 3D */
+    background-color: var(--paleta10);
 }
 .button-atendendo{
-    height: 30px;
-    background-color: #f39d12c4;
-    box-shadow: 1px 1px 5px #f39c12;
-    border-color: #f39c12;
-    color: #000000;
+    height: 25px;
+    color: var(--paleta201);
+    box-shadow: 1px 1px 5px var(--paleta1); /* Sombra 3D */
+    background-color: var(--paleta10);
 }
 
 .button-pronto{
-    height: 30px;
-    background-color: #2ecc70c4;
-    box-shadow: 1px 1px 5px #2ecc71;
-    border-color: #2ecc71;
-    color: #000000;
+    height: 25px;
+    color: var(--paleta202);
+    box-shadow: 1px 1px 5px var(--paleta1); /* Sombra 3D */
+    background-color: var(--paleta10);
 }
 .button-cancelado{
-    height: 30px;
-    background-color: #b90505;
-    box-shadow: 1px 1px 5px #cc4e2e;
-    border-color: #cc4e2e;
-    color: #000000;
+    height: 25px;
+    color: var(--paleta203);
+    box-shadow: 1px 1px 5px var(--paleta1); /* Sombra 3D */
+    background-color: var(--paleta10);
 }
 .button-folha{
-    height: 30px;
-    background-color: #ffffff;
-    box-shadow: 1px 1px 5px #454545;
-    border-color: #484848;
-    color: #000000;
+    height: 25px;
+    color: var(--paleta201);
+    box-shadow: 1px 1px 5px var(--paleta1); /* Sombra 3D */
+    background-color: var(--paleta10);
 }
 .button-excluir{
-    height: 30px;
-    background-color: #ffffff;
-    box-shadow: 1px 1px 5px #454545;
-    border-color: #484848;
-    color: #000000;
+    height: 25px;
+    color: var(--paleta203);
+    box-shadow: 1px 1px 5px var(--paleta1); /* Sombra 3D */
+    background-color: var(--paleta10);
 }

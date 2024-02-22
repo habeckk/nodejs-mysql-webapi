@@ -19,20 +19,28 @@ app.use(cors()); // Use o middleware do CORS para permitir solicitações de tod
 //___________________________________________________________________________________
 app.get('/pdf/:id', (req, res) => {
     const id = req.params.id;
-    // Supondo que você tenha uma pasta chamada "pdfs" onde os PDFs estão armazenados
-    const filePath = path.join(__dirname, 'C:/Users/fernandoh/Downloads/', `${id}.pdf`);
+
+    // Validação básica para garantir um ID seguro
+    if (!/^[a-zA-Z0-9_-]+$/.test(id)) {
+        return res.status(400).send('ID inválido');
+    }
+
+    // Ajuste o caminho base para o seu compartilhamento de rede aqui
+    const baseNetworkPath = '\\\\dfs\\SAP\\PP\\QUA\\FIP-PDF';
+    const filePath = path.join(baseNetworkPath, `00001.pdf`);
 
     // Verifica se o arquivo existe
-    if (fs.existsSync(filePath)) {
-        // Define o cabeçalho Content-Type para indicar que é um arquivo PDF
+    fs.access(filePath, fs.constants.F_OK, (err) => {
+        if (err) {
+            return res.status(404).send('Arquivo não encontrado');
+        }
+        
+        // Se o arquivo existir, define o cabeçalho e envia o arquivo
         res.setHeader('Content-Type', 'application/pdf');
-        // Envia o arquivo PDF como resposta à solicitação
         fs.createReadStream(filePath).pipe(res);
-    } else {
-        // Se o arquivo não existir, envie uma resposta 404 (não encontrado)
-        res.status(404).send('Arquivo não encontrado');
-    }
+    });
 });
+
 //___________________________________________________________________________________
 // Defina a rota principal
 //___________________________________________________________________________________

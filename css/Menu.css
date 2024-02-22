@@ -1,45 +1,31 @@
-/*designe para o evento de solicitação de setup*/
-.dialog { 
-  overflow-y: auto;
-  font-size: 12px;
-  margin: 20px;
-  display:flex;
-  justify-content: flex-start;
-  flex-direction: row;
-  flex-wrap: wrap;
+#dialog {
+    display:flex;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    padding: 14px;
+    margin-top:30px;
+    overflow-y: auto;
+    font-size: 12px;
+    flex-wrap: wrap;
   }
 
   .card {
-  width: auto;
-  height: auto;
-  margin: 15px;
-  transition: transform 0.3s ease;
-  margin-bottom: 20px; /* Adicione a margem inferior desejada */
-  background-color: var(--paleta5); /*cor de fundo do card*/
-  border-radius: 5%; /* raio na borda*/
-  box-shadow: 4px 4px 8px var(--paleta1); /* Sombra 3D */
+    width: auto;
+    height: auto;
+    transition: transform 0.3s ease;
   }
   
   .card:hover {
     transform: scale(1.1);
   }
-
+  
   .card button {
-    width: 202px;
+    border-radius: 10px;
+    border: var(--paleta11);
+    box-shadow: 1px 1px 8px var(--paleta1); /* Sombra 3D */
+    background-color: var(--paleta10); 
+    width: 185px;
     height: 178px;
-    color: var(--paleta1); 
-  }
-
-  button {
-    align-items: center;
-    background-color: transparent;
-    padding: 7px;
-    font-weight: bold;
-    font-size: 11pt;
-    margin-top: 0px;
-    border-radius: 5px;
-    cursor:move;
-    font-family:Arial, Helvetica, sans-serif;
   }
 
   .label-float2 {
