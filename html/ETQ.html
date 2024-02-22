@@ -60,18 +60,16 @@
         </div>
 
         <div class="overlay1" id="overlay1">
-            <div class="card-container">
-                <div class="card">
-                    <h1>Cadastro de Impressora e ZPL</h1>
-                    <form action="http://localhost:5500/zpl" method="POST">
-                        <label for="printerDirectory">Diretório da Impressora:</label><br>
-                        <input type="text" id="printerDirectory" name="printerDirectory"><br>
-                        <label for="zplData">Código ZPL:</label><br>
-                        <textarea id="zplData" name="zplData"></textarea><br>
-                        <button type="submit">Enviar para Impressão</button>
-                        <button type="button" onclick="closeForm1()">Cancelar</button>
-                    </form>
-                </div>
+            <div class="modal">
+                <h1>Cadastro de Impressora e ZPL</h1>
+                <form action="http://localhost:5500/zpl" method="POST">
+                    <label for="printerDirectory">Diretório da Impressora:</label><br>
+                    <input type="text" id="printerDirectory" name="printerDirectory"><br>
+                    <label for="zplData">Código ZPL:</label><br>
+                    <textarea id="zplData" name="zplData"></textarea><br>
+                    <button type="submit">Enviar para Impressão</button>
+                    <button type="button" onclick="closeForm1()">Cancelar</button>
+                </form>
             </div>
         </div>
 
@@ -210,7 +208,10 @@ setInterval(atualizarDados, 1 * 60 * 1000); // 5 minutos * 60 segundos * 1000 mi
                         cardContent.innerHTML = `
                             <div class="card-content">
                                 <h2>${etiqueta.Id}</h2>
-                                <p><strong>Nome:</strong> ${etiqueta.nome}</p>
+                                <p><strong>Modelo--:</strong> ${etiqueta.modelo}</p>
+                                <p><strong>Nome----:</strong> ${etiqueta.nome}</p>
+                                <p><strong>Tamanho:</strong> ${etiqueta.tamanho}</p>
+                                <p><strong>Codigo :</strong> ${etiqueta.cod_etq}</p>
                                 <div class="card-image-container">
                                     <img src="/img/etq/${etiqueta.Id}.png" alt="Imagem da Etiqueta">
                                 </div>

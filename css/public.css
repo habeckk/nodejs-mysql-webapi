@@ -333,4 +333,11 @@ h1{ /*Relacionado ao titulo*/
 .modal button + button {
   margin-left: 3%;
 }
+
+textarea {
+  width: 100%; /* Faz o input se ajustar ao contêiner, mas não maior que isso */
+  max-width: 100%; /* Impede que o input ultrapasse o contêiner */
+  box-sizing: border-box; /* Garante que paddings e bordas estejam incluídos na largura total */
+}
+
 }

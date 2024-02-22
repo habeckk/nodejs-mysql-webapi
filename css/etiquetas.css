@@ -1,44 +1,9 @@
 #pedidosContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(335px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 10px;
   padding: 20px;
   margin-top:20px;
-  margin-left: 0px;
-  margin-right: 10px;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-input[type="text"],
-textarea {
-  width: calc(100% - 20px);
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-textarea {
-  height: 150px;
-}
-
-button[type="submit"] {
-  background-color: #333;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-button[type="submit"]:hover {
-  background-color: #555;
 }
 
 /*📌 card" 📌*/
@@ -48,23 +13,38 @@ button[type="submit"]:hover {
   align-items: center;
   height: 80vh;
   flex-wrap: wrap;
-  padding: 20px;
+  padding: 2px;
 }
 
-.card {
+.card-content {
   width: 300px;
   background-color: #f9f9f9;
   border-radius: 8px;
-  box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
-  margin-bottom: 20px;
+  box-shadow: 1px 3px 8px var(--paleta1); /* Sombra 3D */
   transition: transform 0.3s ease;
-  border: 1px solid #ccc;
-  padding: 20px;
+  padding: 10px;
   max-width: 400px;
 }
 
-.card:hover {
+.card-content:hover {
   transform: translateY(-5px);
+}
+
+.card-content h2 {
+  border-radius: 8px;
+  border: 1px solid var(--paleta11);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 4px 0; /* Reduz a margem superior e inferior */
+  padding: 0; /* Remove o espaçamento interno */
+  font-size: 12px;
+}
+
+.card-content p {
+  margin: 4px 0; /* Reduz a margem superior e inferior */
+  padding: 0; /* Remove o espaçamento interno */
+  font-size: 12px;
 }
 
 button {
