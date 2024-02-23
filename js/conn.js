@@ -25,6 +25,30 @@ app.get('/pdf/:id', async(req, res) => {
     
 });
 
+app.get('/pdfabrir/:fipN', async (req, res) => {
+    const fipN = req.params.fipN;
+    console.log(fipN + " teste"); // Para debug
+
+    // Validação do ID
+    if (!/^[a-zA-Z0-9_-]+$/.test(fipN)) {
+        return res.status(400).send('ID inválido');
+    }
+
+    const baseNetworkPath = '\\\\dfs\\SAP\\PP\\QUA\\FIP-PDF';
+    const filePath = path.join(baseNetworkPath, `${fipN}.pdf`); // Construindo o caminho do arquivo
+
+    // Verifica se o arquivo existe
+    fs.access(filePath, fs.constants.F_OK, (err) => {
+        if (err) {
+            return res.status(404).send('Arquivo não encontrado');
+        }
+        // Se o arquivo existir, envia o arquivo
+        // Para forçar download, você pode descomentar a linha abaixo
+        // res.setHeader('Content-Disposition', 'attachment; filename="' + fipN + '.pdf"');
+        res.setHeader('Content-Type', 'application/pdf');
+        fs.createReadStream(filePath).pipe(res);
+    });
+});
 //___________________________________________________________________________________
 // Defina a rota principal
 //___________________________________________________________________________________
@@ -105,15 +129,44 @@ app.get('/maquinas', async (req, res) => {
 // IMPRESSÃO DE ETIQUETAS
 //___________________________________________________________________________________
 app.post('/zpl', async (req, res) => {
+
+    
     const fs = require('fs');
     const path = require('path');
 
     // Capturando os dados do formulário HTML
-    const { printerDirectory, zplData } = req.body;
+    const { printerDirectory, zplData, grfData, qtdetq } = req.body;
 
     // Imprimindo os dados recebidos no console
     console.log('Diretório da Impressora:', printerDirectory);
     console.log('Código ZPL:', zplData);
+
+//---------------------------------------- dprj94 -------------------------------------------------
+    if (grfData.trim()) {
+
+        const printerDir1 = "//172.18.1.232/" + printerDirectory.trim();
+
+        // Conteúdo ZPL a ser impresso
+        const grfContent = grfData.trim();
+
+        // Nome do arquivo de impressão
+        const fileName1 = 'label_template.grf';
+
+        // Caminho completo do arquivo de impressão
+        const filePath1 = path.join(printerDir1, fileName1);
+
+        
+        fs.writeFile(filePath1, grfContent, (err) => {
+            if (err) {
+                console.error('Erro ao escrever arquivo grf:', err);
+            } else {
+                console.log('Arquivo grf criado com sucesso:', filePath1);
+            }
+        });
+
+
+    }
+//-----------------------------------------------------------------------------------------------
 
     // Diretório da impressora compartilhada
     const printerDir = "//172.18.1.232/" + printerDirectory.trim();
@@ -128,13 +181,19 @@ app.post('/zpl', async (req, res) => {
     const filePath = path.join(printerDir, fileName);
 
     // Escrever os comandos ZPL no arquivo
-    fs.writeFile(filePath, zplContent, (err) => {
-        if (err) {
-            console.error('Erro ao escrever arquivo ZPL:', err);
-        } else {
-            console.log('Arquivo ZPL criado com sucesso:', filePath);
+    if (qtdetq.trim()) {
+        const qtdetq2 = qtdetq.trim();  
+
+        for (let i = 0; i < qtdetq2; i++) {
+            fs.writeFile(filePath, zplContent, (err) => {
+                if (err) {
+                    console.error('Erro ao escrever arquivo ZPL:', err);
+                } else {
+                    console.log('Arquivo ZPL criado com sucesso:', filePath);
+                }
+            });
         }
-    });
+    }
 });
 
 app.get('/etiqueta', async (req, res) => {

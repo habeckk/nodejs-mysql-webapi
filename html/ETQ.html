@@ -63,10 +63,19 @@
             <div class="modal">
                 <h1>Cadastro de Impressora e ZPL</h1>
                 <form action="http://localhost:5500/zpl" method="POST">
+
                     <label for="printerDirectory">Diretório da Impressora:</label><br>
                     <input type="text" id="printerDirectory" name="printerDirectory"><br>
+
+                    <label for="qtdetq">QTD:</label><br>
+                    <input type="text" id="qtdetq" name="qtdetq"><br>
+
                     <label for="zplData">Código ZPL:</label><br>
                     <textarea id="zplData" name="zplData"></textarea><br>
+
+                    <label for="grfData">Código GRF:</label><br>
+                    <textarea id="grfData" name="grfData"></textarea><br>
+
                     <button type="submit">Enviar para Impressão</button>
                     <button type="button" onclick="closeForm1()">Cancelar</button>
                 </form>
@@ -232,6 +241,7 @@ setInterval(atualizarDados, 1 * 60 * 1000); // 5 minutos * 60 segundos * 1000 mi
 // Função para selecionar uma etiqueta
 //___________________________________________________________________________________
 function selecionarEtiqueta(id) {
+
     fetch(`${BASE_URL}/getEtiquetaById/${id}`)
         .then(response => {
             if (!response.ok) {
@@ -243,10 +253,12 @@ function selecionarEtiqueta(id) {
             // Supondo que a resposta seja um array e você esteja interessado no primeiro item
             const etiqueta = data[0]; // Ajuste conforme a estrutura real da sua resposta
             document.getElementById('zplData').value = etiqueta.cod_zpl || '';
+            document.getElementById('grfData').value = etiqueta.grf || '';            
             document.getElementById("overlay1").style.display = "block";
         })
         .catch(error => console.error('Erro ao buscar etiqueta:', error));
 }
+
 
 </script>
 </body>

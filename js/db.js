@@ -125,4 +125,5 @@ async function getItemByFipN(id) {
         await sql.close(); // Isso pode ser problemático se você estiver usando pool de conexões
     }
 }
+
 module.exports = { selectCustomers, insertCustomer, updateStatus, excluirSetupUsiPorId, getMaquinasPorCentroCusto, getEtiquetas, insertEtq, buscarEtiquetaPorId, getItemByFipN };
