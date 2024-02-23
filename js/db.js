@@ -113,5 +113,16 @@ async function buscarEtiquetaPorId(id) {
         await sql.close(); // Isso pode ser problemático se você estiver usando pool de conexões
     }
 }
-
-module.exports = { selectCustomers, insertCustomer, updateStatus, excluirSetupUsiPorId, getMaquinasPorCentroCusto, getEtiquetas, insertEtq, buscarEtiquetaPorId };
+async function getItemByFipN(id) {
+    try {
+        await sql.connect(config);
+        const result = await sql.query`SELECT * FROM SMP_FIP WHERE Item = ${id}`;
+        return result.recordset;
+    } catch (error) {
+        console.error('Database query error:', error);
+        throw error; // É uma boa prática relançar o erro após logá-lo
+    } finally {
+        await sql.close(); // Isso pode ser problemático se você estiver usando pool de conexões
+    }
+}
+module.exports = { selectCustomers, insertCustomer, updateStatus, excluirSetupUsiPorId, getMaquinasPorCentroCusto, getEtiquetas, insertEtq, buscarEtiquetaPorId, getItemByFipN };

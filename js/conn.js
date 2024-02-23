@@ -17,28 +17,12 @@ app.use(cors()); // Use o middleware do CORS para permitir solicitações de tod
 //___________________________________________________________________________________
 // Rota para lidar com solicitações GET para o arquivo PDF
 //___________________________________________________________________________________
-app.get('/pdf/:id', (req, res) => {
+app.get('/pdf/:id', async(req, res) => {
     const id = req.params.id;
 
-    // Validação básica para garantir um ID seguro
-    if (!/^[a-zA-Z0-9_-]+$/.test(id)) {
-        return res.status(400).send('ID inválido');
-    }
-
-    // Ajuste o caminho base para o seu compartilhamento de rede aqui
-    const baseNetworkPath = '\\\\dfs\\SAP\\PP\\QUA\\FIP-PDF';
-    const filePath = path.join(baseNetworkPath, `00001.pdf`);
-
-    // Verifica se o arquivo existe
-    fs.access(filePath, fs.constants.F_OK, (err) => {
-        if (err) {
-            return res.status(404).send('Arquivo não encontrado');
-        }
-        
-        // Se o arquivo existir, define o cabeçalho e envia o arquivo
-        res.setHeader('Content-Type', 'application/pdf');
-        fs.createReadStream(filePath).pipe(res);
-    });
+    const result = await db.getItemByFipN(id);
+    res.status(200).json(result); // Envie os setups obtidos como resposta
+    
 });
 
 //___________________________________________________________________________________

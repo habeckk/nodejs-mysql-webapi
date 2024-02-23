@@ -64,7 +64,9 @@
                 <button type="button" onclick="closeForm()">Cancelar</button>
             </form>
         </div>
+
     </div>
+
     <div id="pedidosContainer"></div>
     <!-- Restante do seu HTML -->
     <div class="container1">   
@@ -148,7 +150,7 @@
 
                                                     <div class="linha-separadora"></div>    
                                                     <div><label class="texto1">Item:</label></div>  
-                                                    <div><label class="info-line">${solicitacao.item}</p></label ></div>
+                                                    <div><label class="info-line item">${solicitacao.item}</p></label ></div>
 
                                                     <div class="linha-separadora"></div>    
                                                     <div><label class="texto1">Hora:</label></div>  
@@ -392,40 +394,78 @@
 //___________________________________________________________________________________
 // Abrir folha de processo
 //___________________________________________________________________________________
-            document.getElementById('pedidosContainer').addEventListener('click', async function(event) {
-            const target = event.target;
-            if (target.classList.contains('button-fip')) {
-                const card = target.closest('.card');
+document.getElementById('pedidosContainer').addEventListener('click', async function(event) {
+    const target = event.target;
+    if (target.classList.contains('button-fip')) {
+        const card = target.closest('.card');
+        if (card) {
+            const infoLineElement = card.querySelector('.item');
+            if (infoLineElement) {
+                const id = infoLineElement.textContent.trim(); // Obtém o ID do item
+                
+                fetch(`${BASE_URL}/pdf/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Cria o modal e o conteúdo da tabela
+                    const modalContainer = document.createElement('div');
+                    modalContainer.classList.add('modal1');
+                    modalContainer.setAttribute('id', 'modalContainer');
+                    document.body.appendChild(modalContainer);
 
-                if (card) {
-                    const infoLineElement = card.querySelector('.info-line');
-                    if (infoLineElement) {
-                        const id = infoLineElement.textContent.trim(); // Obtém o ID do setup
+                    let modalContent = `<form id="formNovoSetupUsi">
+                                        <table class="excel-like-table modal">
+                                            <thead><td>
+                                                <button class="close-button">Fechar</button></td>
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Item</th>
+                                                    <th>Operacao</th>
+                                                    <th>Dta_Implantacao</th>
+                                                    <th>FIP_N</th>
+                                                    <th>Ult_REV</th>
+                                                    <th>Ação</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </form>`;
+                    
+                    data.forEach(item => {
+                        modalContent += `<tr>
+                                            <td>${item.Id}</td>
+                                            <td>${item.Item}</td>
+                                            <td>${item.Operacao}</td>
+                                            <td>${new Date(item.Dta_Implantacao).toLocaleDateString()}</td>
+                                            <td>${item.FIP_N}</td>
+                                            <td>${new Date(item.Ult_REV).toLocaleDateString()}</td>
+                                            <td><button class="button-open">Abrir</button></td>
+                                        </tr>`;
+                    });
 
-                        try {
-                            // Faz uma solicitação AJAX para obter o arquivo PDF do servidor
-                            const response = await fetch(`${BASE_URL}/pdf/${id}`);
-                            if (response.ok) {
-                                // Se a resposta estiver ok, obtenha o conteúdo do arquivo PDF
-                                const blob = await response.blob();
-                                const pdfUrl = URL.createObjectURL(blob);
+                    modalContent += `</tbody></table></div>`;
+                    modalContainer.innerHTML = modalContent;
 
-                                // Abre o arquivo PDF em uma nova janela
-                                window.open(pdfUrl, '_blank');
-                            } else {
-                                console.error('Erro ao obter o arquivo PDF:', response.statusText);
-                            }
-                        } catch (error) {
-                            console.error('Erro ao abrir o PDF:', error);
+                    // Mostra o modal
+                    modalContainer.style.display = "block";
+
+                    // Adiciona eventos para fechar o modal
+                    modalContainer.querySelector('.close-button').onclick = function() {
+                        modalContainer.style.display = "none";
+                        document.body.removeChild(modalContainer); // Remove o modal do DOM após fechar
+                    };
+                    window.onclick = function(event) {
+                        if (event.target == modalContainer) {
+                            modalContainer.style.display = "none";
+                            document.body.removeChild(modalContainer); // Remove o modal do DOM após fechar
                         }
-                    } else {
-                        console.error('Elemento com a classe .info-line não encontrado.');
-                    }
-                } else {
-                    console.error('Elemento com a classe .card não encontrado.');
-                }
+                    };
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar dados do servidor:', error);
+                });
             }
-        });
+        }
+    }
+});
 
 //___________________________________________________________________________________
 // Adicione um evento de escuta ao elemento <select> de centro de custo
