@@ -12,12 +12,11 @@
 <body>
     
     <div class="header">
-        <div class="LOGO1">
-            <a href="/html/Menu.html">
-                <img src="/img/Usinagem/Sem título.png" alt="Imagem 3D">
-            </a>
-        </div>
         <h1>SETUP USINAGEM</h1>
+        <button class="LOGO1" onclick="carregarValores0()">
+            <img src="/img/Sem título.png" alt="Imagem 3D">
+        </button> 
+
         <div class="sidebar-buttons-container">
             <button class="sidebar-button" type="button" onclick="openForm()">Solicitar Setup</button>
             <button class="sidebar-button" type="button" onclick="MostrarLista()">Mostrar Lista</button>
@@ -106,7 +105,7 @@
                     data.forEach(solicitacao => {
                         // Cria um novo elemento div para representar o cartão
                         const card = document.createElement('div');
-                        card.classList.add('card');
+                        card.classList.add('card1');
 
                         // Crie um novo elemento div para representar o conteúdo do cartão
                         const cardContent = document.createElement('div');
@@ -282,7 +281,7 @@
                     target.classList.contains('button-cancelado')) {
                     
                     const status = target.textContent.trim(); // Obtém o texto do botão, que será o status
-                    const card = target.closest('.card');
+                    const card = target.closest('.card1');
 
                     if (card) {
                         const infoLineElement = card.querySelector('.info-line');
@@ -325,7 +324,7 @@
             document.getElementById('pedidosContainer').addEventListener('click', async function(event) {
                 const target = event.target;
                 if (target.classList.contains('button-excluir')) {
-                    const card = target.closest('.card');
+                    const card = target.closest('.card1');
 
                     if (card) {
                         const infoLineElement = card.querySelector('.info-line');
@@ -363,31 +362,37 @@
 //___________________________________________________________________________________
 // Abrir folha de processo
 //___________________________________________________________________________________
-            document.getElementById('pedidosContainer').addEventListener('click', async function(event) {
+//___________________________________________________________________________________
+// Adicione um evento de escuta ao elemento <select> de folha de processo
+//___________________________________________________________________________________
+
+        document.getElementById('pedidosContainer').addEventListener('click', async function(event) {
             const target = event.target;
             if (target.classList.contains('button-folha')) {
-                const card = target.closest('.card');
-
+                const card = target.closest('.card1');
                 if (card) {
-                    const infoLineElement = card.querySelector('.info-line');
+                    const infoLineElement = card.querySelector('.item');
                     if (infoLineElement) {
-                        const id = infoLineElement.textContent.trim(); // Obtém o ID do setup
+                        const id = infoLineElement.textContent.trim(); // Obtém o ID do item
+                        console.log(id)
+                        fetch(`${BASE_URL}/setupusiFolha?item=${id}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            data.forEach(item => {
+                                console.log(item.Docu)
+                                const docu = item.Docu;
+                                if (docu.length > 0) {
+                                    window.open(`http://172.18.1.10:54451/Reports/Pages/JobReports.aspx?JobId=${docu}`, '_blank');
+                                } else {
+                                    console.log('Nenhum resultado encontrado.');
+                                }
+                            });             
+                        })
+                        .catch(error => {
+                            console.error('Erro ao buscar dados do servidor:', error);
+                        });
 
-                        try {
-                            // Abra o link desejado com base no ID do setup
-                            window.open(`http://172.18.1.10:54451/Reports/Pages/JobReports.aspx?JobId=
-        2200`, '_blank');
-
-                            // Aqui você pode adicionar outras operações que deseja realizar após abrir o link
-                            console.log(`Link da folha de ${id} aberto com sucesso.`);
-                        } catch (error) {
-                            console.error('Erro ao abrir o link da folha:', error);
-                        }
-                    } else {
-                        console.error('Elemento com a classe .info-line não encontrado.');
                     }
-                } else {
-                    console.error('Elemento com a classe .card não encontrado.');
                 }
             }
         });
@@ -397,7 +402,7 @@
             document.getElementById('pedidosContainer').addEventListener('click', async function(event) {
                 const target = event.target;
                 if (target.classList.contains('button-fip')) {
-                    const card = target.closest('.card');
+                    const card = target.closest('.card1');
                     if (card) {
                         const infoLineElement = card.querySelector('.item');
                         if (infoLineElement) {
@@ -475,30 +480,30 @@
 //___________________________________________________________________________________
 // Adicione um evento de escuta ao elemento <select> de centro de custo
 //___________________________________________________________________________________
-            document.getElementById('centro-custo').addEventListener('change', function() {
-                // Recupere o valor do centro de custo selecionado
-                const centroCustoSelecionado = this.value;
+document.getElementById('centro-custo').addEventListener('change', function() {
+    // Recupere o valor do centro de custo selecionado
+    const centroCustoSelecionado = this.value;
 
-                // Faça uma solicitação fetch para obter as máquinas correspondentes ao centro de custo selecionado
-                fetch(`${BASE_URL}/maquinas?centroCusto=${centroCustoSelecionado}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        // Limpe as opções atuais do <select> de máquinas
-                        const selectMaquina = document.getElementById('maquina');
-                        selectMaquina.innerHTML = '';
+    // Faça uma solicitação fetch para obter as máquinas correspondentes ao centro de custo selecionado
+    fetch(`${BASE_URL}/maquinas?centroCusto=${centroCustoSelecionado}`)
+        .then(response => response.json())
+        .then(data => {
+            // Limpe as opções atuais do <select> de máquinas
+            const selectMaquina = document.getElementById('maquina');
+            selectMaquina.innerHTML = '';
 
-                        // Preencha o <select> de máquinas com as opções obtidas
-                        data.forEach(maquina => {
-                            const option = document.createElement('option');
-                            option.value = maquina.Maquina; // Defina o valor da opção como o nome da máquina
-                            option.textContent = maquina.Maquina; // Defina o texto visível da opção como o nome da máquina
-                            selectMaquina.appendChild(option);
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Erro ao carregar máquinas:', error);
-                    });
+            // Preencha o <select> de máquinas com as opções obtidas
+            data.forEach(maquina => {
+                const option = document.createElement('option');
+                option.value = maquina.Maquina; // Defina o valor da opção como o nome da máquina
+                option.textContent = maquina.Maquina; // Defina o texto visível da opção como o nome da máquina
+                selectMaquina.appendChild(option);
             });
+        })
+        .catch(error => {
+            console.error('Erro ao carregar máquinas:', error);
+        });
+});
 
 //___________________________________________________________________________________
 // Adicione um evento de clique para cada botão de status
@@ -533,6 +538,7 @@
     <link rel="stylesheet" href="/css/public.css">
     <link rel="stylesheet" href="/css/SSU.css">
     <script src="/js/SSU.js"></script>
+    <script src="/js/PUBLIC.JS"></script>
 
 </body>
 </html>

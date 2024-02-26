@@ -75,6 +75,19 @@ async function getMaquinasPorCentroCusto(centroCusto) {
     }
 }
 
+async function getFolhaProcessoItem(item) {
+    try {
+        await sql.connect(config);
+        const result = await sql.query`SELECT Docu FROM ferramentaria_x_item WHERE Item = ${item}`;
+        
+        return result.recordset;
+    } catch (error) {
+        throw error;
+    } finally {
+        await sql.close();
+    }
+}
+
 async function getEtiquetas() {
     try {
         await sql.connect(config);
@@ -126,4 +139,4 @@ async function getItemByFipN(id) {
     }
 }
 
-module.exports = { selectCustomers, insertCustomer, updateStatus, excluirSetupUsiPorId, getMaquinasPorCentroCusto, getEtiquetas, insertEtq, buscarEtiquetaPorId, getItemByFipN };
+module.exports = { selectCustomers, insertCustomer, updateStatus, excluirSetupUsiPorId, getMaquinasPorCentroCusto, getEtiquetas, insertEtq, buscarEtiquetaPorId, getItemByFipN, getFolhaProcessoItem };

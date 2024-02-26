@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/imagem/Troca Rapida.ico">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="/css/Menu.css"/>
-    <script src="/js/tempo.js"></script>
     <title>Menu - GDM</title>
 </head>
 <body>
@@ -14,22 +11,18 @@
     <div class="popup" id="popup"></div>
 
     <div class="header">
-      <link rel="stylesheet" href="/css/public.css">
-      <label for="imagem" class="LOGO1">
-        <a href="/html/Menu.html">
-          <img id="myImage1" src="/img/icons8-apps-64.png" alt="Logo">
-        </a>
-      </label>   
+        
+      <button class="LOGO1" type="button" onclick="carregarValores0()">
+        <img src="/img/icons8-apps-64.png" alt="Imagem 3D">
+      </button> 
+
+      <button class="LOGOLogin" type="button" onclick="carregarValores1()">
+        <img id="INFO1" class="imagem" src="" alt="imagem">
+      </button> 
+
       <h1>GDM</h1>
       <label class="titulo-escopo">Gerenciador Digital Manufatura</label>
       
-      <label for="LOGOLogin" class="LOGOLogin">
-        <a href="#" id="logoutLink">
-            <h1>
-                <img id="myImage1" src="/img/icons8-logout-24.png" alt="Logo">
-            </h1>
-        </a>
-    </label>
     </div>
     
     <div id="dialog" class="dialog">
@@ -89,6 +82,11 @@
 
         </div>
 
+      <link rel="stylesheet" href="/css/Menu.css"/>
+      <link rel="stylesheet" href="/css/public.css">
+      <script src="/js/Menu.js"></script>
+      <script src="/js/tempo.js"></script>
+      <script src="/js/PUBLIC.JS"></script>
       <script src="/js/Menu.js"></script>
 </body>
 </html>

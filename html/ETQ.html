@@ -5,17 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IMPRESSÃO DE ETIQUETAS</title>
-    <link rel="stylesheet" href="/css/public.css">
-    <link rel="stylesheet" href="/css/etiquetas.css">
 </head>
 <body>
     <div class="header">
-        <div class="LOGO1">
-            <a href="/html/Menu.html">
-                <img src="/img/Zebra Logo.png" alt="Imagem 3D">
-            </a>
-        </div>
-        <h1>IMPRESSÃO DE ETIQUETAS</h1>
+        <h1>ETIQUETAS</h1>
+
+        <button class="LOGO1" type="button" onclick="carregarValores0()">
+            <img src="/img/Zebra Logo.png" alt="Imagem 3D">
+        </button> 
 
         <div class="sidebar-buttons-container">
             <button class="sidebar-button" type="button" onclick="openForm()">Cadastrar Etiquetas</button>
@@ -61,7 +58,7 @@
 
         <div class="overlay1" id="overlay1">
             <div class="modal">
-                <h1>Cadastro de Impressora e ZPL</h1>
+                <h1>Imprimir</h1>
                 <form action="http://localhost:5500/zpl" method="POST">
 
                     <label for="printerDirectory">Diretório da Impressora:</label><br>
@@ -143,6 +140,18 @@
             } catch (error) {
                 console.error('Erro ao enviar solicitação:', error);
             }
+        });
+
+        document.getElementById('qtdetq').addEventListener('input', function(event) {
+            const novo1 = document.getElementById('zplData').value;
+            const novo2 = document.getElementById('qtdetq').value;
+        
+            // Atualize o valor do campo zplData com o valor modificado
+            document.getElementById('zplData').value = novo1.replace(/\^PQ\d+/, `^PQ${novo2}`);
+        
+            // Imprima o novo valor no console
+            console.log('ZPL Data atualizado:', document.getElementById('zplData').value);
+        
         });
 
 //___________________________________________________________________________________
@@ -259,7 +268,20 @@ function selecionarEtiqueta(id) {
         .catch(error => console.error('Erro ao buscar etiqueta:', error));
 }
 
+document.getElementById('qtdetq').addEventListener('input', function(event) {
+    const novo1 = document.getElementById('zplData').value;
+    const novo2 = this.value; // Aqui, 'this' se refere ao elemento com o id 'qtdetq'
+
+    // Atualize o valor do campo zplData com o valor modificado
+    document.getElementById('zplData').value = novo1.replace(/\^PQ\d+/, `^PQ${novo2}`);
+
+    // Imprima o novo valor no console
+    console.log('ZPL Data atualizado:', document.getElementById('zplData').value);
+});
 
 </script>
+<link rel="stylesheet" href="/css/public.css">
+<link rel="stylesheet" href="/css/etiquetas.css">
+<script src="/js/PUBLIC.JS"></script>
 </body>
 </html>

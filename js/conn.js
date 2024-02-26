@@ -15,6 +15,10 @@ app.use(bodyParser.urlencoded({ extended: true })); // Middleware para analisar 
 app.use(cors()); // Use o middleware do CORS para permitir solicitações de todas as origens
 
 //___________________________________________________________________________________
+// Defina a rota principal
+//___________________________________________________________________________________
+app.get('/', (req, res) => res.json({ message: 'Funcionando!' }));
+//___________________________________________________________________________________
 // Rota para lidar com solicitações GET para o arquivo PDF
 //___________________________________________________________________________________
 app.get('/pdf/:id', async(req, res) => {
@@ -49,10 +53,6 @@ app.get('/pdfabrir/:fipN', async (req, res) => {
         fs.createReadStream(filePath).pipe(res);
     });
 });
-//___________________________________________________________________________________
-// Defina a rota principal
-//___________________________________________________________________________________
-app.get('/', (req, res) => res.json({ message: 'Funcionando!' }));
 //___________________________________________________________________________________
 // Rota para adicionar um novo cliente
 //___________________________________________________________________________________
@@ -124,13 +124,25 @@ app.get('/maquinas', async (req, res) => {
         res.status(500).json({ error: 'Erro ao obter máquinas' });
     }
 });
+//___________________________________________________________________________________
+// Rota para obter folha de processo associadas a um item específico
+//___________________________________________________________________________________
+app.get('/setupusiFolha', async (req, res) => {
+    const item = req.query.item;
+    try {
+        const docu = await db.getFolhaProcessoItem(item);
+        res.status(200).json(docu);
+    } catch (error) {
+        console.error('Erro ao obter Folha Processo:', error);
+        res.status(500).json({ error: 'Erro ao obter Folha Processo' });
+    }
+});
 
 //___________________________________________________________________________________
 // IMPRESSÃO DE ETIQUETAS
 //___________________________________________________________________________________
 app.post('/zpl', async (req, res) => {
 
-    
     const fs = require('fs');
     const path = require('path');
 
