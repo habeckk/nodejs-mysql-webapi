@@ -40,3 +40,38 @@
     text-align: left;
 }
 
+
+
+
+
+/* Estilo semelhante ao Excel para lista */
+#listaView {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#listaView li {
+    display: table-row;
+}
+
+#listaView li:nth-child(1) {
+    font-weight: bold;
+    background-color: #f0f0f0;
+}
+
+#listaView li div {
+    display: table-cell;
+    padding: 8px;
+    border: 1px solid #dddddd;
+    text-align: left;
+}
+
+.card-container .card1 {
+    border: 1px solid #dddddd;
+    margin-bottom: 8px;
+    padding: 8px;
+    background-color: #fff;
+}
+
+/* Adicione mais estilos conforme necessário */

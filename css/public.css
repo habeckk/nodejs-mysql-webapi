@@ -397,45 +397,49 @@
     transform: scale(1.03); /* Aumenta a escala em 5% */
   }
 
-  /* Estilos para diferentes status */
-  .card1.atendendo {
-    box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
-    background-color: var(--paleta100);
-    border-color: var(--paleta200);
-  }
+/* Estilos para diferentes status aplicados a ambos, cards e listas */
+.card1.atendendo, .status-atendendo {
+  box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+  background-color: var(--paleta100);
+  border-color: var(--paleta200);
+}
 
-  .card1.aguardando {
-    box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
-    background-color: var(--paleta101);
-    border-color: var(--paleta201);
-  }
+.card1.aguardando, .status-aguardando {
+  box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+  background-color: var(--paleta101);
+  border-color: var(--paleta201);
+}
 
-  .card1.pronto {
-    box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
-    background-color: var(--paleta102);
-    border-color: var(--paleta202);
-  }
+.card1.pronto, .status-pronto {
+  box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+  background-color: var(--paleta102);
+  border-color: var(--paleta202);
+}
 
-  .card1.cancelado {
-    box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
-    background-color: var(--paleta103);
-    border-color: var(--paleta203);
-  }
-  .card1.esperando {
-    box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
-    background-color: var(--paleta104);
-    border-color: var(--paleta204);
-  }
-  .card1.parado {
-    box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
-    background-color: var(--paleta105);
-    border-color: var(--paleta205);
-  }
-  .card1.try_out {
-    box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
-    background-color: var(--paleta106);
-    border-color: var(--paleta206);
-  }
+.card1.cancelado, .status-cancelado {
+  box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+  background-color: var(--paleta103);
+  border-color: var(--paleta203);
+}
+
+.card1.esperando, .status-esperando {
+  box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+  background-color: var(--paleta104);
+  border-color: var(--paleta204);
+}
+
+.card1.parado, .status-parado {
+  box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+  background-color: var(--paleta105);
+  border-color: var(--paleta205);
+}
+
+.card1.try_out, .status-try_out {
+  box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+  background-color: var(--paleta106);
+  border-color: var(--paleta206);
+}
+
   /* ________________________________________________________________________________________________*/
   /* ________________________________________________________________________________________________*/
   /* Adicione estilos para outras classes conforme necessário */
@@ -576,4 +580,44 @@
     background-color: var(--paleta10);
   }
 
+
+  /* Estilo para o cabeçalho da tabela */
+th {
+  border-radius: 10px;
+  background-image: linear-gradient(to right, var(--paleta300), var(--paleta301)); /* Gradiente */
+  color: white; /* Cor do texto */
+  text-shadow: 1px 1px 1px #000; /* Sombra no texto para melhorar a leitura */
+  padding: 10px; /* Espaçamento interno */
+  box-shadow: 0px 3px 5px rgba(0,0,0,0.2); /* Sombra para efeito 3D */
+  border-bottom: 3px solid var(--paleta302); /* Borda para efeito 3D mais pronunciado */
+}
+
+/* Estilo para as células da tabela */
+td {
+  padding: 5px; /* Espaçamento interno */
+  border-bottom: 1px solid #ddd; /* Borda inferior para separar as linhas */
+  position: relative; /* Necessário para o pseudo-elemento */
+}
+
+td::after {
+  content: ''; /* Conteúdo vazio para o pseudo-elemento */
+  position: absolute; /* Posicionamento absoluto dentro da célula */
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--paleta303); /* Cor de fundo para o pseudo-elemento */
+  box-shadow: 0px 2px 2px rgba(0,0,0,0.1); /* Sombra para efeito 3D */
+}
+th:hover {
+  border-radius: 10px;
+  background-image: linear-gradient(to right, var(--paleta31), var(--paleta32)); /* Altera o gradiente */
+  cursor: pointer; /* Muda o cursor para indicar interatividade */
+  box-shadow: 0px 5px 10px var(--paleta1); /* Sombra mais pronunciada para efeito 3D elevado */
+}
+tr:hover td {
+  background-color: var(--paleta306); /* Muda a cor de fundo da linha */
+  box-shadow: inset 0px 0px 30px  var(--paleta1); /* Sombra interna para um efeito sutil */
+  color: var(--paleta33); /* Opcional: Muda a cor do texto */
+}
 }

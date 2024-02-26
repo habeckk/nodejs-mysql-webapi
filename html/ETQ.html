@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>ETIQUETAS</h1>
+        <h1>CENTRAL ETIQUETAS</h1>
 
         <button class="LOGO1" type="button" onclick="carregarValores0()">
             <img src="/img/Zebra Logo.png" alt="Imagem 3D">
@@ -81,6 +81,7 @@
 
     <div id="pedidosContainer"></div>
     <!-- Restante do seu HTML -->
+
     <div class="container1">   
         <div class="scroll-wrapper">
             <div id="pedidosContainer" class="card-container">
@@ -141,7 +142,7 @@
                 console.error('Erro ao enviar solicitação:', error);
             }
         });
-
+        
         document.getElementById('qtdetq').addEventListener('input', function(event) {
             const novo1 = document.getElementById('zplData').value;
             const novo2 = document.getElementById('qtdetq').value;
@@ -153,7 +154,6 @@
             console.log('ZPL Data atualizado:', document.getElementById('zplData').value);
         
         });
-
 //___________________________________________________________________________________
 // Abrir formulário
 //___________________________________________________________________________________   
@@ -267,17 +267,6 @@ function selecionarEtiqueta(id) {
         })
         .catch(error => console.error('Erro ao buscar etiqueta:', error));
 }
-
-document.getElementById('qtdetq').addEventListener('input', function(event) {
-    const novo1 = document.getElementById('zplData').value;
-    const novo2 = this.value; // Aqui, 'this' se refere ao elemento com o id 'qtdetq'
-
-    // Atualize o valor do campo zplData com o valor modificado
-    document.getElementById('zplData').value = novo1.replace(/\^PQ\d+/, `^PQ${novo2}`);
-
-    // Imprima o novo valor no console
-    console.log('ZPL Data atualizado:', document.getElementById('zplData').value);
-});
 
 </script>
 <link rel="stylesheet" href="/css/public.css">
