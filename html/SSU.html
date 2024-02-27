@@ -65,6 +65,16 @@
         </div>
 
     </div>
+      
+      <!-- Menu de contexto -->
+      <div id="menuContexto" class="menu-contexto">
+        <ul>
+          <li><a href="#acao1">Ação 1</a></li>
+          <li><a href="#acao2">Ação 2</a></li>
+          <li><a href="#acao3">Ação 3</a></li>
+          <!-- Adicione mais ações conforme necessário -->
+        </ul>
+      </div>
 
     <div id="pedidosContainer"></div>
     <!-- Restante do seu HTML -->
@@ -79,6 +89,35 @@
     <div id="agendamentosContainer1"></div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuContexto = document.getElementById('menuContexto');
+        
+            // Função auxiliar para verificar se o elemento ou um de seus pais corresponde ao seletor
+            function matchesSelectorOrParent(element, selector) {
+                if (element.matches(selector)) {
+                    return true;
+                } else if (element.parentElement) {
+                    return matchesSelectorOrParent(element.parentElement, selector);
+                }
+                return false;
+            }
+        
+            document.getElementById('pedidosContainer').addEventListener('contextmenu', function (e) {
+                if (matchesSelectorOrParent(e.target, 'tbody tr')) {
+                    e.preventDefault(); // Impede o menu de contexto padrão
+                    menuContexto.style.display = 'block';
+                    menuContexto.style.left = e.pageX + 'px'; // Posiciona o menu no local do clique
+                    menuContexto.style.top = e.pageY + 'px';
+                }
+            });
+        
+            // Esconde o menu ao clicar em qualquer lugar na página
+            document.addEventListener('click', function (e) {
+                menuContexto.style.display = 'none';
+            });
+        });
+        
+
         function renderizarComoLista(data) {
             const pedidosContainer = document.getElementById('pedidosContainer');
             pedidosContainer.innerHTML = ''; // Limpa o contêiner
