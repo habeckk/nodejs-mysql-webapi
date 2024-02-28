@@ -4,12 +4,12 @@
   }
 
 :root {
-    --paleta1: #42667c;/* Borda 1 */
+    --paleta1: #524E4A;/* Borda 1 */
     --paleta2: #7b3d1e;/* Borda 1 */
     --paleta3: #768d9d;
     --paleta4: rgb(255, 255, 255);/* Fundo do projeto 1*/
     --paleta5: #ffffff;/* Fundo do projeto 2*/
-    --paleta7: #ffffff;/* Título Header 2*/
+    --paleta7: #00A9E0;/* Título Header 2*/
     --paleta8: #3a8ec2;/* Botão Header 2*/
 /* -------------------------- Cores Formulário -------------------------------   */
     --paleta6: #2b2323;    /* Fonte Formulário*/
@@ -19,10 +19,10 @@
     --paleta12:  rgb(222, 222, 222);/* Borda dos campos do Formulário*/
 
 /* -------------------------- Cores Botões -------------------------------   */
-    --paleta30:  #ffffff;/* Cor da fonte color Button*/    
-    --paleta31:  #42667c;/* Cor da fonte background Button*/    
-    --paleta32:  #2b2323;/* Cor da fonte Button color hover*/    
-    --paleta33:  #ffffff;/* Cor da fonte Button background hover*/    
+    --paleta30:  #00A9E0;/* Cor da fonte color Button*/    
+    --paleta31:  #ffffff;/* Cor da fonte background Button*/    
+    --paleta32:  #00A9E0;/* Cor da fonte Button color hover*/    
+    --paleta33:  #524E4A;/* Cor da fonte Button background hover*/    
     --paleta34:  #42667c;/* Cor */    
 
 /* -------------------------- Cores Status Cartões -------------------------------   */
@@ -91,12 +91,12 @@
     position:absolute;
     height: auto;
     width: 230px;
-    top: 10%; /* Altere as unidades de medida conforme necessário */
+    top: 16%; /* Altere as unidades de medida conforme necessário */
     left: 50%; /* Altere as unidades de medida conforme necessário */
     transform: translate(-50%, -50%);
     padding: 5px;
     border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.4);
     color: var(--paleta7);
     text-align: center;
   }
@@ -130,7 +130,9 @@
     cursor: pointer;
   }
 
-  .LOGO1 {
+  .LOGO1, 
+  .LOGO0
+  {
     justify-content: center; /* Centraliza os elementos horizontalmente */
     align-items: center; /* Centraliza os elementos verticalmente */
     width: 80px;
@@ -203,16 +205,16 @@
     width: 160px; /* Ajuste a largura conforme necessário */
     height: 30px;
     font-size: 14px;
-    background-color: var(--paleta30);
-    color: var(--paleta31);
-    border: 1px solid var(--paleta31);
+    background-color: var(--paleta33);
+    color: var(--paleta30);
+    border: 1px solid var(--paleta30);
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
 
   .sidebar-button:hover {
-    background-color: var(--paleta31);
-    color: var(--paleta30);
+    background-color: var(--paleta30);
+    color: var(--paleta33);
     border: 1px solid var(--paleta30);
   }
 
@@ -351,18 +353,18 @@
 
   .modal button {
     padding: 10px 20px;
-    background-color: var(--paleta31);
-    color: var(--paleta30);
-    border: none;
+    background-color: var(--paleta33);
+    color: var(--paleta32);
+    border: 1px solid var(--paleta32);
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
   }
 
   .modal button:hover {
-    background-color: var(--paleta33);
-    color: var(--paleta32);
-    border: 1px solid var(--paleta31);
+    background-color: var(--paleta32);
+    color: var(--paleta33);
+    border: 1px solid var(--paleta33);
   }
 
   .modal button + button {
