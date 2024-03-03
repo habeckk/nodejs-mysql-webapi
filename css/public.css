@@ -4,13 +4,13 @@
   }
 
 :root {
-    --paleta1: #524E4A;/* Borda 1 */
+    --paleta1: #616366;/* Borda 1 */
     --paleta2: #7b3d1e;/* Borda 1 */
     --paleta3: #768d9d;
     --paleta4: rgb(255, 255, 255);/* Fundo do projeto 1*/
     --paleta5: #ffffff;/* Fundo do projeto 2*/
-    --paleta7: #00A9E0;/* Título Header 2*/
-    --paleta8: #3a8ec2;/* Botão Header 2*/
+    --paleta7: #00a9e0;/* Título Header 2*/
+    --paleta8: #00a9e0;/* Botão Header 2*/
 /* -------------------------- Cores Formulário -------------------------------   */
     --paleta6: #2b2323;    /* Fonte Formulário*/
     --paleta9: #2b2b2baa;  /* fundo Formulário*/
@@ -19,10 +19,10 @@
     --paleta12:  rgb(222, 222, 222);/* Borda dos campos do Formulário*/
 
 /* -------------------------- Cores Botões -------------------------------   */
-    --paleta30:  #00A9E0;/* Cor da fonte color Button*/    
+    --paleta30:  #00a9e0;/* Cor da fonte color Button*/    
     --paleta31:  #ffffff;/* Cor da fonte background Button*/    
-    --paleta32:  #00A9E0;/* Cor da fonte Button color hover*/    
-    --paleta33:  #524E4A;/* Cor da fonte Button background hover*/    
+    --paleta32:  #00a9e0;/* Cor da fonte Button color hover*/    
+    --paleta33:  #616366;/* Cor da fonte Button background hover*/    
     --paleta34:  #42667c;/* Cor */    
 
 /* -------------------------- Cores Status Cartões -------------------------------   */
@@ -130,8 +130,7 @@
     cursor: pointer;
   }
 
-  .LOGO1, 
-  .LOGO0
+  .LOGO1
   {
     justify-content: center; /* Centraliza os elementos horizontalmente */
     align-items: center; /* Centraliza os elementos verticalmente */
@@ -144,10 +143,23 @@
     border: 1px solid var(--paleta4);
     position: fixed;
     display:grid;
-    border-radius: 10px;
     top: 0px;
+  }
+  .LOGO0
+  {
+    border: none;
+    justify-content: center; /* Centraliza os elementos horizontalmente */
+    align-items: center; /* Centraliza os elementos verticalmente */
+    transition: transform 0.3s ease;
+    position: fixed;
+    display:grid;
+    top: 10px;
   } 
 
+  .LOGO0 IMG {
+    width: 60px;
+    height: 60px;
+  }
   .LOGOLogin img {
     width: 30px;
     height: 35px;

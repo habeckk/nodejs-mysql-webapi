@@ -48,17 +48,6 @@
   font-size: 12px;
 }
 
-button {
-  margin-top: 10px;
-  border: 1px solid var(--paleta31);
-  background-color: var(--paleta31);
-  color: var(--paleta30);
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
 button:hover {
   background-color: var(--paleta33);
   color: var(--paleta32);
