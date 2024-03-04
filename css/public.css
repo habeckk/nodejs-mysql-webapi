@@ -546,49 +546,63 @@
     z-index: 1;
   }
 
+  .status-buttons button:hover {
+    background-color: var(--paleta32);
+    color: var(--paleta33);
+    border: 1px solid var(--paleta33);
+  }
+
   .status-buttons button {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    box-sizing: border-box;
+    height: 40px;
     margin-left: 13px;
     margin-top: 5px;
+    background-color: var(--paleta33);
+    color: var(--paleta32);
+    border: 1px solid var(--paleta32);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
   }
 
   .menu-button:hover + .status-buttons,
   .status-buttons:hover {
     display: block; /* Mostra os status-buttons quando o mouse está sobre o menu-button ou os status-buttons */
   }
-
   .button-aguardando{
-    height: 25px;
     color: var(--paleta200);
     box-shadow: 1px 1px 5px var(--paleta1); /* Sombra 3D */
     background-color: var(--paleta10);
   }
   .button-atendendo{
-    height: 25px;
     color: var(--paleta201);
     box-shadow: 1px 1px 5px var(--paleta1); /* Sombra 3D */
     background-color: var(--paleta10);
   }
-
   .button-pronto{
-    height: 25px;
     color: var(--paleta202);
     box-shadow: 1px 1px 5px var(--paleta1); /* Sombra 3D */
     background-color: var(--paleta10);
   }
   .button-cancelado{
-    height: 25px;
     color: var(--paleta203);
     box-shadow: 1px 1px 5px var(--paleta1); /* Sombra 3D */
     background-color: var(--paleta10);
   }
   .button-folha{
-    height: 25px;
     color: var(--paleta201);
     box-shadow: 1px 1px 5px var(--paleta1); /* Sombra 3D */
     background-color: var(--paleta10);
   }
   .button-excluir{
-    height: 25px;
+    color: var(--paleta203);
+    box-shadow: 1px 1px 5px var(--paleta1); /* Sombra 3D */
+    background-color: var(--paleta10);
+  }
+  .button-fip{
     color: var(--paleta203);
     box-shadow: 1px 1px 5px var(--paleta1); /* Sombra 3D */
     background-color: var(--paleta10);
@@ -635,10 +649,6 @@ tr:hover td {
   color: var(--paleta33); /* Opcional: Muda a cor do texto */
 }
 }
-
-
-
-
 
 .menu-contexto {
   display: none;

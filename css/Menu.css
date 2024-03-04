@@ -1,13 +1,14 @@
 #dialog {
-    display:flex;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 20px;
-    padding: 14px;
-    margin-top:30px;
-    overflow-y: auto;
-    font-size: 12px;
-    flex-wrap: wrap;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 14px;
+  margin-top: 30px;
+  overflow-y: auto;
+  font-size: 12px;
+  justify-content: center; /* Centraliza os itens horizontalmente */
+  align-items: flex-start; /* Alinha os itens ao topo */
+}
 
   .card {
     width: auto;
