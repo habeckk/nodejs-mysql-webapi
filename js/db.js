@@ -24,6 +24,20 @@ async function selectCustomers() {
     }
 }
 
+async function selectLogin(username, password) {
+    try {
+        await sql.connect(config);
+        // Aqui você deve incluir lógica para verificar username e password
+        // Esta é apenas uma estrutura básica
+        const result = await sql.query`SELECT * FROM gdm_login WHERE username = ${username} AND password = ${password}`;
+        return result.recordset;
+    } catch (error) {
+        throw error;
+    } finally {
+        await sql.close();
+    }
+}
+
 async function insertCustomer(HRpedido, login, cc, maquina, item, operacao, lote, horario, status, calibrador, HRfinalizado, obs) {
     try {
         await sql.connect(config);
@@ -139,4 +153,4 @@ async function getItemByFipN(id) {
     }
 }
 
-module.exports = { selectCustomers, insertCustomer, updateStatus, excluirSetupUsiPorId, getMaquinasPorCentroCusto, getEtiquetas, insertEtq, buscarEtiquetaPorId, getItemByFipN, getFolhaProcessoItem };
+module.exports = { selectCustomers, insertCustomer, updateStatus, excluirSetupUsiPorId, getMaquinasPorCentroCusto, getEtiquetas, insertEtq, buscarEtiquetaPorId, getItemByFipN, getFolhaProcessoItem, selectLogin };

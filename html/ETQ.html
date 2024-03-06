@@ -10,9 +10,13 @@
     <div class="header">
         <h1>CENTRAL ETIQUETAS</h1>
 
-        <button class="LOGO0" type="button" onclick="carregarValores0()">
+        <button class="LOGO0" type="button" onclick="carregarValores()">
             <img src="/img/logoDocol.png" alt="Imagem 3D">
         </button>
+
+        <button class="LOGOLogin" type="button" onclick="carregarValores0()">
+            <img id="INFO1" class="imagem" src="" alt="imagem">
+        </button> 
 
         <div class="sidebar-buttons-container">
             <button class="sidebar-button" type="button" onclick="openForm()">Cadastrar Etiquetas</button>
@@ -268,6 +272,9 @@ function selecionarEtiqueta(id) {
         .catch(error => console.error('Erro ao buscar etiqueta:', error));
 }
 
+window.addEventListener('load', function() {
+    showSuccessMessage('3');
+});
 </script>
 <link rel="stylesheet" href="/css/public.css">
 <link rel="stylesheet" href="/css/etiquetas.css">

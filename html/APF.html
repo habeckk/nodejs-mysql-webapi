@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    
+    <title>APF</title>
+</head>
+<body>
+    
+    <div class="header">
+        <h1>FERRAMENTARIA</h1>
+        <button class="LOGO0" type="button" onclick="carregarValores()">
+            <img src="/img/logoDocol.png" alt="Imagem 3D">
+        </button> 
+
+        <button class="LOGOLogin" type="button" onclick="carregarValores0()">
+            <img id="INFO1" class="imagem" src="" alt="imagem">
+        </button> 
+
+        <div class="sidebar-buttons-container">
+            <button class="sidebar-button" type="button" onclick="openForm()">Apontamento</button>
+        </div>
+    </div>
+
+    <!-- Formulário sobreposto -->
+    <div class="overlay" id="overlay">
+        <div class="modal">
+            <h2>Apontamento</h2>
+            <form id="formNovoSetupUsi">
+                <label for="Ordem">Número da Ordem:</label>
+                <input type="text" id="Ordem" name="Ordem"><br>     
+                
+                <label for="operacao">Número da Operação:</label>
+                <input type="text" id="operacao" name="operacao"><br>                   
+                
+                <label for="operador">ID Operador:</label>
+                <input type="text" id="operador" name="operador"><br>        
+
+                <label for="turno">Turno:</label>
+                <select id="turno" name="turno"></select><br>
+                
+                <div class="hour">
+                    <label for="dt-inicio">Data Inicio:</label>
+                    <input type="date" id="dt-inicio" name="dt-inicio"><br>
+                    
+                    <label for="hr-inicio">Horário Inicio:</label>
+                    <input type="time" id="hr-inicio" name="hr-inicio"><br>
+     
+                    <label for="hr-fim">Horário Fim:</label>
+                    <input type="time" id="hr-fim" name="hr-fim"><br>
+                </div>
+
+                <label for="observacao">Observação:</label>
+                <textarea id="observacao" name="observacao"></textarea><br>
+                
+                <button type="submit">Solicitar</button>
+                <button type="button" onclick="closeForm()">Cancelar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        //-------------------------------------------------------------------------
+        const BASE_URL = 'http://localhost:5500';
+        //-------------------------------------------------------------------------
+
+        //___________________________________________________________________________________
+        // Adicione um evento de clique para cada botão de status
+        //___________________________________________________________________________________
+
+        function openForm() {
+            document.getElementById("overlay").style.display = "block";
+        }
+
+        function closeForm() {
+            document.getElementById("overlay").style.display = "none";
+        }
+        fetch('/json/data.json')
+        .then(response => response.json())
+        .then(data => {
+            // Chama uma função para preencher os campos do formulário com os dados do JSON
+            preencherCamposFormulario(data);
+        })
+        .catch(error => {
+            console.error('Erro ao carregar arquivo JSON:', error);
+        });
+    
+        function preencherCamposFormulario(data) {    
+            // Preenche o campo de operação com os dados do JSON
+            const operacaoSelect = document.getElementById('turno');
+            data.Turno.forEach(op => {
+                const option = document.createElement('option');
+                option.value = op;
+                option.textContent = op;
+                operacaoSelect.appendChild(option);
+            });
+        }
+
+        window.addEventListener('load', function() {
+            showSuccessMessage('3');
+        });
+
+        window.onload = function() {
+            const agora = new Date();
+            
+            // Formatando a data para YYYY-MM-DD
+            const dataAtual = agora.toISOString().split('T')[0];
+            
+            // Formatando a hora para HH:MM
+            const horaAtual = agora.toTimeString().split(' ')[0].substring(0, 5);
+
+            // Definindo os valores dos campos de data e hora
+            document.getElementById('dt-inicio').value = dataAtual;
+            document.getElementById('hr-inicio').value = horaAtual;
+
+            // Para o horário de fim, você pode querer definir um valor padrão
+            // ou calcular um tempo futuro. Exemplo: Adicionando 1 hora ao horário atual
+            const umaHoraMaisTarde = new Date(agora.getTime() + 60*60*1000);
+            const horaFim = umaHoraMaisTarde.toTimeString().split(' ')[0].substring(0, 5);
+            document.getElementById('hr-fim').value = horaFim;
+        }
+
+    </script>
+
+
+    <link rel="stylesheet" href="/css/public.css">
+
+    <script src="/js/PUBLIC.JS"></script>
+
+</body>
+</html>

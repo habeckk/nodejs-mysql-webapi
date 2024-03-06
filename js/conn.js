@@ -56,6 +56,23 @@ app.get('/pdfabrir/:fipN', async (req, res) => {
 //___________________________________________________________________________________
 // Rota para adicionar um novo cliente
 //___________________________________________________________________________________
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body; // Obtem username e password do corpo da requisição
+    try {
+        const result = await db.selectLogin(username, password);
+        if (result.length > 0) {
+            // Login bem-sucedido
+            res.status(200).json({ success: true, message: "Login bem-sucedido" });
+        } else {
+            // Falha no login
+            res.status(401).json({ success: false, message: "Credenciais inválidas" });
+        }
+    } catch (error) {
+        console.error('Erro ao tentar fazer login:', error);
+        res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+});
+
 app.post('/setupusi', async (req, res) => {
     const { HRpedido, login, cc, maquina, item, operacao, lote, horario, status, calibrador, HRfinalizado, obs} = req.body;
 
@@ -248,7 +265,6 @@ app.get('/getEtiquetaById/:id', async (req, res) => {
 //___________________________________________________________________________________
 // Inicia o servidor
 //___________________________________________________________________________________
-
 app.listen(port, () => {
     console.log(`API funcionando na porta ${port}`);
 });

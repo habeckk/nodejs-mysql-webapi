@@ -13,8 +13,12 @@
     
     <div class="header">
         <h1>SETUP USINAGEM</h1>
-        <button class="LOGO0" type="button" onclick="carregarValores0()">
+        <button class="LOGO0" type="button" onclick="carregarValores()">
             <img src="/img/logoDocol.png" alt="Imagem 3D">
+        </button> 
+
+        <button class="LOGOLogin" type="button" onclick="carregarValores0()">
+            <img id="INFO1" class="imagem" src="" alt="imagem">
         </button> 
 
         <div class="sidebar-buttons-container">
@@ -23,13 +27,6 @@
             <button class="sidebar-button" id="viewListBtn">Visualizar como Lista</button>
         </div>
     </div>
-
-    <!-- HTML para a mensagem de sucesso -->
-    <div id="successMessage" class="success-message">
-        <img src="/img/icons8-ok.svg" alt="Imagem de Sucesso" class="success-image">
-        <div class="success-text">Página Atualizada com Sucesso!</div>
-    </div>
-
 
     <div class="linha-separadora1"></div>
 
@@ -65,16 +62,16 @@
         </div>
 
     </div>
-      
-      <!-- Menu de contexto -->
-      <div id="menuContexto" class="menu-contexto">
-        <ul>
-          <li><a href="#acao1">Ação 1</a></li>
-          <li><a href="#acao2">Ação 2</a></li>
-          <li><a href="#acao3">Ação 3</a></li>
-          <!-- Adicione mais ações conforme necessário -->
-        </ul>
-      </div>
+    
+    <!-- Menu de contexto -->
+    <div id="menuContexto" class="menu-contexto">
+    <ul>
+        <li><a href="#acao1">Ação 1</a></li>
+        <li><a href="#acao2">Ação 2</a></li>
+        <li><a href="#acao3">Ação 3</a></li>
+        <!-- Adicione mais ações conforme necessário -->
+    </ul>
+    </div>
 
     <div id="pedidosContainer"></div>
     <!-- Restante do seu HTML -->
@@ -355,13 +352,7 @@
                 const data = await response.json();
                 console.log('Resposta do servidor:', data);
 
-                // Exiba a mensagem de sucesso após o envio bem-sucedido do formulário
-                const successMessage = document.getElementById('successMessage');
-                successMessage.style.display = 'block'; // Exibe a mensagem
-
-                setTimeout(() => {
-                    successMessage.style.display = 'none'; // Oculta a mensagem após 2 segundos
-                }, 500);
+                showSuccessMessage('4');
 
                 closeForm();
                 atualizarDados();
@@ -622,25 +613,18 @@ document.getElementById('centro-custo').addEventListener('change', function() {
 //___________________________________________________________________________________
             window.addEventListener('load', function() {
                 atualizarDados();
-
+                console.log("teste")
+                showSuccessMessage('1');
                 // Atualize os dados a cada 5 minutos
                 setInterval(atualizarDados, 1 * 60 * 1000); // 5 minutos * 60 segundos * 1000 milissegundos
-            });                
-
-            // Após enviar a solicitação, exiba a mensagem personalizada e oculte-a após 2 segundos
-            const successMessage = document.getElementById('successMessage');
-            successMessage.style.display = 'block'; // Exibe a mensagem
-
-            setTimeout(() => {
-                successMessage.style.display = 'none'; // Oculta a mensagem após 2 segundos
-            }, 500);
-
+            });
+        
     </script>
 
     <link rel="stylesheet" href="/css/public.css">
     <link rel="stylesheet" href="/css/SSU.css">
     <script src="/js/SSU.js"></script>
-    <script src="/js/PUBLIC.JS"></script>
+    <script src="/js/public.js"></script>
 
 </body>
 </html>

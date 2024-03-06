@@ -57,21 +57,18 @@ function updateCardPositions(draggedIndex, targetIndex) {
   // Imprime as posições dos cards no console
   console.log(cardPositions);
 }
+
+
 function saveCardPositions() {
   localStorage.setItem('cardPositions', JSON.stringify(cardPositions));
 }
-function carregarValores2() {
+
+function carregarValores1() {
   window.location.href = '/html/SSU.html'
 }
-function carregarValores3() {
-  window.location.href = '/html/usinagem_setup.html'
-}
-function carregarValores7() {
-  window.location.href = '/html/gravartela.html'
-}
-function carregarValores6() {
+function carregarValores2() {
   window.location.href = '/html/ETQ.html'
 }
-function carregarValores8() {
-  window.location.href = '/Teste/app.html'
+function carregarValores3() {
+  window.location.href = '/html/APF.html'
 }

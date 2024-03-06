@@ -74,13 +74,14 @@
   overflow: hidden; /* Oculta o conteúdo que ultrapassa as linhas especificadas */
 }
 .card-image-container {
-    width: 300px; /* Largura do retângulo */
-    height: 150px; /* Altura do retângulo */
-    overflow: hidden; /* Esconde qualquer parte da imagem que exceda o tamanho do contêiner */
-    display: flex; /* Usa Flexbox para centralizar a imagem */
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    border: 1px solid var(--paleta12); /* Adiciona uma borda ao contêiner, se desejar */
+  border-radius: 8px;
+  width: 300px; /* Largura do retângulo */
+  height: 150px; /* Altura do retângulo */
+  overflow: hidden; /* Esconde qualquer parte da imagem que exceda o tamanho do contêiner */
+  display: flex; /* Usa Flexbox para centralizar a imagem */
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  border: 1px solid var(--paleta11); /* Adiciona uma borda ao contêiner, se desejar */
 }
 
 .card-image-container img {

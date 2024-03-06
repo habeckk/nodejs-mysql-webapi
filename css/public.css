@@ -16,7 +16,7 @@
     --paleta9: #2b2b2baa;  /* fundo Formulário*/
     --paleta10: #f9f9f9;   /* fundo Formulário*/
     --paleta11:  #ccc;     /* Borda dos campos do Formulário*/
-    --paleta12:  rgb(222, 222, 222);/* Borda dos campos do Formulário*/
+    --paleta12:  #00a9e0;/* Borda dos campos do Formulário*/
 
 /* -------------------------- Cores Botões -------------------------------   */
     --paleta30:  #00a9e0;/* Cor da fonte color Button*/    
@@ -90,7 +90,7 @@
   .header h1 {
     position:absolute;
     height: auto;
-    width: 230px;
+    width: 280px;
     top: 16%; /* Altere as unidades de medida conforme necessário */
     left: 50%; /* Altere as unidades de medida conforme necessário */
     transform: translate(-50%, -50%);
@@ -145,8 +145,8 @@
     display:grid;
     top: 0px;
   }
-  .LOGO0
-  {
+  
+  .LOGO0 {
     border: none;
     justify-content: center; /* Centraliza os elementos horizontalmente */
     align-items: center; /* Centraliza os elementos verticalmente */
@@ -160,47 +160,28 @@
     width: 60px;
     height: 60px;
   }
+  
   .LOGOLogin img {
-    width: 30px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
   }
 
   .LOGOLogin {
+    background-color: var(--paleta1);
+    border: none;
     position: absolute;
-    width: 40px;
-    height: 45px;
     right: 0px; /* Posiciona o botão no lado direito do contêiner */
     top: 0px; /* Posiciona o botão no topo do contêiner */
-    justify-content: center; /* Centraliza os elementos horizontalmente */
-    align-items: center; /* Centraliza os elementos verticalmente */
-    background-color: var(--paleta4); /*cor de fundo do card*/
-    padding: 5px; /*Tamanho do card*/
-    box-shadow: 4px 4px 8px var(--paleta3); /* Sombra 3D */
-    border: 1px solid var(--paleta4);
-    border-radius: 10px;
   }
-
+  .LOGOLogin:hover {
+    transform: scale(1.1); /* Aumenta a escala da foto ao passar o mouse sobre ela */
+    filter: grayscale(70%); /* Converte a foto para escala de cinza */
+  }
   .Borda1 label{
     font-size: 40px;
     color: var(--paleta6);
   }
 
-  /* Estilo para a mensagem de sucesso */
-  .success-message {
-    position: fixed;
-    height: 120px;
-    width: 300px;
-    top: 50%; /* Altere as unidades de medida conforme necessário */
-    left: 50%; /* Altere as unidades de medida conforme necessário */
-    transform: translate(-50%, -50%);
-    background-color: #4CAF50;
-    color: var(--paleta6);
-    padding: 15px;
-    border-radius: 10px;
-    z-index: 1000; /* Garanta que a mensagem apareça na frente de outros elementos */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
-    text-align: center;
-  }
   /* ________________________________________________________________________________________________*/
   /*-------📌 Botões Cabeçario 📌-------*/
   /* ________________________________________________________________________________________________*/
@@ -227,7 +208,7 @@
   .sidebar-button:hover {
     background-color: var(--paleta30);
     color: var(--paleta33);
-    border: 1px solid var(--paleta30);
+    border: 1px solid var(--paleta33);
   }
 
   /* Estilo para o texto na mensagem de sucesso */
@@ -241,29 +222,40 @@
     top: 10px; /* Adicione unidades de medida */
     left: 50%; /* Adicione unidades de medida */
     transform: translateX(-50%);
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+  }
+  /* Estilo para a mensagem de sucesso */
+  .success-message {
+    position: fixed;
+    height: 120px;
+    width: 300px;
+    top: 50%; /* Altere as unidades de medida conforme necessário */
+    left: 50%; /* Altere as unidades de medida conforme necessário */
+    transform: translate(-50%, -50%);
+    background-color: var(--paleta5);
+    color: var(--paleta7);
+    padding: 15px;
+    border-radius: 10px;
+    z-index: 1000; /* Garanta que a mensagem apareça na frente de outros elementos */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+    text-align: center;
   }
   /* ________________________________________________________________________________________________*/
   /*-------📌 Formulário para solicitação | Cadastro 📌-------*/
   /* ________________________________________________________________________________________________*/
   /* Estilos para o overlay */
-  .overlay {
-    color: var(--paleta6);
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--paleta9);
-    z-index: 1000;
-  }
+  .overlay,
   .overlay1 {
-    color: var(--paleta6);
     display: none;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    box-sizing: border-box;
+
+    color: var(--paleta6);
     position: fixed;
     top: 0;
     left: 0;
@@ -272,6 +264,7 @@
     background-color: var(--paleta9);
     z-index: 1000;
   }
+
   /* Estilos para animação */
   @keyframes fadeIn {
     from {
@@ -311,19 +304,19 @@
   }
 
   .modal h2 {
+    margin-top: 0px;
     font-size: 24px;
-    margin-bottom: 5px;
     color: var(--paleta8);
   }
 
   .modal label {
-    display: block;
     margin-bottom:2px;
     font-weight: bold;
   }
 
   .modal input[type="text"],
   .modal textarea{
+    text-align: center; /* Centraliza o texto horizontalmente */
     width: 95%;
     padding: 8px;
     margin-bottom: 10px;
@@ -333,33 +326,59 @@
   }
 
   .modal select {
+    text-align: center; /* Centraliza o texto horizontalmente */
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
-    border: 1px solid var(--paleta10);
+    background-color: var(--paleta10); /* Cor de fundo */
+    border: 1px solid var(--paleta11); /* Borda */
     border-radius: 4px;
     font-size: 16px;
   }
-  .modal label[for="hora"] {
-    display: block; /* Torna o label um elemento de bloco */
+  
+  input[type="date"] {
     text-align: center; /* Centraliza o texto horizontalmente */
-    margin-bottom: 5px; /* Adiciona um espaço entre o label e o campo de hora */
+    background-color: var(--paleta10); /* Cor de fundo */
+    border: 1px solid var(--paleta11); /* Borda */
+    padding: 8px; /* Espaçamento interno */
+    font-size: 16px; /* Tamanho da fonte */
+    border-radius: 4px; /* Arredondamento da borda */
+}
+  .hour {
+    padding: 5px;
+    border: 1px solid var(--paleta7);
+    border-radius: 10px;
+    text-align: end;
+  }
+  /* Estilizando o foco do campo de data */
+  input[type="date"]:focus,
+  input[type="text"]:focus,
+  textarea:focus,
+  select:focus,
+  input[type="time"]:focus{
+    border-color: var(--paleta7); /* Cor da borda ao focar */
+    outline: none; /* Remove o contorno padrão */
+    box-shadow: 0 0 0 0.05rem var(--paleta7); /* Sombra ao redor do campo */
+    text-align: center; /* Centraliza o texto horizontalmente */
+  }
+  
+  .modal label[for="hora"] {
+    text-align: center; /* Centraliza o texto horizontalmente */
   }
   /* Estilizando o campo de hora */
   .modal input[type="time"] {
+    margin-top: 5px;
+    background-color: var(--paleta10); /* Cor de fundo */
+    border: 1px solid var(--paleta11); /* Borda */
     width: 35%; /* Reduzindo a largura para 50% */
-    padding: 10px;
-    margin: 0 auto; /* Centralizando horizontalmente */
-    border: 1px solid var(--paleta10);
+    padding: 5px;
     border-radius: 4px;
     font-size: 20px;
-    /* Adicionando espaçamento interno para o texto dentro do campo de hora */
-    padding-left: 8px;
-    display: block; /* Certificando-se de que o input é exibido como bloco */
   }
 
 
   .modal textarea {
+    margin-bottom: 5px; /* Adiciona um espaço entre o label e o campo de hora */
     height: 50px;
   }
 

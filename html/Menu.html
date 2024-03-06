@@ -12,11 +12,11 @@
 
     <div class="header">
         
-      <button class="LOGO0" type="button" onclick="carregarValores0()">
+      <button class="LOGO0" type="button" onclick="carregarValores()">
         <img src="/img/logoDocol.png" alt="Imagem 3D">
       </button> 
 
-      <button class="LOGOLogin" type="button" onclick="carregarValores1()">
+      <button class="LOGOLogin" type="button" onclick="carregarValores0()">
         <img id="INFO1" class="imagem" src="" alt="imagem">
       </button> 
 
@@ -28,7 +28,7 @@
     <div id="dialog" class="dialog">
 
           <div class="card" draggable="true">        
-              <button onclick="carregarValores2()">
+              <button onclick="carregarValores1()">
                 <h1>
                   <img id="ImgButton" src="/img/icons8-carrinho.png" alt="button">
                 </h1>
@@ -37,19 +37,39 @@
           </div> 
 
           <div class="card" draggable="true">                     
-            <button onclick="carregarValores6()">
+            <button onclick="carregarValores2()">
+              <h1>
+                <img id="ImgButton" src="/img/icons8-impressora.png" alt="button">                                                      
+              </h1>
+              Etiquetas
+            </button>      
+          </div> 
+
+        <div class="card" draggable="true">                     
+          <button onclick="carregarValores3()">
             <h1>
-              <img id="ImgButton" src="/img/icons8-impressora.png" alt="button">                                                      
+              <img id="ImgButton" src="/img/icons8-agenda-96.png" alt="button">                                                      
             </h1>
-            Etiquetas
+            Apontamento Ferramentaria
           </button>      
         </div> 
 
-        </div>
+      </div>
+
+      <script>
+        window.onload = () => {
+            // Verificar se o usuário está autenticado
+            const usuarioLogado = localStorage.getItem('usuarioLogado');
+            if (usuarioLogado !== 'true') {
+                // Usuário não está autenticado; redirecionar para a página de login
+                window.location.href = '/login.html';
+            }
+        };
+
+      </script>
 
       <link rel="stylesheet" href="/css/public.css">
       <link rel="stylesheet" href="/css/Menu.css"/>
-      <script src="/js/Menu.js"></script>
       <script src="/js/tempo.js"></script>
       <script src="/js/PUBLIC.JS"></script>
       <script src="/js/Menu.js"></script>

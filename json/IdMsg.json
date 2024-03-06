@@ -7,8 +7,44 @@
     },
     {
         "IdMsg": "2",
-        "tipo": "erro",
+        "tipo": "sucesso",
         "descricao": "Status alterado com Sucesso.",
         "caminhoImagem": "/img/icons8-ok.svg"
+    },
+    {
+        "IdMsg": "3",
+        "tipo": "erro",
+        "descricao": "Página Atualizada com Sucesso!",
+        "caminhoImagem": "/img/icons8-ok.svg"
+    },
+    {
+        "IdMsg": "4",
+        "tipo": "erro",
+        "descricao": "Página Atualizada com Sucesso!",
+        "caminhoImagem": "/img/icons8-erro-96.png"
+    },
+    {
+        "IdMsg": "5",
+        "tipo": "sucesso",
+        "descricao": "Solicitado com Sucesso!",
+        "caminhoImagem": "/img/icons8-ok.svg"
+    },
+    {
+        "IdMsg": "6",
+        "tipo": "sucesso",
+        "descricao": "Login feito com Sucesso",
+        "caminhoImagem": "/img/icons8-ok.svg"
+    },
+    {
+        "IdMsg": "7",
+        "tipo": "sucesso",
+        "descricao": "Logout feito com Sucesso!",
+        "caminhoImagem": "/img/icons8-ok.svg"
+    },
+    {
+        "IdMsg": "8",
+        "tipo": "sucesso",
+        "descricao": "Usuário não Cadastrado!",
+        "caminhoImagem": "/img/icons8-excluir.svg"
     }
 ]
