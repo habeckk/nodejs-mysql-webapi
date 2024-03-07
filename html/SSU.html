@@ -390,6 +390,7 @@
                                 },
                                 body: JSON.stringify({ status: status })
                             })
+                            
                             .then(response => {
                                 if (response.ok) {
                                     console.log(`Status atualizado para ${status} com sucesso.`);

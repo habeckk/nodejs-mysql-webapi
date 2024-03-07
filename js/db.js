@@ -12,18 +12,6 @@ const config = {
     }
 };
 
-async function selectCustomers() {
-    try {
-        await sql.connect(config);
-        const result = await sql.query`SELECT * FROM setupusi`;
-        return result.recordset;
-    } catch (error) {
-        throw error;
-    } finally {
-        await sql.close();
-    }
-}
-
 async function selectLogin(username, password) {
     try {
         await sql.connect(config);
@@ -38,12 +26,56 @@ async function selectLogin(username, password) {
     }
 }
 
+async function insertferr_apont( login, n_op, n_ope, n_user, n_tur, trab_real, uni_trab, conf_final, data_lanc, data_ini, hora_ini, data_fim, hora_fim, status, obs) {
+    try {
+        await sql.connect(config);
+        const result = await sql.query`INSERT INTO gdm_ferra_apont ( login, n_op, n_ope, n_user, n_tur, trab_real, uni_trab, conf_final, data_lanc, data_ini, hora_ini, data_fim, hora_fim, status, obs) 
+                                    VALUES (${login}, ${n_op}, ${n_ope}, ${n_user}, ${n_tur}, ${trab_real}, ${uni_trab}, ${conf_final}, ${data_lanc}, ${data_ini}, ${hora_ini}, ${data_fim}, ${hora_fim}, ${status}, ${obs})`;
+        return result;
+    } catch (error) {
+        throw error;
+    } finally {
+        await sql.close();
+    }
+}
+
+async function selectferr_apont() {
+    try {
+        await sql.connect(config);
+        const result = await sql.query`SELECT * FROM gdm_ferra_apont`;
+        return result.recordset;
+    } catch (error) {
+        throw error;
+    } finally {
+        await sql.close();
+    }
+}
+
+async function update_ferr_apont(id, conf_final, data_lanc, data_ini, hora_ini, data_fim, hora_fim, status, obs) {
+    await sql.connect(config);
+    // A query de atualização precisa ser ajustada conforme a estrutura do seu banco de dados e os nomes das colunas
+    const result = await sql.query`UPDATE gdm_ferra_apont SET conf_final = ${conf_final}, data_lanc = ${data_lanc}, data_ini = ${data_ini}, hora_ini = ${hora_ini}, data_fim = ${data_fim}, hora_fim = ${hora_fim}, status = ${status}, obs = ${obs} WHERE Id = ${id}`;
+    return result;
+}
+
 async function insertCustomer(HRpedido, login, cc, maquina, item, operacao, lote, horario, status, calibrador, HRfinalizado, obs) {
     try {
         await sql.connect(config);
         const result = await sql.query`INSERT INTO setupusi (HRpedido, login, cc, maquina, item, operacao, lote, horario, status, calibrador, HRfinalizado, obs) 
                                     VALUES (${HRpedido}, ${login}, ${cc}, ${maquina}, ${item}, ${operacao}, ${lote}, ${horario}, ${status}, ${calibrador}, ${HRfinalizado}, ${obs})`;
         return result;
+    } catch (error) {
+        throw error;
+    } finally {
+        await sql.close();
+    }
+}
+
+async function selectCustomers() {
+    try {
+        await sql.connect(config);
+        const result = await sql.query`SELECT * FROM setupusi`;
+        return result.recordset;
     } catch (error) {
         throw error;
     } finally {
@@ -153,4 +185,18 @@ async function getItemByFipN(id) {
     }
 }
 
-module.exports = { selectCustomers, insertCustomer, updateStatus, excluirSetupUsiPorId, getMaquinasPorCentroCusto, getEtiquetas, insertEtq, buscarEtiquetaPorId, getItemByFipN, getFolhaProcessoItem, selectLogin };
+module.exports = { selectCustomers,
+    insertCustomer,
+    updateStatus,
+    excluirSetupUsiPorId, 
+    getMaquinasPorCentroCusto, 
+    getEtiquetas, 
+    insertEtq, 
+    buscarEtiquetaPorId, 
+    getItemByFipN, 
+    getFolhaProcessoItem, 
+    selectLogin, 
+    insertferr_apont, 
+    selectferr_apont,
+    update_ferr_apont
+};

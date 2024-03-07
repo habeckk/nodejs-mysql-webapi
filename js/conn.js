@@ -72,7 +72,45 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ error: 'Erro interno do servidor' });
     }
 });
+//___________________________________________________________________________________
+// Salvar Apontamento ferramentaria
+//___________________________________________________________________________________
+app.post('/ferr_apont', async (req, res) => {
+    const { login, n_op, n_ope, n_user, n_tur, trab_real, uni_trab, conf_final, data_lanc, data_ini, hora_ini, data_fim, hora_fim, status, obs} = req.body;
 
+    try {
+        const result = await db.insertferr_apont( login, n_op, n_ope, n_user, n_tur, trab_real, uni_trab, conf_final, data_lanc, data_ini, hora_ini, data_fim, hora_fim, status, obs);
+        res.status(201).json({ message: 'Apontamento adicionado com sucesso', id: result.insertId });
+    } catch (error) {
+        console.error('Erro ao adicionar Apontamento:', error);
+        res.status(500).json({ error: 'Erro ao adicionar Apontamento' });
+    }
+});
+app.get('/ferr_apont', async (req, res) => {
+    try {
+        const setups = await db.selectferr_apont(); // Chame a função que obtém os setups do banco de dados
+        res.status(200).json(setups); // Envie os setups obtidos como resposta
+    } catch (error) {
+        console.error('Erro ao buscar Apontamento:', error);
+        res.status(500).json({ error: 'Erro ao buscar Apontamento' });
+    }
+});
+
+app.put('/ferr_apont/:id', async (req, res) => {
+    const { id } = req.params;
+    const { conf_final, data_lanc, data_ini, hora_ini, data_fim, hora_fim, status, obs } = req.body;
+
+    try {
+        const result = await update_ferr_apont(id, conf_final, data_lanc, data_ini, hora_ini, data_fim, hora_fim, status, obs);
+        res.status(200).json({ message: 'Apontamento atualizado com sucesso.', id: result });
+    } catch (error) {
+        console.error('Erro ao atualizar o apontamento:', error);
+        res.status(500).json({ error: 'Erro interno ao atualizar o apontamento.' });
+    }
+});
+//___________________________________________________________________________________
+// salvar setup
+//___________________________________________________________________________________
 app.post('/setupusi', async (req, res) => {
     const { HRpedido, login, cc, maquina, item, operacao, lote, horario, status, calibrador, HRfinalizado, obs} = req.body;
 

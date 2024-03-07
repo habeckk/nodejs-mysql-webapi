@@ -1,9 +1,7 @@
-* {
-    padding: 0;
-    font-family: 'Roboto', sans-serif;
-  }
-
+/*📌📌📌_______________________________________________ Paleta de Cores _________________________________________________📌📌📌*/
 :root {
+    --paleta0: 0.7px 0.7px 0.7px #000;/* Borda da fonte */
+
     --paleta1: #616366;/* Borda 1 */
     --paleta2: #7b3d1e;/* Borda 1 */
     --paleta3: #768d9d;
@@ -51,7 +49,12 @@
     --paleta303:  rgba(37, 37, 37, 0.336);/* border-color (menu-button )*/
     --paleta304:  #4b4b4bda;/* border-color (menu-button )*/
 
-
+/*📌📌📌_________________________________________________________________________________________________________________📌📌📌*/
+/*📌📌📌_______________________________________________ Corpo da Página _________________________________________________📌📌📌*/
+* {
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+  }
 
   body {
     background: linear-gradient(to bottom, var(--paleta4), var(--paleta5));
@@ -66,6 +69,18 @@
     margin-bottom: 25px; /*distância dos objetos*/
   }
 
+  #pedidosContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--min-card-width), 1fr));
+    gap: 10px;
+    padding: 20px;
+    margin-top: 10px;
+    margin-left: 0px;
+    margin-right: 10px;
+}
+
+/*📌📌📌__________________________________________________________________________________________________________________📌📌📌*/
+/*📌📌📌_______________________________________________ Cabeçario Padrão _________________________________________________📌📌📌*/
   .header {
     align-items: center; /* Centraliza verticalmente o conteúdo */
     height: 115px;
@@ -88,6 +103,7 @@
   }
 
   .header h1 {
+    text-shadow: var(--paleta0); /* Sombra no texto para melhorar a leitura */
     position:absolute;
     height: auto;
     width: 280px;
@@ -106,6 +122,7 @@
   }
 
   .titulo-escopo {
+    text-shadow: 0.7px 0.7px 0.7px #000; /* Sombra no texto para melhorar a leitura */
     height: auto;
     width: 400px;
     margin-top: 70px;
@@ -119,15 +136,10 @@
     font-family: Arial, sans-serif; /* Define a família da fonte */
     line-height: 1.5; /* Define a altura da linha para melhorar a legibilidade */
   }
-  /* ________________________________________________________________________________________________*/
-  /* Estilos do cabeçalho */
+
   .LOGO1 IMG {
     width: 60px;
     height: 65px;
-  }
-
-  button {
-    cursor: pointer;
   }
 
   .LOGO1
@@ -182,9 +194,7 @@
     color: var(--paleta6);
   }
 
-  /* ________________________________________________________________________________________________*/
   /*-------📌 Botões Cabeçario 📌-------*/
-  /* ________________________________________________________________________________________________*/
   .sidebar-buttons-container {
     margin-top: 70px; /* Ajuste a margem do topo conforme necessário */
     display: flex;
@@ -193,6 +203,7 @@
   }
 
   .sidebar-button {
+    text-shadow: var(--paleta0); /* Sombra no texto para melhorar a leitura */
     margin-bottom: 0px; /* Espaçamento entre os botões */
     border-radius: 4px;
     width: 160px; /* Ajuste a largura conforme necessário */
@@ -211,6 +222,7 @@
     border: 1px solid var(--paleta33);
   }
 
+/*📌📌📌________________________________________________________________________________________________📌📌📌*/
   /* Estilo para o texto na mensagem de sucesso */
   .success-text {
     margin-top: 70px; /* Espaço entre a imagem e o texto */
@@ -243,10 +255,8 @@
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
     text-align: center;
   }
-  /* ________________________________________________________________________________________________*/
-  /*-------📌 Formulário para solicitação | Cadastro 📌-------*/
-  /* ________________________________________________________________________________________________*/
-  /* Estilos para o overlay */
+/*📌📌📌__________________________________________________________________________________________________________________📌📌📌*/
+/* __________________________________________________________ Formulários _________________________________________________________*/
   .overlay,
   .overlay1 {
     display: none;
@@ -359,7 +369,6 @@
     border-color: var(--paleta7); /* Cor da borda ao focar */
     outline: none; /* Remove o contorno padrão */
     box-shadow: 0 0 0 0.05rem var(--paleta7); /* Sombra ao redor do campo */
-    text-align: center; /* Centraliza o texto horizontalmente */
   }
   
   .modal label[for="hora"] {
@@ -367,13 +376,14 @@
   }
   /* Estilizando o campo de hora */
   .modal input[type="time"] {
+    text-align: center; /* Centraliza o texto horizontalmente */
     margin-top: 5px;
     background-color: var(--paleta10); /* Cor de fundo */
     border: 1px solid var(--paleta11); /* Borda */
     width: 35%; /* Reduzindo a largura para 50% */
     padding: 5px;
     border-radius: 4px;
-    font-size: 20px;
+    font-size: 16px;
   }
 
 
@@ -383,6 +393,7 @@
   }
 
   .modal button {
+    text-shadow: var(--paleta0); /* Sombra no texto para melhorar a leitura */
     padding: 10px 20px;
     background-color: var(--paleta33);
     color: var(--paleta32);
@@ -407,9 +418,10 @@
     max-width: 100%; /* Impede que o input ultrapasse o contêiner */
     box-sizing: border-box; /* Garante que paddings e bordas estejam incluídos na largura total */
   }
-  /* ________________________________________________________________________________________________*/
-  /*-------📌 Estilo para o botão dentro do cartão 📌-------*/
-  /* ________________________________________________________________________________________________*/
+  
+/*📌📌📌__________________________________________________________________________________________________________________📌📌📌*/
+/* _______________________________________________ Estilo do cartão setup _________________________________________________________*/
+
   .card1 {
     width: 170px; /* Ajuste a largura conforme necessário */
     margin: 10px;
@@ -443,7 +455,7 @@
   border-color: var(--paleta201);
 }
 
-.card1.pronto, .status-pronto {
+.card1.pronto, .status-pronto, .status-finalizado {
   box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
   background-color: var(--paleta102);
   border-color: var(--paleta202);
@@ -455,7 +467,7 @@
   border-color: var(--paleta203);
 }
 
-.card1.esperando, .status-esperando {
+.card1.esperando, .status-esperando, .status-aberto{
   box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
   background-color: var(--paleta104);
   border-color: var(--paleta204);
@@ -473,7 +485,6 @@
   border-color: var(--paleta206);
 }
 
-  /* ________________________________________________________________________________________________*/
   /* ________________________________________________________________________________________________*/
   /* Adicione estilos para outras classes conforme necessário */
   .info0 {
@@ -626,23 +637,28 @@
     box-shadow: 1px 1px 5px var(--paleta1); /* Sombra 3D */
     background-color: var(--paleta10);
   }
+/*📌📌📌__________________________________________________________________________________________________________________📌📌📌*/
+/*_______________________________________________ Estilo das tabelas de dados (LISTA)  _____________________________________________*/
 
+.thead {
+  border-bottom: 1px solid var(--paleta32); /* Borda inferior para separar as linhas */
+}
 
-  /* Estilo para o cabeçalho da tabela */
 th {
-  border-radius: 10px;
-  background-image: linear-gradient(to right, var(--paleta300), var(--paleta301)); /* Gradiente */
+  font-size: 10px;
+  border-radius: 0px;
+  background: var(--paleta1); /* Gradiente */
   color: white; /* Cor do texto */
   text-shadow: 1px 1px 1px #000; /* Sombra no texto para melhorar a leitura */
-  padding: 10px; /* Espaçamento interno */
-  box-shadow: 0px 3px 5px rgba(0,0,0,0.2); /* Sombra para efeito 3D */
-  border-bottom: 3px solid var(--paleta302); /* Borda para efeito 3D mais pronunciado */
+  padding: 5px; /* Espaçamento interno */
+  box-shadow: 0px 5px 10px var(--paleta1); /* Sombra mais pronunciada para efeito 3D elevado */
 }
 
 /* Estilo para as células da tabela */
 td {
-  padding: 5px; /* Espaçamento interno */
-  border-bottom: 1px solid #ddd; /* Borda inferior para separar as linhas */
+  font-size: 12px;
+  padding: 1px; /* Espaçamento interno */
+  border-bottom: 1px solid var(--paleta32); /* Borda inferior para separar as linhas */
   position: relative; /* Necessário para o pseudo-elemento */
 }
 
@@ -652,23 +668,22 @@ td::after {
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 2px;
-  background: var(--paleta303); /* Cor de fundo para o pseudo-elemento */
-  box-shadow: 0px 2px 2px rgba(0,0,0,0.1); /* Sombra para efeito 3D */
+  height: 1px;
 }
+
 th:hover {
-  border-radius: 10px;
-  background-image: linear-gradient(to right, var(--paleta31), var(--paleta32)); /* Altera o gradiente */
+  background:  var(--paleta1); /* Altera o gradiente */
+  color:  var(--paleta7); /* Altera o gradiente */
   cursor: pointer; /* Muda o cursor para indicar interatividade */
   box-shadow: 0px 5px 10px var(--paleta1); /* Sombra mais pronunciada para efeito 3D elevado */
 }
 tr:hover td {
-  background-color: var(--paleta306); /* Muda a cor de fundo da linha */
-  box-shadow: inset 0px 0px 30px  var(--paleta1); /* Sombra interna para um efeito sutil */
-  color: var(--paleta33); /* Opcional: Muda a cor do texto */
+  background-color: var(--paleta32); /* Muda a cor de fundo da linha */
+  box-shadow: inset 0px 0px 20px  var(--paleta32); /* Sombra interna para um efeito sutil */
+  color: var(--paleta5); /* Opcional: Muda a cor do texto */
 }
 }
-
+/*_______________________________________________ Estilo dos menus das tabelas de dados (LISTA)  _____________________________________________*/
 .menu-contexto {
   display: none;
   position: absolute;
@@ -695,4 +710,61 @@ tr:hover td {
 
 .menu-contexto ul li a:hover {
   background-color: #f1f1f1;
+}
+
+/*📌📌📌__________________________________________________________________________________________________________________📌📌📌*/
+/*___________________________________________ Estilo para o botão switch (FORMULÁRIOS)  ___________________________________________*/
+.switch {
+  position: relative;
+  width: 60px;
+  height: 34px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  margin-left: 40%;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch label {
+  border-radius: 15px;
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .6s;
+  transition: .6s;
+}
+
+.switch label:before {
+  border-radius: 15px;
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 3px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + label {
+  background-color: var(--paleta7);
+}
+
+input:focus + label {
+  box-shadow: 0 0 1px var(--paleta7);
+}
+
+input:checked + label:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
 }

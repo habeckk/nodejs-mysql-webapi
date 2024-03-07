@@ -1,12 +1,8 @@
-#pedidosContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
-    gap: 10px;
-    padding: 20px;
-    margin-top: 10px;
-    margin-left: 0px;
-    margin-right: 10px;
+/*📌--min-card-width é a variável que define a largura mínima dos cartões, e o valor padrão é 165px.📌*/
+:root {
+    --min-card-width: 165px; /* Valor padrão */
 }
+
 .modal1 {
     display: none;
     position: fixed;
