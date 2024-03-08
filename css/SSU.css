@@ -1,213 +1,69 @@
-#pedidosContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
-    gap: 10px;
-    padding: 20px;
-    margin-top: 10px;
-    margin-left: 0px;
-    margin-right: 10px;
-  }/* ________________________________________________________________________________________________*/
-/*-------📌 Estilo para o botão dentro do cartão 📌-------*/
-/* ________________________________________________________________________________________________*/
-.card {
-    width: 170px; /* Ajuste a largura conforme necessário */
-    margin: 10px;
-    height: 350px;
-    border-radius: 20px;
-    border: 1px solid #ddd;
-    transition: transform 0.3s ease; /* Adiciona uma transição suave para a propriedade transform */
-    font-family: Arial, Helvetica, sans-serif;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    box-sizing: border-box;
+/*📌--min-card-width é a variável que define a largura mínima dos cartões, e o valor padrão é 165px.📌*/
+:root {
+    --min-card-width: 165px; /* Valor padrão */
 }
 
-/* Adiciona uma transformação de escala quando o mouse passa por cima */
-.card:hover {
-    transform: scale(1.03); /* Aumenta a escala em 5% */
-}
-
-/* Estilos para diferentes status */
-.card.atendendo {
-    box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.9); /* Sombra 3D */
-    background-color: #f39d1277;
-    border-color: #815103;
-}
-
-.card.aguardando {
-    box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.5); /* Sombra 3D */
-    background-color: #3498db77;
-    border-color: #005288;
-}
-
-.card.pronto {
-    box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.5); /* Sombra 3D */
-    background-color: #2ecc7077;
-    border-color: #028037;
-}
-
-.card.cancelado {
-    box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.5); /* Sombra 3D */
-    background-color: #b9050577;
-    border-color: #580101;
-}
-.card.esperando {
-    box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.5); /* Sombra 3D */
-    background-color: #b3b90577;
-    border-color: #515402e5;
-}
-.card.parado {
-    box-shadow: 1px 3px 15px rgba(0, 0, 0, 0.5); /* Sombra 3D */
-    background-color: #e0470077;
-    border-color: #842a01e4;
-}
-/* ________________________________________________________________________________________________*/
-/* ________________________________________________________________________________________________*/
-/* Adicione estilos para outras classes conforme necessário */
-.info0 {
-    margin-top: -3px;
-    text-align: center;
-}
-
-.linha-separadora {
-    margin-top: -21px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 95%;
-    height: 1px;
-    background-color: rgba(13, 14, 15, 0.411); /* Cor de fundo da linha */
-}
-.info-line {
-    font-weight: bold;
-    text-align:center;
-    font-size: 18px;
-    width: 180px;
-    height: 230px
-}
-.info-line1 {
-    margin-left: 5px;
-    width: 160px;
-    font-size: 12px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3; /* Número máximo de linhas */
-    -webkit-box-orient: vertical;
-    transition: max-height 0.5s, overflow 0.5s; /* Adiciona uma transição suave */
-}
-.infoId {
-    margin-top: -24px;
-    margin-bottom: 25px;
-    margin-left: 130px;
-    font-weight: bold;
-}
-
-.info-line1:hover {
-    background-color: #00000054;
-    border-radius: 10px;
-    height: 100px;
-    overflow: visible;
-    white-space: normal;
-    max-height: unset; /* Remove a altura máxima para exibir todo o conteúdo */
-    box-shadow: 0px 2px 4px rgba(3, 3, 3, 0.692); /* Adiciona uma sombra sutil */
-}
-
-.texto1 {
-    color: #555555;
-    font-size: 11px;
-    width: 180px;
-    height: 20px;
-}
-
-.card button {
-    border-radius: 15px;
-    font-size: 16px;
-    text-align: center;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    display: grid;
-    cursor: pointer;
-    font-family: 'Merienda', Arial, Helvetica, sans-serif;
-    transition: background-color 0.8s;
-}
-
-.menu-button {
-    margin-top: 0px;
-    width: 170px;
-    height: 30px;
-    background-color: #25252536;
-    border-color: rgba(37, 37, 37, 0.336);
-    box-shadow: 1px 3px 8px #191a19c5;  
-    color: #fff;
-    cursor: pointer;
-    position: relative; /* Adicione position: relative para posicionar os status-buttons */
-}
-
-.status-buttons {
-    margin-left: 5px;
-    background-color: #130f0fda;
-    height: 65%;
-    width: 160px;
+.modal1 {
     display: none;
-    position: absolute;
-    top: 30px; /* Posicione os status-buttons abaixo do menu-button */
-    left: 0; /* Alinhe os status-buttons com o menu-button */
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    z-index: 1;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+.close-button {
+    background-color: brown;
+    color: #aaa;
+    float: right;
+    font-size: 12px;
+    font-weight: bold;
 }
 
-.status-buttons button {
-    margin-left: 13px;
-    margin-top: 5px;
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 
-.menu-button:hover + .status-buttons,
-.status-buttons:hover {
-    display: block; /* Mostra os status-buttons quando o mouse está sobre o menu-button ou os status-buttons */
+.excel-like-table th, .excel-like-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
 }
 
-.button-aguardando{
-    height: 30px;
-    background-color: #3498dbc4;
-    box-shadow: 1px 1px 5px #3498db;
-    border-color: #3498db;
-    color: #000000;
-}
-.button-atendendo{
-    height: 30px;
-    background-color: #f39d12c4;
-    box-shadow: 1px 1px 5px #f39c12;
-    border-color: #f39c12;
-    color: #000000;
+/* Estilo semelhante ao Excel para lista */
+#listaView {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
 }
 
-.button-pronto{
-    height: 30px;
-    background-color: #2ecc70c4;
-    box-shadow: 1px 1px 5px #2ecc71;
-    border-color: #2ecc71;
-    color: #000000;
+#listaView li {
+    display: table-row;
 }
-.button-cancelado{
-    height: 30px;
-    background-color: #b90505;
-    box-shadow: 1px 1px 5px #cc4e2e;
-    border-color: #cc4e2e;
-    color: #000000;
+
+#listaView li:nth-child(1) {
+    font-weight: bold;
+    background-color: #f0f0f0;
 }
-.button-folha{
-    height: 30px;
-    background-color: #ffffff;
-    box-shadow: 1px 1px 5px #454545;
-    border-color: #484848;
-    color: #000000;
+
+#listaView li div {
+    display: table-cell;
+    padding: 8px;
+    border: 1px solid #dddddd;
+    text-align: left;
 }
-.button-excluir{
-    height: 30px;
-    background-color: #ffffff;
-    box-shadow: 1px 1px 5px #454545;
-    border-color: #484848;
-    color: #000000;
+
+.card-container .card1 {
+    border: 1px solid #dddddd;
+    margin-bottom: 8px;
+    padding: 8px;
+    background-color: #fff;
 }
+
+/* Adicione mais estilos conforme necessário */

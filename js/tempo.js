@@ -27,7 +27,7 @@ function resetInactivityTimer() {
 
 function redirectToHomePage() {
     // Redireciona para a tela inicial (substitua "index.html" pelo nome do arquivo da tela inicial)
-    window.location.href = "/index.html";
+    window.location.href = "/login.html";
 }
 
 // Evento para detectar movimentação do mouse e redefinir o temporizador

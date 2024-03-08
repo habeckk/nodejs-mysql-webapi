@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="/img/INOPROSYS.jpg" type="image/x-icon">  
-    <link rel="stylesheet" href="/css/login.css">
+    <link rel="shortcut icon" href="/img/Troca Rapida.ico" type="image/x-icon">  
     <title>Login</title>
 </head>
 
@@ -13,7 +12,7 @@
     <div id="app">   
         <div id="auth" class="center">
             <a href="/login.html">
-                <img id="INFO1" class="imagem" src="/img/INOPROSYS.jpg" alt="imagem">
+                <img class="imagem" src="/img/logoDocol.png" alt="imagem">
             </a>
             <div class="cadastro">
                 <form id="authForm">
@@ -33,17 +32,16 @@
                     <br>
                     <input type="password" placeholder="Senha" id="password"/>
 
-                    <button type="submit" id="loginButton">Login</button>
+                    <button class="sidebar-button" type="submit" id="loginButton">Login</button>
                 </form>
             </div>
         </div>
     </div>
 <script>
     function login() {
-
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
-
+    
         fetch('http://localhost:5500/login', {
             method: 'POST',
             headers: {
@@ -52,30 +50,48 @@
             body: JSON.stringify({ username: username, password: password })
         })
         .then(response => {
-            if (response.ok) {
-                // Se a resposta do servidor for bem-sucedida, redirecione para a página menu.html
-                window.location.href = '/html/Menu.html';
-            } else {
-                // Se houver um erro no login, exiba uma mensagem de erro para o usuário
-                console.log('Credenciais inválidas');
-                // Aqui você pode exibir uma mensagem de erro para o usuário, recarregar a página de login, etc.
+
+            if (!response.ok) {
+                showSuccessMessage('8');
             }
+    
+            // Verifica o tipo de conteúdo antes de tentar converter para JSON
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new TypeError("Oops, não recebemos JSON!");
+            }
+    
+            return response.json();
         })
-        .catch(error => {
-            console.error('Erro ao tentar fazer login:', error);
-        });
+        .then(data => {
+            console.log(data);
+            if (data.success) {
+                // Armazenar uma flag ou token de autenticação no armazenamento local
+                localStorage.setItem('usuarioLogado', 'true');
+
+                showSuccessMessage('6');
+
+                setTimeout(() => {
+                    window.location.href = '/html/Menu.html';
+                }, 3000);
+
+            } else {
+                // Usando SweetAlert2 para uma melhor experiência de usuário
+                showSuccessMessage('8');
+            }
+        })        
     }
-
-    // Adiciona um ouvinte de evento para o botão de login
+    
     document.getElementById('loginButton').addEventListener('click', function(event) {
-    // Previne o comportamento padrão do formulário de ser enviado
-    event.preventDefault();
-    // Chama a função login() quando o botão de login é clicado
-    login();
+        event.preventDefault();
+        login();
     });
-
+    
 </script>
 
+<link rel="stylesheet" href="/css/public.css">
+<link rel="stylesheet" href="/css/login.css">
+<script src="/js/public.js"></script>
 <script src="/js/auth.js"></script>
 
 </body>

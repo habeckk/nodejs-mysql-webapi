@@ -1,0 +1,90 @@
+/*📌📌📌________________________________________________________________________________________________📌📌📌*/
+/*📌--min-card-width é a variável que define a largura mínima dos cartões, e o valor padrão é 165px.📌*/
+:root {
+  --min-card-width: 320px; /* Valor padrão */
+}
+
+/*📌📌📌_______________________________________________ card _________________________________________________📌📌📌*/
+.card-content button{
+  text-shadow: var(--paleta0); /* Sombra no texto para melhorar a leitura */
+  height: 30px;
+  width: 100px;
+  margin-top: 5px;
+  background-color: var(--paleta33);
+  color: var(--paleta32);
+  border: 1px solid var(--paleta32);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.card-content button:hover {
+  background-color: var(--paleta32);
+  color: var(--paleta33);
+  border: 1px solid var(--paleta33);
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  flex-wrap: wrap;
+  padding: 2px;
+}
+
+.card-content {
+  width: 300px;
+  background-color: var(--paleta250);
+  border: 1px solid var(--paleta251);
+  box-shadow: 1px 3px 8px var(--paleta252); /* Sombra 3D */
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+  padding: 10px;
+  max-width: 400px;
+}
+
+.card-content:hover {
+  transform: translateY(-5px);
+}
+
+.card-content h2 {
+  border-radius: 8px;
+  border: 1px solid var(--paleta11);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 4px 0; /* Reduz a margem superior e inferior */
+  padding: 0; /* Remove o espaçamento interno */
+  font-size: 12px;
+}
+
+.card-content p {
+  margin: 4px 0; /* Reduz a margem superior e inferior */
+  padding: 0; /* Remove o espaçamento interno */
+  font-size: 12px;
+}
+
+/* Estilo para o texto "Código ZPL" */
+.cod-zpl-label {
+  font-size: 0.8rem; /* Defina o tamanho da fonte desejado */
+  display: -webkit-box;
+  -webkit-line-clamp: 6; /* Número de linhas que você deseja exibir */
+  -webkit-box-orient: vertical;
+  overflow: hidden; /* Oculta o conteúdo que ultrapassa as linhas especificadas */
+}
+.card-image-container {
+  border-radius: 8px;
+  width: 300px; /* Largura do retângulo */
+  height: 150px; /* Altura do retângulo */
+  overflow: hidden; /* Esconde qualquer parte da imagem que exceda o tamanho do contêiner */
+  display: flex; /* Usa Flexbox para centralizar a imagem */
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  border: 1px solid var(--paleta11); /* Adiciona uma borda ao contêiner, se desejar */
+}
+
+.card-image-container img {
+    max-width: 100%; /* Garante que a largura da imagem não exceda o contêiner */
+    max-height: 100%; /* Garante que a altura da imagem não exceda o contêiner */
+    object-fit: contain; /* Mantém a proporção da imagem ao ajustar */
+}

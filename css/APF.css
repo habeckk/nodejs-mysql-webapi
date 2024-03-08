@@ -1,0 +1,5 @@
+/*📌📌📌________________________________________________________________________________________________📌📌📌*/
+/*📌--min-card-width é a variável que define a largura mínima dos cartões, e o valor padrão é 165px.📌*/
+:root {
+  --min-card-width: 165px; /* Valor padrão */
+}

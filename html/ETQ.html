@@ -5,17 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IMPRESSÃO DE ETIQUETAS</title>
-    <link rel="stylesheet" href="/css/public.css">
-    <link rel="stylesheet" href="/css/etiquetas.css">
 </head>
 <body>
     <div class="header">
-        <div class="LOGO1">
-            <a href="/html/Menu.html">
-                <img src="/img/Zebra Logo.png" alt="Imagem 3D">
-            </a>
-        </div>
-        <h1>IMPRESSÃO DE ETIQUETAS</h1>
+        <h1>CENTRAL ETIQUETAS</h1>
+
+        <button class="LOGO0" type="button" onclick="carregarValores()">
+            <img src="/img/logoDocol.png" alt="Imagem 3D">
+        </button>
+
+        <button class="LOGOLogin" type="button" onclick="carregarValores0()">
+            <img id="INFO1" class="imagem" src="" alt="imagem">
+        </button> 
 
         <div class="sidebar-buttons-container">
             <button class="sidebar-button" type="button" onclick="openForm()">Cadastrar Etiquetas</button>
@@ -60,23 +61,31 @@
         </div>
 
         <div class="overlay1" id="overlay1">
-            <div class="card-container">
-                <div class="card">
-                    <h1>Cadastro de Impressora e ZPL</h1>
-                    <form action="http://localhost:5500/zpl" method="POST" onsubmit="return validateForm()">
-                        <label for="printerDirectory">Diretório da Impressora:</label><br>
-                        <input type="text" id="printerDirectory" name="printerDirectory"><br>
-                        <label for="zplData">Código ZPL:</label><br>
-                        <textarea id="zplData" name="zplData"></textarea><br>
-                        <button type="submit">Enviar para Impressão</button>
-                        <button type="button" onclick="closeForm1()">Cancelar</button>
-                    </form>
-                </div>
+            <div class="modal">
+                <h1>Imprimir</h1>
+                <form action="http://localhost:5500/zpl" method="POST">
+
+                    <label for="printerDirectory">Diretório da Impressora:</label><br>
+                    <input type="text" id="printerDirectory" name="printerDirectory"><br>
+
+                    <label for="qtdetq">QTD:</label><br>
+                    <input type="text" id="qtdetq" name="qtdetq"><br>
+
+                    <label for="zplData">Código ZPL:</label><br>
+                    <textarea id="zplData" name="zplData"></textarea><br>
+
+                    <label for="grfData">Código GRF:</label><br>
+                    <textarea id="grfData" name="grfData"></textarea><br>
+
+                    <button type="submit">Enviar para Impressão</button>
+                    <button type="button" onclick="closeForm1()">Cancelar</button>
+                </form>
             </div>
         </div>
 
     <div id="pedidosContainer"></div>
     <!-- Restante do seu HTML -->
+
     <div class="container1">   
         <div class="scroll-wrapper">
             <div id="pedidosContainer" class="card-container">
@@ -86,6 +95,8 @@
     </div>
 
     <script>
+        const BASE_URL = 'http://localhost:5500';
+
 //___________________________________________________________________________________
 // Rota para adicionar uma nova Etiqueta
 //___________________________________________________________________________________
@@ -117,7 +128,7 @@
             };
 
             try {
-                const response = await fetch('http://localhost:5500/salvaEtq', {
+                const response = await fetch(`${BASE_URL}/salvaEtq`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -135,7 +146,18 @@
                 console.error('Erro ao enviar solicitação:', error);
             }
         });
-
+        
+        document.getElementById('qtdetq').addEventListener('input', function(event) {
+            const novo1 = document.getElementById('zplData').value;
+            const novo2 = document.getElementById('qtdetq').value;
+        
+            // Atualize o valor do campo zplData com o valor modificado
+            document.getElementById('zplData').value = novo1.replace(/\^PQ\d+/, `^PQ${novo2}`);
+        
+            // Imprima o novo valor no console
+            console.log('ZPL Data atualizado:', document.getElementById('zplData').value);
+        
+        });
 //___________________________________________________________________________________
 // Abrir formulário
 //___________________________________________________________________________________   
@@ -193,7 +215,7 @@ setInterval(atualizarDados, 1 * 60 * 1000); // 5 minutos * 60 segundos * 1000 mi
         });     
 
         function atualizarDados() {
-            fetch('http://localhost:5500/etiqueta')
+            fetch(`${BASE_URL}/etiqueta`)
                 .then(response => response.json())
                 .then(data => {
                     const pedidosContainer = document.getElementById('pedidosContainer');
@@ -204,20 +226,19 @@ setInterval(atualizarDados, 1 * 60 * 1000); // 5 minutos * 60 segundos * 1000 mi
                         card.classList.add('card');
         
                         const cardContent = document.createElement('div');
-                        cardContent.classList.add('card-content');
 
                         cardContent.innerHTML = `
-                        <div class="card-content">
-                            <h2>${etiqueta.Tipo}</h2>
-                            <p><strong>Nome:</strong> ${etiqueta.nome}</p>
-                            <p><strong>GRF:</strong> ${etiqueta.grf}</p>
-                            <p class="cod-zpl-label">><strong>Código ZPL:</strong> ${etiqueta.cod_zpl}</p>
-                            <button onclick="selecionarEtiqueta(${etiqueta.Id})">Selecionar</button>
-                            <button id="copyButton">Copiar Código ZPL</button>
-                            <div id="codigoZPL">
-                                <!-- Seu código ZPL aqui -->
+                            <div class="card-content">
+                                <h2>${etiqueta.Id}</h2>
+                                <p><strong>Modelo--:</strong> ${etiqueta.modelo}</p>
+                                <p><strong>Nome----:</strong> ${etiqueta.nome}</p>
+                                <p><strong>Tamanho:</strong> ${etiqueta.tamanho}</p>
+                                <p><strong>Codigo :</strong> ${etiqueta.cod_etq}</p>
+                                <div class="card-image-container">
+                                    <img src="/img/etq/${etiqueta.Id}.png" alt="Imagem da Etiqueta">
+                                </div>
+                                <button onclick="selecionarEtiqueta(${etiqueta.Id})">Carregar</button>
                             </div>
-                        </div>
                         `;
         
                         card.appendChild(cardContent);
@@ -233,20 +254,30 @@ setInterval(atualizarDados, 1 * 60 * 1000); // 5 minutos * 60 segundos * 1000 mi
 // Função para selecionar uma etiqueta
 //___________________________________________________________________________________
 function selecionarEtiqueta(id) {
-            alert(`Etiqueta selecionada com ID: ${id}`);
-        }
 
-        function validateForm() {
-            var printerDirectory = document.getElementById('printerDirectory').value;
-            var zplData = document.getElementById('zplData').value;
-
-            if (printerDirectory.trim() === '' || zplData.trim() === '') {
-                alert('Por favor, preencha todos os campos antes de enviar.');
-                return false; // Impede o envio do formulário se algum campo estiver vazio
+    fetch(`${BASE_URL}/getEtiquetaById/${id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro na rede ou endpoint não encontrado');
             }
+            return response.json();
+        })
+        .then(data => {
+            // Supondo que a resposta seja um array e você esteja interessado no primeiro item
+            const etiqueta = data[0]; // Ajuste conforme a estrutura real da sua resposta
+            document.getElementById('zplData').value = etiqueta.cod_zpl || '';
+            document.getElementById('grfData').value = etiqueta.grf || '';            
+            document.getElementById("overlay1").style.display = "block";
+        })
+        .catch(error => console.error('Erro ao buscar etiqueta:', error));
+}
 
-            return true; // Permite o envio do formulário se todos os campos estiverem preenchidos
-        }
-    </script>
+window.addEventListener('load', function() {
+    showSuccessMessage('3');
+});
+</script>
+<link rel="stylesheet" href="/css/public.css">
+<link rel="stylesheet" href="/css/ETQ.css">
+<script src="/js/public.js"></script>
 </body>
 </html>

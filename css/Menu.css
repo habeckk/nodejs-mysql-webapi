@@ -1,57 +1,32 @@
-/*designe para o evento de solicitação de setup*/
-.dialog { 
+#dialog {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  margin-top: 30px;
   overflow-y: auto;
   font-size: 12px;
-  margin-top: 50px;
-  margin-right: 0px; /* Adicione a margem direita desejada */
-  margin-block: 20px; /* Adicione a margem direita desejada */
-  margin-left: 20px; /* Adicione a margem direita desejada */
-  display:flex;
-  justify-content: flex-start;
-  flex-direction: row;
-  flex-wrap: wrap;
-  top: 20;
-  left: 50;
-  }
+  justify-content: center; /* Centraliza os itens horizontalmente */
+  align-items: flex-start; /* Alinha os itens ao topo */
+}
 
   .card {
-  width: 200px;
-  height: 175px;
-  margin-top: 8px;
-  margin-right: 8px; /* Adicione a margem direita desejada */
-  margin-block: 20px; /* Adicione a margem direita desejada */
-  margin-left: 8px; /* Adicione a margem direita desejada */
-  flex-direction: row;
-  transition: transform 0.3s ease;
-  margin-bottom: 20px; /* Adicione a margem inferior desejada */
-  border: 1px solid var(--paleta3);
-  background-color: var(--paleta5); /*cor de fundo do card*/
-  padding: 5px; /*Tamanho do card*/
-  border-radius: 5%; /* raio na borda*/
-  box-shadow: 4px 4px 15px var(--paleta1); /* Sombra 3D */
+    width: auto;
+    height: auto;
+    transition: transform 0.3s ease;
   }
   
   .card:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
-
+  
   .card button {
-    width: 202px;
+    border-radius: 10px;
+    border: var(--paleta11);
+    box-shadow: 1px 1px 8px var(--paleta1); /* Sombra 3D */
+    background-color: var(--paleta10); 
+    width: 185px;
     height: 178px;
-    color: var(--paleta1); 
-  }
-
-  button {
-    align-items: center;
-    background-color: transparent;
-    border-color: var(--paleta4);
-    padding: 7px;
-    font-weight: bold;
-    font-size: 11pt;
-    margin-top: 0px;
-    border-radius: 5px;
-    cursor:move;
-    font-family:Arial, Helvetica, sans-serif;
   }
 
   .label-float2 {

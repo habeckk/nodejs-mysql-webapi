@@ -4,102 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/imagem/Troca Rapida.ico">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="/css/Menu.css"/>
-    <script src="/js/tempo.js"></script>
-    <title>Document</title>
+    <title>Menu - GDM</title>
 </head>
 <body>
   <style>.dialog {overflow-y: auto;}</style>
     <div class="popup" id="popup"></div>
 
     <div class="header">
-      <link rel="stylesheet" href="/css/public.css">
-      <label for="imagem" class="LOGO1">
-        <a href="/html/Menu.html">
-          <img id="myImage1" src="/img/icons8-apps-64.png" alt="Logo">
-        </a>
-      </label>   
-      <label id="Titulo">Troca Rápida</label>
+        
+      <button class="LOGO0" type="button" onclick="carregarValores()">
+        <img src="/img/logoDocol.png" alt="Imagem 3D">
+      </button> 
+
+      <button class="LOGOLogin" type="button" onclick="carregarValores0()">
+        <img id="INFO1" class="imagem" src="" alt="imagem">
+      </button> 
+
+      <h1>GDM</h1>
+      <label class="titulo-escopo">Gerenciador Digital Manufatura</label>
       
-      <label for="LOGOLogin" class="LOGOLogin">
-        <a href="#" id="logoutLink">
-            <h1>
-                <img id="myImage1" src="/img/icons8-logout-24.png" alt="Logo">
-            </h1>
-        </a>
-    </label>
     </div>
     
     <div id="dialog" class="dialog">
-        <div class="card" draggable="true">       
-            <div class="label-float2">          
-              <label id="labelNome" for="campo1"></label>
+
+          <div class="card" draggable="true">        
               <button onclick="carregarValores1()">
                 <h1>
-                  <img id="ImgButton" src="/img/icons8-ordinata-40.png" alt="button">                                    
+                  <img id="ImgButton" src="/img/icons8-carrinho.png" alt="button">
                 </h1>
-                Pedido de Ferramenta</button>      
-            </div>  
+                Pedido de Setup
+              </button>      
           </div> 
 
-          <div class="card" draggable="true">
-            <div class="label-float2">          
-              <label id="labelNome" for="campo1"></label>
-              <button onclick="carregarValores2()">
-                <h1>
-                  <img id="ImgButton" src="/img/icons8-buy-40.png" alt="button">
-                </h1>
-                Pedido de Setup</button>      
-            </div>     
-          </div> 
-          
-          <div class="card" draggable="true">
-            <div class="label-float2">          
-              <label id="labelNome" for="campo1"></label>
-              <button onclick="carregarValores3()">
-                <h1>
-                  <img id="ImgButton" src="/img/icons8-bill-40.png" alt="button">                                                                       
-                </h1>
-                Acompanhamento Try out</button>      
-            </div>      
-          </div> 
-
-          <div class="card" draggable="true">
-            <div class="label-float2">          
-              <label id="labelNome" for="campo1"></label>
-              <button onclick="carregarValores4()">
+          <div class="card" draggable="true">                     
+            <button onclick="carregarValores2()">
               <h1>
-                <img id="ImgButton" src="/img/icons8-buy-40.png" alt="button">                  
+                <img id="ImgButton" src="/img/icons8-impressora.png" alt="button">                                                      
               </h1>
-              Pedido de Gancheira</button>      
-            </div>     
+              Etiquetas
+            </button>      
           </div> 
 
-          <div class="card" draggable="true">
-            <div class="label-float2">          
-              <label id="labelNome" for="campo1"></label>
-              <button onclick="carregarValores5()">
-                <h1>
-                  <img id="ImgButton" src="/img/icons8-toolbox-64.png" alt="button">                  
-                </h1>
-                Movimentação Ferramenta</button>      
-            </div>     
-          </div> 
+        <div class="card" draggable="true">                     
+          <button onclick="carregarValores3()">
+            <h1>
+              <img id="ImgButton" src="/img/icons8-agenda-96.png" alt="button">                                                      
+            </h1>
+            Apontamento Ferramentaria
+          </button>      
+        </div> 
 
-          <div class="card" draggable="true">
-            <div class="label-float2">          
-              <label id="labelNome" for="campo1"></label>
-              <button onclick="carregarValores6()">
-              <h1>
-                <img id="ImgButton" src="/img/icons8-label-printer-40.png" alt="button">                                                      
-              </h1>
-              Etiquetas</button>      
-            </div>     
-          </div> 
+      </div>
 
-        </div>
+      <script>
+        window.onload = () => {
+            // Verificar se o usuário está autenticado
+            const usuarioLogado = localStorage.getItem('usuarioLogado');
+            if (usuarioLogado !== 'true') {
+                // Usuário não está autenticado; redirecionar para a página de login
+                window.location.href = '/login.html';
+            }
+        };
 
+      </script>
+
+      <link rel="stylesheet" href="/css/public.css">
+      <link rel="stylesheet" href="/css/Menu.css"/>
+      <script src="/js/tempo.js"></script>
+      <script src="/js/PUBLIC.JS"></script>
       <script src="/js/Menu.js"></script>
 </body>
 </html>
