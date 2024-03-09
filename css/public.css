@@ -1,40 +1,79 @@
 /*📌📌📌_______________________________________________ Paleta de Cores _________________________________________________📌📌📌*/
 :root {
-    --paleta0: 0.7px 0.7px 0.7px #000;/* Borda da fonte */
+  /* 🎨🎨🎨🎨🎨🎨🎨---------------------🎨🎨🎨🎨🎨🎨🎨   */
 
+    --paleta0: 0.7px 0.7px 0.7px #000000;/* Borda da fonte */
+
+    
     --paleta1: #616366;/* Borda 1 */
     --paleta2: #7b3d1e;/* Borda 1 */
     --paleta3: #768d9d;
-    --paleta4: rgb(255, 255, 255);/* Fundo do projeto 1*/
-    --paleta5: #ffffff;/* Fundo do projeto 2*/
-    --paleta7: #00a9e0;/* Título Header 2*/
-    --paleta8: #00a9e0;/* Botão Header 2*/
-/* -------------------------- Cores Formulário -------------------------------   */
+    --paleta4: #ffffff;/* Fundo superior da página*/
+    --paleta5: #ffffff;/* Fundo inferior da página e da caixa de mensagem*/
+    --paleta7: #ffffff;/* Fonte do Título Header 2*/
+
+/* 🎨🎨🎨🎨🎨🎨🎨---------- Caixa de mensagem -----------🎨🎨🎨🎨🎨🎨🎨   */
+
+    --paleta400:  #323232;/* Sombra da imagem */
+    --paleta401:  #616366; /* Fundo Background */
+    --paleta402:  #ffffff; /* Cor Da fonte*/
+
+/* 🎨🎨🎨🎨🎨🎨🎨---------- Cores Formulário -----------🎨🎨🎨🎨🎨🎨🎨   */
+
+    --paleta8: #00a9e0;  /* Fonte do Título Formulário*/
     --paleta6: #2b2323;    /* Fonte Formulário*/
     --paleta9: #2b2b2baa;  /* fundo Formulário*/
     --paleta10: #f9f9f9;   /* fundo Formulário*/
     --paleta11:  #ccc;     /* Borda dos campos do Formulário*/
     --paleta12:  #00a9e0;/* Borda dos campos do Formulário*/
 
-/* -------------------------- Cores Botões -------------------------------   */
-    --paleta30:  #00a9e0;/* Cor da fonte color Button*/    
-    --paleta31:  #ffffff;/* Cor da fonte background Button*/    
-    --paleta32:  #00a9e0;/* Cor da fonte Button color hover*/    
-    --paleta33:  #616366;/* Cor da fonte Button background hover*/    
-    --paleta34:  #42667c;/* Cor */    
+/* 🎨🎨🎨🎨🎨🎨🎨---------- Cores Botões Formulário -----------🎨🎨🎨🎨🎨🎨🎨   */
 
-/* -------------------------- Cores Status Cartões -------------------------------   */
+    --paleta30:  #ffffff;/* Cor da fonte color Button*/    
+    --paleta31:  #616366;/* Cor da fonte background Button*/    
+    --paleta32:  #ffffff;/* Cor da fonte Button color hover*/    
+    --paleta33:  #616366;/* Cor da fonte Button background hover*/
+
+/* 🎨🎨🎨🎨🎨🎨🎨---------- Cores Botões HEADER (Cabeçario)-----------🎨🎨🎨🎨🎨🎨🎨   */
+
+    --paleta40:  #ffffff;/* Cor da fonte color Button*/    
+    --paleta41:  #616366;/* Cor da fonte background Button*/    
+    --paleta42:  #ffffff;/* Cor da fonte Button color hover*/    
+    --paleta43:  #616366;/* Cor da fonte Button background hover*/      
+
+    /* 🎨🎨🎨🎨🎨🎨🎨---------- Cores da tabelas -----------🎨🎨🎨🎨🎨🎨🎨   */
+
+    --paleta500:  #616366;/* cabeçario Cor do background*/    
+    --paleta501:  #ffffff;/* cabeçario Cor da fonte*/    
+    --paleta502:  #ffffff;/* cabeçario Cor da Sombra*/    
+    --paleta503:  #000000;/* cabeçario Cor da borda fonte hover*/      
+    --paleta504:  #00a9e0;/* cabeçario Cor do background hover*/      
+    --paleta505:  #ffffff;/* cabeçario Cor da fonte hover*/      
+    --paleta506:  #000000;/* cabeçario Cor da borda hover*/  
+        
+    --paleta510:  #616366;/*  Cor da linha */      
+    --paleta511:  #00a9e0;/*  Linha Cor do background hover 1*/
+    --paleta512:  #00a9e0;/*  Linha Cor do background hover 2*/
+    --paleta513:  #ffffff;/*  Linha Cor da fonte hover*/
+    
+    --paleta520:  #616366;/*  Menu Cor do background*/
+    --paleta521:  #000000;/*  Menu Cor da borda*/ 
+    --paleta522:  #ffffff;/*  Menu Cor da fonte do button hover*/
+    --paleta523:  #00a9e0;/*  Menu Cor do button hover*/
+
+/* 🎨🎨🎨🎨🎨🎨🎨---------- Cores Status Cartões -----------🎨🎨🎨🎨🎨🎨🎨   */
+
     --paleta100:  #f39d1277;/* Cartão atentendo*/
     --paleta200:  #815103;/* Borda Cartão atentendo*/
     --paleta101:  #3498db77;/* Cartão aguardando*/
     --paleta201:  #005288;/* Borda Cartão aguardando*/
     --paleta102:  #2ecc7077;/* Cartão pronto*/
     --paleta202:  #028037;/* Borda Cartão pronto*/
-    --paleta103:  #b9050577;/* Cartão cancelado*/
+    --paleta103:  #b9050545;/* Cartão cancelado*/
     --paleta203:  #580101;/* Borda Cartão cancelado*/
     --paleta104:  #b3b90577;/* Borda Cartão esperando*/
     --paleta204:  #515402e5;/* Borda Cartão esperando*/
-    --paleta105:  #e0470077;/* Borda Cartão parado*/
+    --paleta105:  #e0470090;/* Borda Cartão parado*/
     --paleta205:  #842a01e4;/* Borda Cartão parado*/
     --paleta106:  #d0ff0077;/* Borda Cartão esperando*/
     --paleta206:  #586c00e5;/* Borda Cartão esperando*/
@@ -209,17 +248,17 @@
     width: 160px; /* Ajuste a largura conforme necessário */
     height: 30px;
     font-size: 14px;
-    background-color: var(--paleta33);
-    color: var(--paleta30);
-    border: 1px solid var(--paleta30);
+    background-color: var(--paleta41);
+    color: var(--paleta40);
+    border: 1px solid var(--paleta40);
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
 
   .sidebar-button:hover {
-    background-color: var(--paleta30);
-    color: var(--paleta33);
-    border: 1px solid var(--paleta33);
+    background-color: var(--paleta42);
+    color: var(--paleta43);
+    border: 1px solid var(--paleta43);
   }
 
 /*📌📌📌________________________________________________________________________________________________📌📌📌*/
@@ -237,8 +276,9 @@
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 4px 8px var(--paleta400);/* Sombra da imagem */
   }
+
   /* Estilo para a mensagem de sucesso */
   .success-message {
     position: fixed;
@@ -247,8 +287,8 @@
     top: 50%; /* Altere as unidades de medida conforme necessário */
     left: 50%; /* Altere as unidades de medida conforme necessário */
     transform: translate(-50%, -50%);
-    background-color: var(--paleta5);
-    color: var(--paleta7);
+    background-color: var(--paleta401);/* Fundo Background */
+    color: var(--paleta402);/* Cor Da fonte*/
     padding: 15px;
     border-radius: 10px;
     z-index: 1000; /* Garanta que a mensagem apareça na frente de outros elementos */
@@ -395,18 +435,18 @@
   .modal button {
     text-shadow: var(--paleta0); /* Sombra no texto para melhorar a leitura */
     padding: 10px 20px;
-    background-color: var(--paleta33);
-    color: var(--paleta32);
-    border: 1px solid var(--paleta32);
+    background-color: var(--paleta30);
+    color: var(--paleta31);
+    border: 1px solid var(--paleta31);
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
   }
 
   .modal button:hover {
-    background-color: var(--paleta32);
-    color: var(--paleta33);
-    border: 1px solid var(--paleta33);
+    background-color: var(--paleta33);
+    color: var(--paleta32);
+    border: 1px solid var(--paleta32);
   }
 
   .modal button + button {
@@ -455,16 +495,33 @@
   border-color: var(--paleta201);
 }
 
-.card1.pronto, .status-pronto, .status-finalizado {
+.card1.pronto, .status-pronto {
   box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
   background-color: var(--paleta102);
   border-color: var(--paleta202);
 }
 
+
+.status-finalizado {
+  box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--paleta102),
+    var(--paleta102) 13px,
+    var(--paleta4) 5px,
+    var(--paleta4) 20px
+);
+}
+
 .card1.cancelado, .status-cancelado {
   box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
-  background-color: var(--paleta103);
-  border-color: var(--paleta203);
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--paleta103),
+    var(--paleta103) 13px,
+    var(--paleta4) 5px,
+    var(--paleta4) 20px
+);
 }
 
 .card1.esperando, .status-esperando, .status-aberto{
@@ -577,9 +634,9 @@
   }
 
   .status-buttons button:hover {
-    background-color: var(--paleta32);
-    color: var(--paleta33);
-    border: 1px solid var(--paleta33);
+    background-color: var(--paleta30);
+    color: var(--paleta31);
+    border: 1px solid var(--paleta31);
   }
 
   .status-buttons button {
@@ -602,63 +659,36 @@
   .status-buttons:hover {
     display: block; /* Mostra os status-buttons quando o mouse está sobre o menu-button ou os status-buttons */
   }
-  .button-aguardando{
-    color: var(--paleta200);
-    box-shadow: 1px 1px 5px var(--paleta1); /* Sombra 3D */
-    background-color: var(--paleta10);
-  }
-  .button-atendendo{
-    color: var(--paleta201);
-    box-shadow: 1px 1px 5px var(--paleta1); /* Sombra 3D */
-    background-color: var(--paleta10);
-  }
-  .button-pronto{
-    color: var(--paleta202);
-    box-shadow: 1px 1px 5px var(--paleta1); /* Sombra 3D */
-    background-color: var(--paleta10);
-  }
-  .button-cancelado{
-    color: var(--paleta203);
-    box-shadow: 1px 1px 5px var(--paleta1); /* Sombra 3D */
-    background-color: var(--paleta10);
-  }
-  .button-folha{
-    color: var(--paleta201);
-    box-shadow: 1px 1px 5px var(--paleta1); /* Sombra 3D */
-    background-color: var(--paleta10);
-  }
-  .button-excluir{
-    color: var(--paleta203);
-    box-shadow: 1px 1px 5px var(--paleta1); /* Sombra 3D */
-    background-color: var(--paleta10);
-  }
-  .button-fip{
-    color: var(--paleta203);
-    box-shadow: 1px 1px 5px var(--paleta1); /* Sombra 3D */
-    background-color: var(--paleta10);
-  }
 /*📌📌📌__________________________________________________________________________________________________________________📌📌📌*/
 /*_______________________________________________ Estilo das tabelas de dados (LISTA)  _____________________________________________*/
 
 .thead {
-  border-bottom: 1px solid var(--paleta32); /* Borda inferior para separar as linhas */
+  border-bottom: 1px solid var(--paleta); /* Borda inferior para separar as linhas */
 }
 
 th {
   font-size: 10px;
   border-radius: 0px;
-  background: var(--paleta1); /* Gradiente */
-  color: white; /* Cor do texto */
-  text-shadow: 1px 1px 1px #000; /* Sombra no texto para melhorar a leitura */
+  background: var(--paleta500); /* Gradiente */
+  color: var(--paleta501); /* Cor do texto */
+  box-shadow: 0px 5px 10px var(--paleta502); /* Sombra mais pronunciada para efeito 3D elevado */
+  text-shadow: 1px 1px 1px var(--paleta503); /* Sombra no texto para melhorar a leitura */
   padding: 5px; /* Espaçamento interno */
-  box-shadow: 0px 5px 10px var(--paleta1); /* Sombra mais pronunciada para efeito 3D elevado */
+
+}
+
+th:hover {
+  background:  var(--paleta504); /* Altera o gradiente */
+  color:  var(--paleta505); /* Altera o gradiente */
+  box-shadow: 0px 5px 10px var(--paleta506); /* Sombra mais pronunciada para efeito 3D elevado */
+  cursor: pointer; /* Muda o cursor para indicar interatividade */
 }
 
 /* Estilo para as células da tabela */
 td {
   font-size: 12px;
   padding: 1px; /* Espaçamento interno */
-  border-bottom: 1px solid var(--paleta32); /* Borda inferior para separar as linhas */
+  border-bottom: 1px solid var(--paleta510); /* Borda inferior para separar as linhas */
   position: relative; /* Necessário para o pseudo-elemento */
 }
 
@@ -671,16 +701,10 @@ td::after {
   height: 1px;
 }
 
-th:hover {
-  background:  var(--paleta1); /* Altera o gradiente */
-  color:  var(--paleta7); /* Altera o gradiente */
-  cursor: pointer; /* Muda o cursor para indicar interatividade */
-  box-shadow: 0px 5px 10px var(--paleta1); /* Sombra mais pronunciada para efeito 3D elevado */
-}
 tr:hover td {
-  background-color: var(--paleta32); /* Muda a cor de fundo da linha */
-  box-shadow: inset 0px 0px 20px  var(--paleta32); /* Sombra interna para um efeito sutil */
-  color: var(--paleta5); /* Opcional: Muda a cor do texto */
+  background-color: var(--paleta511); /* Muda a cor de fundo da linha */
+  color: var(--paleta513); /* Opcional: Muda a cor do texto */
+  box-shadow: inset 0px 0px 20px  var(--paleta512); /* Sombra interna para um efeito sutil */
 }
 }
 /*_______________________________________________ Estilo dos menus das tabelas de dados (LISTA)  _____________________________________________*/
@@ -689,8 +713,8 @@ tr:hover td {
   position: absolute;
   z-index: 1000;
   width: 150px;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  background-color: var(--paleta520);
+  box-shadow: 0 2px 4px var(--paleta521);
   padding: 10px 0;
   border-radius: 5px;
 }
@@ -705,11 +729,11 @@ tr:hover td {
   display: block;
   padding: 8px 15px;
   text-decoration: none;
-  color: #333;
+  color: var(--paleta522);
 }
 
 .menu-contexto ul li a:hover {
-  background-color: #f1f1f1;
+  background-color: var(--paleta523);
 }
 
 /*📌📌📌__________________________________________________________________________________________________________________📌📌📌*/
@@ -737,7 +761,7 @@ tr:hover td {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: var(--paleta6);
   -webkit-transition: .6s;
   transition: .6s;
 }
@@ -750,20 +774,22 @@ tr:hover td {
   width: 26px;
   left: 4px;
   bottom: 3px;
-  background-color: white;
+  background-color: var(--paleta4);
   -webkit-transition: .4s;
   transition: .4s;
 }
 
 input:checked + label {
-  background-color: var(--paleta7);
+  background-color: var(--paleta102);
 }
 
 input:focus + label {
-  box-shadow: 0 0 1px var(--paleta7);
+  box-shadow: 0 0 1px var(--paleta30);
 }
 
 input:checked + label:before {
+  
+  background-color: var(--paleta202);
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);

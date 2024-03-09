@@ -8,7 +8,7 @@
     {
         "IdMsg": "2",
         "tipo": "sucesso",
-        "descricao": "Status alterado com Sucesso.",
+        "descricao": "Alterado com Sucesso.",
         "caminhoImagem": "/img/icons8-ok.svg"
     },
     {
@@ -46,5 +46,12 @@
         "tipo": "sucesso",
         "descricao": "Usuário não Cadastrado!",
         "caminhoImagem": "/img/icons8-excluir.svg"
+    },
+    {
+        "IdMsg": "9",
+        "tipo": "sucesso",
+        "descricao": "Por favor, preencha todos os campos obrigatórios.",
+        "caminhoImagem": "/img/icons8-excluir.svg"
     }
+
 ]

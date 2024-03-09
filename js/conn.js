@@ -98,10 +98,10 @@ app.get('/ferr_apont', async (req, res) => {
 
 app.put('/ferr_apont/:id', async (req, res) => {
     const { id } = req.params;
-    const { conf_final, data_lanc, data_ini, hora_ini, data_fim, hora_fim, status, obs } = req.body;
+    const { trab_real, conf_final, data_lanc, data_ini, hora_ini, data_fim, hora_fim, status, obs } = req.body;
 
     try {
-        const result = await update_ferr_apont(id, conf_final, data_lanc, data_ini, hora_ini, data_fim, hora_fim, status, obs);
+        const result = await db.update_ferr_apont(id, trab_real, conf_final, data_lanc, data_ini, hora_ini, data_fim, hora_fim, status, obs);
         res.status(200).json({ message: 'Apontamento atualizado com sucesso.', id: result });
     } catch (error) {
         console.error('Erro ao atualizar o apontamento:', error);
@@ -300,6 +300,28 @@ app.get('/getEtiquetaById/:id', async (req, res) => {
         res.status(500).json({ error: 'Erro ao obter Etiquetanas' });
     }
 });
+
+const { gerarPlanilhaXLSX } = require('./db');
+
+app.get('/export-ferr_apont-xlsx', async (req, res) => {
+    try {
+        const workbook = await gerarPlanilhaXLSX();
+
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=apontamentos.xlsx');
+
+        await workbook.xlsx.write(res);
+        res.end();
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+
+
+
 //___________________________________________________________________________________
 // Inicia o servidor
 //___________________________________________________________________________________

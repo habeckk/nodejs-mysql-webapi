@@ -10,17 +10,17 @@
   height: 30px;
   width: 100px;
   margin-top: 5px;
-  background-color: var(--paleta33);
-  color: var(--paleta32);
-  border: 1px solid var(--paleta32);
+  background-color: var(--paleta30);
+  color: var(--paleta31);
+  border: 1px solid var(--paleta31);
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
 }
 .card-content button:hover {
-  background-color: var(--paleta32);
-  color: var(--paleta33);
-  border: 1px solid var(--paleta33);
+  background-color: var(--paleta33);
+  color: var(--paleta32);
+  border: 1px solid var(--paleta32);
 }
 
 .card-container {
