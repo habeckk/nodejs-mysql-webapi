@@ -114,46 +114,110 @@
             });
         });
         
-
         function renderizarComoLista(data) {
             const pedidosContainer = document.getElementById('pedidosContainer');
             pedidosContainer.innerHTML = ''; // Limpa o contêiner
         
-            // Cria a tabela e o cabeçalho
+            let ordenacaoAtual = { coluna: 'HRpedido', ascendente: true };
+        
+            // Função para criar ícones de ordenação
+            function criarIconeOrdenacao(ascendente) {
+                return ascendente ? '↑' : '↓';
+            }
+        
+            // Função para atualizar a tabela com os dados ordenados
+            function atualizarTabela(propriedade) {
+                const coluna = {
+                    'id': 'Id',
+                    'Hora pedido': 'HRpedido',
+                    'cc': 'cc',
+                    'Máquina': 'maquina',
+                    'Item': 'item',
+                    'Horario': 'horario',
+                    'Status': 'status',
+                    'Operacao': 'operacao',
+                    'Lote': 'lote',
+                    // Adicione mapeamentos adicionais conforme necessário
+                }[propriedade] || propriedade;
+        
+                if (ordenacaoAtual.coluna === coluna) {
+                    ordenacaoAtual.ascendente = !ordenacaoAtual.ascendente; // Inverte a direção
+                } else {
+                    ordenacaoAtual = { coluna: coluna, ascendente: true }; // Reinicia a direção quando uma nova coluna é selecionada
+                }
+        
+                data.sort((a, b) => {
+                    let valorA = a[coluna];
+                    let valorB = b[coluna];
+        
+                    if (coluna === 'HRpedido') { // Tratamento especial para datas
+                        valorA = new Date(valorA);
+                        valorB = new Date(valorB);
+                    } else if (coluna === 'Id') { // Tratamento especial para números
+                        valorA = +valorA;
+                        valorB = +valorB;
+                    }
+        
+                    if (valorA < valorB) return ordenacaoAtual.ascendente ? -1 : 1;
+                    if (valorA > valorB) return ordenacaoAtual.ascendente ? 1 : -1;
+                    return 0;
+                });
+        
+                // Atualiza o corpo da tabela
+                tbody.innerHTML = '';
+                data.forEach(solicitacao => {
+                    const row = document.createElement('tr');
+                    row.className = `status-${solicitacao.status.toLowerCase()}`;
+                    row.innerHTML = `<td>${solicitacao.Id}</td>
+                                    <td>${solicitacao.HRpedido}</td>
+                                    <td>${solicitacao.cc}</td>
+                                    <td>${solicitacao.maquina}</td>
+                                    <td>${solicitacao.item}</td>
+                                    <td>${solicitacao.horario}</td>
+                                    <td>${solicitacao.status}</td>
+                                    <td>${solicitacao.operacao}</td>
+                                    <td>${solicitacao.lote}</td>`;
+                    tbody.appendChild(row);
+                });
+        
+                // Atualiza os ícones de ordenação nos cabeçalhos
+                document.querySelectorAll('th').forEach(header => {
+                    const propriedadeHeader = header.getAttribute('data-propriedade');
+                    if (propriedadeHeader) {
+                        header.innerHTML = propriedadeHeader + (coluna === propriedadeHeader ? criarIconeOrdenacao(ordenacaoAtual.ascendente) : '');
+                    }
+                });
+            }
+        
+            // Cria a tabela e o cabeçalho, incluindo atributos de data-propriedade
             const tabela = document.createElement('table');
             tabela.innerHTML = `<thead>
                                     <tr>
-                                        <th>Id</th>
-                                        <th>cc</th>
-                                        <th>maquina</th>
-                                        <th>item</th>
-                                        <th>horario</th>
-                                        <th>status</th>
-                                        <th>operacao</th>
-                                        <th>lote</th>
+                                        <th data-propriedade="Id">Id</th>
+                                        <th data-propriedade="HRpedido">Hora pedido</th>
+                                        <th data-propriedade="cc">cc</th>
+                                        <th data-propriedade="maquina">maquina</th>
+                                        <th data-propriedade="item">item</th>
+                                        <th data-propriedade="horario">horario</th>
+                                        <th data-propriedade="status">status</th>
+                                        <th data-propriedade="operacao">operacao</th>
+                                        <th data-propriedade="lote">lote</th>
                                     </tr>
                                 </thead>`;
             const tbody = document.createElement('tbody');
-        
-            data.forEach(solicitacao => {
-                const row = document.createElement('tr');
-                // Aplica a classe de cor baseada no status da solicitação
-                row.className = `status${solicitacao.status.toLowerCase()}`;
-                row.innerHTML = `<td>${solicitacao.Id}</td>
-                                <td>${solicitacao.cc}</td>
-                                <td>${solicitacao.maquina}</td>
-                                <td>${solicitacao.item}</td>
-                                <td>${solicitacao.horario}</td>
-                                <td>${solicitacao.status}</td>
-                                <td>${solicitacao.operacao}</td>
-                                <td>${solicitacao.lote}</td>`;
-                tbody.appendChild(row);
-            });
-        
             tabela.appendChild(tbody);
             pedidosContainer.appendChild(tabela);
-        }
         
+            // Adiciona listeners nos cabeçalhos para ordenação
+            tabela.querySelectorAll('th').forEach(header => {
+                header.addEventListener('click', () => {
+                    const propriedade = header.getAttribute('data-propriedade');
+                    if (propriedade) atualizarTabela(propriedade.toLowerCase());
+                });
+            });
+        
+            atualizarTabela('HRpedido'); // Ordena inicialmente por 'Id'
+        }
         
         function renderizarComoCartoes(data) {
             fetch(`${BASE_URL}/setupusi`)

@@ -72,3 +72,6 @@ function carregarValores2() {
 function carregarValores3() {
   window.location.href = '/html/APF.html'
 }
+function carregarValores4() {
+  window.location.href = '/html/CAD.html'
+}

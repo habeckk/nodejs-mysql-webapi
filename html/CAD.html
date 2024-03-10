@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    
+    <title>SSU</title>
+</head>
+<body>
+    
+    <div class="header">
+        <h1>CADASTRO</h1>
+        <button class="LOGO0" type="button" onclick="carregarValores()">
+            <img src="/img/logoDocol.png" alt="Imagem 3D">
+        </button> 
+
+        <button class="LOGOLogin" type="button" onclick="carregarValores0()">
+            <img id="INFO1" class="imagem" src="" alt="imagem">
+        </button> 
+
+        <div class="sidebar-buttons-container">
+            <button class="sidebar-button" type="button" onclick="openForm()">Cadastrar Usuário</button>         
+            <button class="sidebar-button" type="button" onclick="openForm()">Alterar Usuário</button>        
+            <button class="sidebar-button" type="button" onclick="openForm()">Excluir Usuário</button>
+        </div>
+    </div>
+
+    <div class="linha-separadora1"></div>
+
+        <!-- Formulário sobreposto -->
+    <div class="overlay" id="overlay">
+        <div class="modal">
+            <h2>Cadastro de Usuário</h2>
+            <form id="userForm">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <label for="auth">Auth:</label>
+                <input type="text" id="auth" name="auth">
+
+                <label for="cad">Cad:</label>
+                <input type="text" id="cad" name="cad">
+
+                <label for="prof">Prof:</label>
+                <input type="text" id="prof" name="prof">
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email">
+
+                <label for="acess">Acess:</label>
+                <input type="text" id="acess" name="acess">
+
+                <label for="obs">Obs:</label>
+                <textarea id="obs" name="obs"></textarea>
+
+                <button type="submit">Cadastrar</button>
+                <button type="button" onclick="closeForm()">Cancelar</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById('userForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Previne o envio do formulário
+        
+            const formData = new FormData(event.target);
+            const formProps = Object.fromEntries(formData);
+        
+            console.log(formProps); // Aqui você pode fazer algo com os dados, como enviar para um servidor
+        });
+        //___________________________________________________________________________________
+        // Adicione um evento de clique para cada botão de status
+        //___________________________________________________________________________________                        
+        function openForm() {
+            document.getElementById("overlay").style.display = "block";
+        }
+
+        function closeForm() {
+            document.getElementById("overlay").style.display = "none";
+        }
+    </script>
+    <link rel="stylesheet" href="/css/CAD.css"> <!-- Link para seu arquivo CSS -->
+    <link rel="stylesheet" href="/css/public.css"> <!-- Link para seu arquivo CSS -->
+    <script src="/js/public.js"></script> <!-- Link para seu arquivo JavaScript -->
+</body>
+</html>

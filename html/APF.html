@@ -405,55 +405,125 @@
             const pedidosContainer = document.getElementById('pedidosContainer');
             pedidosContainer.innerHTML = ''; // Limpa o contêiner
         
-            // Cria a tabela e o cabeçalho
+            let ordenacaoAtual = { coluna: 'HRpedido', ascendente: true };
+        
+            // Função para criar ícones de ordenação
+            function criarIconeOrdenacao(ascendente) {
+                return ascendente ? '↑' : '↓';
+            }
+        
+            // Função para atualizar a tabela com os dados ordenados
+            function atualizarTabela(propriedade) {
+                const coluna = {
+                    'id': 'Id',
+                    'Nº O.S': 'n_op',
+                    'Nº Oper.': 'n_ope',
+                    'Usuário': 'n_user',
+                    'Turno': 'n_tur',
+                    'Tempo Trab.': 'trab_real',
+                    'Un.': 'uni_trab',
+                    'Coclu.': 'conf_final',
+                    'Data Lanç': 'data_lanc',
+                     'Data Inic.': 'data_ini',
+                     'Hora Inic.': 'hora_ini',
+                     'Data Fim': 'data_fim',
+                     'Hora Fim': 'hora_fim',
+                     'Status': 'status',
+                     'Observação': 'obs',
+                    // Adicione mapeamentos adicionais conforme necessário
+                }[propriedade] || propriedade;
+        
+                if (ordenacaoAtual.coluna === coluna) {
+                    ordenacaoAtual.ascendente = !ordenacaoAtual.ascendente; // Inverte a direção
+                } else {
+                    ordenacaoAtual = { coluna: coluna, ascendente: true }; // Reinicia a direção quando uma nova coluna é selecionada
+                }
+        
+                data.sort((a, b) => {
+                    let valorA = a[coluna];
+                    let valorB = b[coluna];
+        
+                    if (coluna === 'HRpedido') { // Tratamento especial para datas
+                        valorA = new Date(valorA);
+                        valorB = new Date(valorB);
+                    } else if (coluna === 'Id') { // Tratamento especial para números
+                        valorA = +valorA;
+                        valorB = +valorB;
+                    }
+        
+                    if (valorA < valorB) return ordenacaoAtual.ascendente ? -1 : 1;
+                    if (valorA > valorB) return ordenacaoAtual.ascendente ? 1 : -1;
+                    return 0;
+                });
+        
+                // Atualiza o corpo da tabela
+                tbody.innerHTML = '';
+                data.forEach(solicitacao => {
+                    const row = document.createElement('tr');
+					row.className = `status-${solicitacao.status.toLowerCase()}`;
+					row.innerHTML = `<td>${solicitacao.Id}</td>
+									<td>${solicitacao.n_op}</td>
+									<td>${solicitacao.n_ope}</td>
+									<td>${solicitacao.n_user}</td>
+									<td>${solicitacao.n_tur}</td>
+									<td>${solicitacao.trab_real}</td>
+									<td>${solicitacao.uni_trab}</td>
+									<td>${solicitacao.conf_final}</td>
+									<td>${solicitacao.data_lanc}</td>
+									<td>${solicitacao.data_ini}</td>
+									<td>${solicitacao.hora_ini}</td>
+									<td>${solicitacao.data_fim}</td>
+									<td>${solicitacao.hora_fim}</td>
+									<td>${solicitacao.status}</td>
+									<td>${solicitacao.obs}</td>`;
+					tbody.appendChild(row);
+                });
+        
+                // Atualiza os ícones de ordenação nos cabeçalhos
+                document.querySelectorAll('th').forEach(header => {
+                    const propriedadeHeader = header.getAttribute('data-propriedade');
+                    if (propriedadeHeader) {
+                        header.innerHTML = propriedadeHeader + (coluna === propriedadeHeader ? criarIconeOrdenacao(ordenacaoAtual.ascendente) : '');
+                    }
+                });
+            }
+        
+            // Cria a tabela e o cabeçalho, incluindo atributos de data-propriedade
             const tabela = document.createElement('table');
-            tabela.innerHTML = `<thead>
+			            tabela.innerHTML = `<thead>
                                     <tr>
-                                        <th>Id</th>
-                                        <th>Nº O.S</th>
-                                        <th>Nº Oper.</th>
-                                        <th>Usuário</th>
-                                        <th>Turno</th>
-                                        <th>Tempo Trab.</th>
-                                        <th>Un.</th>
-                                        <th>Coclu.</th>
-                                        <th>Data Lanç.</th>
-                                        <th>Data Inic.</th>
-                                        <th>Hora Inic.</th>
-                                        <th>Data Fim</th>
-                                        <th>Hora Fim</th>
-                                        <th>Status</th>
-                                        <th>Observação</th>
+                                        <th data-propriedade="Id">Id</th>
+                                        <th data-propriedade="n_op">Nº O.S</th>
+                                        <th data-propriedade="n_ope">Nº Oper.</th>
+                                        <th data-propriedade="n_user">Usuário</th>
+                                        <th data-propriedade="n_tur">Turno</th>
+                                        <th data-propriedade="trab_real">Tempo Trab.</th>
+                                        <th data-propriedade="uni_trab">Un.</th>
+                                        <th data-propriedade="conf_final">Coclu.</th>
+                                        <th data-propriedade="data_lanc">Data Lanç.</th>
+                                        <th data-propriedade="data_ini">Data Inic.</th>
+                                        <th data-propriedade="hora_ini">Hora Inic.</th>
+                                        <th data-propriedade="data_fim">Data Fim</th>
+                                        <th data-propriedade="hora_fim">Hora Fim</th>
+                                        <th data-propriedade="status">Status</th>
+                                        <th data-propriedade="obs">Observação</th>
                                     </tr>
                                 </thead>`;
+								
             const tbody = document.createElement('tbody');
-        
-            data.forEach(solicitacao => {
-                const row = document.createElement('tr');
-                // Aplica a classe de cor baseada no status da solicitação
-                row.className = `status-${solicitacao.status.toLowerCase()}`;
-                row.innerHTML = `<td>${solicitacao.Id}</td>
-                                <td>${solicitacao.n_op}</td>
-                                <td>${solicitacao.n_ope}</td>
-                                <td>${solicitacao.n_user}</td>
-                                <td>${solicitacao.n_tur}</td>
-                                <td>${solicitacao.trab_real}</td>
-                                <td>${solicitacao.uni_trab}</td>
-                                <td>${solicitacao.conf_final}</td>
-                                <td>${solicitacao.data_lanc}</td>
-                                <td>${solicitacao.data_ini}</td>
-                                <td>${solicitacao.hora_ini}</td>
-                                <td>${solicitacao.data_fim}</td>
-                                <td>${solicitacao.hora_fim}</td>
-                                <td>${solicitacao.status}</td>
-                                <td>${solicitacao.obs}</td>`;
-                tbody.appendChild(row);
-            });
-        
             tabela.appendChild(tbody);
             pedidosContainer.appendChild(tabela);
+        
+            // Adiciona listeners nos cabeçalhos para ordenação
+            tabela.querySelectorAll('th').forEach(header => {
+                header.addEventListener('click', () => {
+                    const propriedade = header.getAttribute('data-propriedade');
+                    if (propriedade) atualizarTabela(propriedade.toLowerCase());
+                });
+            });
+        
+            atualizarTabela('HRpedido'); // Ordena inicialmente por 'Id'
         }
-
         //-------------------------------------------------------------------------
         // Adicione um evento de clique para cada botão de status
         //-------------------------------------------------------------------------
