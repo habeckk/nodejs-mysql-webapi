@@ -460,7 +460,7 @@
                 tbody.innerHTML = '';
                 data.forEach(solicitacao => {
                     const row = document.createElement('tr');
-					row.className = `status-${solicitacao.status.toLowerCase()}`;
+					row.className = `status${solicitacao.status.toLowerCase()}`;
 					row.innerHTML = `<td>${solicitacao.Id}</td>
 									<td>${solicitacao.n_op}</td>
 									<td>${solicitacao.n_ope}</td>

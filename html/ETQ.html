@@ -70,8 +70,11 @@
 
                     <label for="qtdetq">QTD:</label><br>
                     <input type="text" id="qtdetq" name="qtdetq"><br>
+                    <label for="data-etq">Data:</label>
 
+                    <input type="text" id="data-etq" name="data-etq"><br>
                     <label for="zplData">Código ZPL:</label><br>
+                    
                     <textarea id="zplData" name="zplData"></textarea><br>
 
                     <label for="grfData">Código GRF:</label><br>
@@ -146,6 +149,7 @@
                 console.error('Erro ao enviar solicitação:', error);
             }
         });
+
         
         document.getElementById('qtdetq').addEventListener('input', function(event) {
             const novo1 = document.getElementById('zplData').value;
@@ -254,7 +258,7 @@ setInterval(atualizarDados, 1 * 60 * 1000); // 5 minutos * 60 segundos * 1000 mi
 // Função para selecionar uma etiqueta
 //___________________________________________________________________________________
 function selecionarEtiqueta(id) {
-
+    // Fetch para obter os dados da etiqueta pelo ID
     fetch(`${BASE_URL}/getEtiquetaById/${id}`)
         .then(response => {
             if (!response.ok) {
@@ -268,13 +272,33 @@ function selecionarEtiqueta(id) {
             document.getElementById('zplData').value = etiqueta.cod_zpl || '';
             document.getElementById('grfData').value = etiqueta.grf || '';            
             document.getElementById("overlay1").style.display = "block";
+
+            // Substituir "#100@" pelo valor atual da data
+            
+            const zplData = etiqueta.cod_zpl.replace(/#100@/g, getCurrentDate());
+
+            // Atualizar o campo zplData com o ZPL atualizado
+            document.getElementById('zplData').value = zplData;
+
+            // Exibir o modal
+            document.getElementById("overlay1").style.display = "block";
         })
         .catch(error => console.error('Erro ao buscar etiqueta:', error));
+}
+
+// Função para obter a data atual no formato MM/DD/YY
+function getCurrentDate() {
+    const currentDate = new Date();
+    const year = String(currentDate.getFullYear()).slice(-2); // Obtém os dois últimos dígitos do ano
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Obtém o mês atual (adiciona um zero à esquerda se for menor que 10)
+    const day = String(currentDate.getDate()).padStart(2, '0'); // Obtém o dia do mês atual (adiciona um zero à esquerda se for menor que 10)
+    return `${month}/${day}/${year}`; // Retorna a data no formato MM/DD/YY
 }
 
 window.addEventListener('load', function() {
     showSuccessMessage('3');
 });
+
 </script>
 <link rel="stylesheet" href="/css/public.css">
 <link rel="stylesheet" href="/css/ETQ.css">

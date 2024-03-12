@@ -60,7 +60,6 @@
                 <button type="button" onclick="closeForm()">Cancelar</button>
             </form>
         </div>
-
     </div>
     
     <!-- Menu de contexto -->
@@ -167,7 +166,7 @@
                 tbody.innerHTML = '';
                 data.forEach(solicitacao => {
                     const row = document.createElement('tr');
-                    row.className = `status-${solicitacao.status.toLowerCase()}`;
+                    row.className = `status${solicitacao.status.toLowerCase()}`;
                     row.innerHTML = `<td>${solicitacao.Id}</td>
                                     <td>${solicitacao.HRpedido}</td>
                                     <td>${solicitacao.cc}</td>

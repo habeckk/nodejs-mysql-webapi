@@ -14,21 +14,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // Middleware para analisar dados do formulário
 app.use(cors()); // Use o middleware do CORS para permitir solicitações de todas as origens
 
-//___________________________________________________________________________________
-// Defina a rota principal
-//___________________________________________________________________________________
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 rota principal 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
 app.get('/', (req, res) => res.json({ message: 'Funcionando!' }));
-//___________________________________________________________________________________
-// Rota para lidar com solicitações GET para o arquivo PDF
-//___________________________________________________________________________________
-app.get('/pdf/:id', async(req, res) => {
-    const id = req.params.id;
 
-    const result = await db.getItemByFipN(id);
-    res.status(200).json(result); // Envie os setups obtidos como resposta
-    
-});
-
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU FIP 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 app.get('/pdfabrir/:fipN', async (req, res) => {
     const fipN = req.params.fipN;
     console.log(fipN + " teste"); // Para debug
@@ -53,9 +45,9 @@ app.get('/pdfabrir/:fipN', async (req, res) => {
         fs.createReadStream(filePath).pipe(res);
     });
 });
-//___________________________________________________________________________________
-// Rota para adicionar um novo cliente
-//___________________________________________________________________________________
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 LOGIN 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
 app.post('/login', async (req, res) => {
     const { username, password } = req.body; // Obtem username e password do corpo da requisição
     try {
@@ -72,9 +64,10 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ error: 'Erro interno do servidor' });
     }
 });
-//___________________________________________________________________________________
-// Salvar Apontamento ferramentaria
-//___________________________________________________________________________________
+
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 APF APONTAMENTO 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
 app.post('/ferr_apont', async (req, res) => {
     const { login, n_op, n_ope, n_user, n_tur, trab_real, uni_trab, conf_final, data_lanc, data_ini, hora_ini, data_fim, hora_fim, status, obs} = req.body;
 
@@ -108,9 +101,19 @@ app.put('/ferr_apont/:id', async (req, res) => {
         res.status(500).json({ error: 'Erro interno ao atualizar o apontamento.' });
     }
 });
-//___________________________________________________________________________________
-// salvar setup
-//___________________________________________________________________________________
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU PDF 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+app.get('/pdf/:id', async(req, res) => {
+    const id = req.params.id;
+
+    const result = await db.getItemByFipN(id);
+    res.status(200).json(result); // Envie os setups obtidos como resposta
+    
+});
+
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU ADICIONAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
 app.post('/setupusi', async (req, res) => {
     const { HRpedido, login, cc, maquina, item, operacao, lote, horario, status, calibrador, HRfinalizado, obs} = req.body;
 
@@ -122,10 +125,8 @@ app.post('/setupusi', async (req, res) => {
         res.status(500).json({ error: 'Erro ao adicionar Setup' });
     }
 });
-//___________________________________________________________________________________
-// carregar setup
-//___________________________________________________________________________________
-// Rota para obter os setups existentes
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU SELECT 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 app.get('/setupusi', async (req, res) => {
     try {
         const setups = await db.selectCustomers(); // Chame a função que obtém os setups do banco de dados
@@ -135,9 +136,9 @@ app.get('/setupusi', async (req, res) => {
         res.status(500).json({ error: 'Erro ao buscar setups' });
     }
 });
-//___________________________________________________________________________________
-// Rota para atualizar o status da solicitação
-// Em connSetupUsi.js
+
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU ALTERAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 
 app.put('/atualizar-status/:id', async (req, res) => {
     const setupId = req.params.id;
@@ -151,9 +152,10 @@ app.put('/atualizar-status/:id', async (req, res) => {
         res.status(500).json({ error: 'Erro interno ao atualizar o status.' });
     }
 });
-//___________________________________________________________________________________
-// Rota para lidar com a exclusão de um setup de usinagem pelo ID
-//___________________________________________________________________________________
+
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU DELETAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
 app.delete('/delete/:id', async (req, res) => {
     const id = req.params.id;
 
@@ -166,9 +168,9 @@ app.delete('/delete/:id', async (req, res) => {
     }
 });
 
-//___________________________________________________________________________________
-// Rota para obter as máquinas associadas a um centro de custo específico
-//___________________________________________________________________________________
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU SELECT MÁQ 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
 app.get('/maquinas', async (req, res) => {
     const centroCusto = req.query.centroCusto;
     try {
@@ -179,9 +181,10 @@ app.get('/maquinas', async (req, res) => {
         res.status(500).json({ error: 'Erro ao obter máquinas' });
     }
 });
-//___________________________________________________________________________________
-// Rota para obter folha de processo associadas a um item específico
-//___________________________________________________________________________________
+
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU FOLHA PROCESSO 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
 app.get('/setupusiFolha', async (req, res) => {
     const item = req.query.item;
     try {
@@ -193,9 +196,9 @@ app.get('/setupusiFolha', async (req, res) => {
     }
 });
 
-//___________________________________________________________________________________
-// IMPRESSÃO DE ETIQUETAS
-//___________________________________________________________________________________
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 ETQ IMPRIMIR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
 app.post('/zpl', async (req, res) => {
 
     const fs = require('fs');
@@ -208,21 +211,14 @@ app.post('/zpl', async (req, res) => {
     console.log('Diretório da Impressora:', printerDirectory);
     console.log('Código ZPL:', zplData);
 
-//---------------------------------------- dprj94 -------------------------------------------------
     if (grfData.trim()) {
-
         const printerDir1 = "//172.18.1.232/" + printerDirectory.trim();
-
         // Conteúdo ZPL a ser impresso
         const grfContent = grfData.trim();
-
         // Nome do arquivo de impressão
         const fileName1 = 'label_template.grf';
-
         // Caminho completo do arquivo de impressão
         const filePath1 = path.join(printerDir1, fileName1);
-
-        
         fs.writeFile(filePath1, grfContent, (err) => {
             if (err) {
                 console.error('Erro ao escrever arquivo grf:', err);
@@ -230,23 +226,16 @@ app.post('/zpl', async (req, res) => {
                 console.log('Arquivo grf criado com sucesso:', filePath1);
             }
         });
-
-
     }
 //-----------------------------------------------------------------------------------------------
-
     // Diretório da impressora compartilhada
     const printerDir = "//172.18.1.232/" + printerDirectory.trim();
-
     // Conteúdo ZPL a ser impresso
     const zplContent = zplData.trim();
-
     // Nome do arquivo de impressão
     const fileName = 'label_template.zpl';
-
     // Caminho completo do arquivo de impressão
     const filePath = path.join(printerDir, fileName);
-
     // Escrever os comandos ZPL no arquivo
     if (qtdetq.trim()) {
         const qtdetq2 = qtdetq.trim();  
@@ -263,6 +252,9 @@ app.post('/zpl', async (req, res) => {
     }
 });
 
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 ETQ ADICIONAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
 app.get('/etiqueta', async (req, res) => {
     try {
         const etiquetas = await db.getEtiquetas(); // Função para obter os dados da tabela zpl_data do banco de dados
@@ -273,9 +265,9 @@ app.get('/etiqueta', async (req, res) => {
     }
 });
 
-//___________________________________________________________________________________
-// GAVAÇÃO DE DADOS DAS ETIQUETAS
-//___________________________________________________________________________________
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 ETQ GRAVAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
 app.post('/salvaEtq', async (req, res) => {
     const { modelo, nome, cod_etq, grf, cod_zpl, obs} = req.body;
 
@@ -288,7 +280,9 @@ app.post('/salvaEtq', async (req, res) => {
     }
 });
 
-// Endpoint para buscar etiqueta por ID
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU SELECT 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
 app.get('/getEtiquetaById/:id', async (req, res) => {
     const id = req.params.id;
 
@@ -300,6 +294,9 @@ app.get('/getEtiquetaById/:id', async (req, res) => {
         res.status(500).json({ error: 'Erro ao obter Etiquetanas' });
     }
 });
+
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 APF GERAR PLANILHA 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 
 const { gerarPlanilhaXLSX } = require('./db');
 
@@ -318,13 +315,9 @@ app.get('/export-ferr_apont-xlsx', async (req, res) => {
     }
 });
 
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 INICIAR SEVIDOR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 
-
-
-
-//___________________________________________________________________________________
-// Inicia o servidor
-//___________________________________________________________________________________
 app.listen(port, () => {
     console.log(`API funcionando na porta ${port}`);
 });

@@ -1,4 +1,5 @@
 const sql = require('mssql');
+const ExcelJS = require('exceljs'); // Necessário para a geração de arquivos XLS
 
 const config = {
     user: process.env.DB_USER,
@@ -11,7 +12,8 @@ const config = {
         trustServerCertificate: true, // Esta opção permite que você confie em certificados autoassinados
     }
 };
-
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 LOGIN 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 async function selectLogin(username, password) {
     try {
         await sql.connect(config);
@@ -25,7 +27,8 @@ async function selectLogin(username, password) {
         await sql.close();
     }
 }
-
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 APF 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 async function insertferr_apont( login, n_op, n_ope, n_user, n_tur, trab_real, uni_trab, conf_final, data_lanc, data_ini, hora_ini, data_fim, hora_fim, status, obs) {
     try {
         await sql.connect(config);
@@ -63,7 +66,8 @@ async function update_ferr_apont(id, trab_real, conf_final, data_lanc, data_ini,
         await sql.close();
     }
 }
-
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 LOGIN 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 async function insertCustomer(HRpedido, login, cc, maquina, item, operacao, lote, horario, status, calibrador, HRfinalizado, obs) {
     try {
         await sql.connect(config);
@@ -76,7 +80,8 @@ async function insertCustomer(HRpedido, login, cc, maquina, item, operacao, lote
         await sql.close();
     }
 }
-
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 async function selectCustomers() {
     try {
         await sql.connect(config);
@@ -112,9 +117,8 @@ async function excluirSetupUsiPorId(id) {
         await sql.close();
     }
 }
-
-// db.js
-
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 GRUPO DE MÁQUINAS 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 async function getMaquinasPorCentroCusto(centroCusto) {
     try {
         await sql.connect(config);
@@ -126,7 +130,8 @@ async function getMaquinasPorCentroCusto(centroCusto) {
         await sql.close();
     }
 }
-
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 FOLHA DE PROCESSO 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 async function getFolhaProcessoItem(item) {
     try {
         await sql.connect(config);
@@ -139,7 +144,8 @@ async function getFolhaProcessoItem(item) {
         await sql.close();
     }
 }
-
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 ETQ 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 async function getEtiquetas() {
     try {
         await sql.connect(config);
@@ -178,6 +184,8 @@ async function buscarEtiquetaPorId(id) {
         await sql.close(); // Isso pode ser problemático se você estiver usando pool de conexões
     }
 }
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU FIP 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 async function getItemByFipN(id) {
     try {
         await sql.connect(config);
@@ -191,10 +199,8 @@ async function getItemByFipN(id) {
     }
 }
 
-
-const ExcelJS = require('exceljs'); // Necessário para a geração de arquivos XLSX
-
-
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 EXPORTAR EXCEL APF 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 async function gerarPlanilhaXLSX() {
     try {
         await sql.connect(config);
@@ -254,7 +260,8 @@ async function gerarPlanilhaXLSX() {
         await sql.close();
     }
 }
-
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 MODULOS 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 module.exports = { selectCustomers,
     insertCustomer,
     updateStatus,
