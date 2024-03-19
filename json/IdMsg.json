@@ -20,7 +20,7 @@
     {
         "IdMsg": "4",
         "tipo": "erro",
-        "descricao": "Página Atualizada com Sucesso!",
+        "descricao": "Erro ao Atualizar!",
         "caminhoImagem": "/img/icons8-erro-96.png"
     },
     {
@@ -52,6 +52,17 @@
         "tipo": "sucesso",
         "descricao": "Por favor, preencha todos os campos obrigatórios.",
         "caminhoImagem": "/img/icons8-excluir.svg"
+    },
+    {
+        "IdMsg": "10",
+        "tipo": "sucesso",
+        "descricao": "Excluído com sucesso",
+        "caminhoImagem": "/img/icons8-ok.svg"
+    },
+    {
+        "IdMsg": "11",
+        "tipo": "erro",
+        "descricao": "Não encontrado",
+        "caminhoImagem": "/img/icons8-excluir.svg"
     }
-
 ]

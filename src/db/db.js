@@ -1,5 +1,4 @@
 const sql = require('mssql');
-const ExcelJS = require('exceljs'); // Necessário para a geração de arquivos XLS
 
 const config = {
     user: process.env.DB_USER,
@@ -14,22 +13,35 @@ const config = {
 };
 //__________________________________________________________________________________________________________
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 LOGIN 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
-async function selectLogin(username, password) {
+async function loginProcess(req, res) {
+    const { username, password } = req.body;
     try {
-        await sql.connect(config);
-        // Aqui você deve incluir lógica para verificar username e password
-        // Esta é apenas uma estrutura básica
-        const result = await sql.query`SELECT * FROM gdm_login WHERE username = ${username} AND password = ${password}`;
-        return result.recordset;
+        let pool = await sql.connect(config);
+        let request = pool.request();
+
+        // Assegura a declaração e atribuição dos parâmetros
+        request.input('username', sql.VarChar, username);
+        request.input('password', sql.VarChar, password);
+
+        // Certifique-se de que os nomes dos parâmetros na consulta correspondam aos usados no método input
+        const result = await request.query('SELECT * FROM gdm_login WHERE username = @username AND password = @password');
+
+        if (result.recordset.length > 0) {
+            res.json({ success: true, message: "Login bem-sucedido." });
+        } else {
+            res.status(401).json({ success: false, message: "Credenciais inválidas." });
+        }
     } catch (error) {
-        throw error;
+        console.error('Erro ao tentar fazer login:', error);
+        res.status(500).json({ error: 'Erro interno do servidor.' });
     } finally {
         await sql.close();
     }
 }
+
 //__________________________________________________________________________________________________________
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 APF 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
-async function insertferr_apont( login, n_op, n_ope, n_user, n_tur, trab_real, uni_trab, conf_final, data_lanc, data_ini, hora_ini, data_fim, hora_fim, status, obs) {
+async function add_ferr_apont( login, n_op, n_ope, n_user, n_tur, trab_real, uni_trab, conf_final, data_lanc, data_ini, hora_ini, data_fim, hora_fim, status, obs) {
     try {
         await sql.connect(config);
         const result = await sql.query`INSERT INTO gdm_ferra_apont ( login, n_op, n_ope, n_user, n_tur, trab_real, uni_trab, conf_final, data_lanc, data_ini, hora_ini, data_fim, hora_fim, status, obs) 
@@ -42,7 +54,7 @@ async function insertferr_apont( login, n_op, n_ope, n_user, n_tur, trab_real, u
     }
 }
 
-async function selectferr_apont() {
+async function get_ferr_apont() {
     try {
         await sql.connect(config);
         const result = await sql.query`SELECT * FROM gdm_ferra_apont`;
@@ -54,11 +66,11 @@ async function selectferr_apont() {
     }
 }
 
-async function update_ferr_apont(id, trab_real, conf_final, data_fim, hora_fim, status, obs) {
+async function update_ferr_apont(id, trab_real, conf_final, data_lanc, data_ini, hora_ini, data_fim, hora_fim, status, obs) {
     try {
         await sql.connect(config);
         // A query de atualização precisa ser ajustada conforme a estrutura do seu banco de dados e os nomes das colunas
-        const result = await sql.query`UPDATE gdm_ferra_apont SET trab_real = ${trab_real}, conf_final = ${conf_final}, data_fim = ${data_fim}, hora_fim = ${hora_fim}, status = ${status}, obs = ${obs} WHERE Id = ${id}`;
+        const result = await sql.query`UPDATE gdm_ferra_apont SET trab_real = ${trab_real}, conf_final = ${conf_final}, data_lanc = ${data_lanc}, data_ini = ${data_ini}, hora_ini = ${hora_ini}, data_fim = ${data_fim}, hora_fim = ${hora_fim}, status = ${status}, obs = ${obs} WHERE Id = ${id}`;
         return result;
     } catch (error) {
         throw error;
@@ -68,52 +80,83 @@ async function update_ferr_apont(id, trab_real, conf_final, data_fim, hora_fim, 
 }
 //__________________________________________________________________________________________________________
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
-async function insertCustomer(HRpedido, login, cc, maquina, item, operacao, lote, horario, status, calibrador, HRfinalizado, obs) {
+async function getItemByFipN(req, res) {
+    const { id } = req.params;
     try {
-        await sql.connect(config);
-        const result = await sql.query`INSERT INTO setupusi (HRpedido, login, cc, maquina, item, operacao, lote, horario, status, calibrador, HRfinalizado, obs) 
-                                    VALUES (${HRpedido}, ${login}, ${cc}, ${maquina}, ${item}, ${operacao}, ${lote}, ${horario}, ${status}, ${calibrador}, ${HRfinalizado}, ${obs})`;
-        return result;
+        let pool = await sql.connect(config);
+        let request = pool.request();
+        request.input('id', sql.VarChar, id);
+        const result = await request.query('SELECT * FROM SMP_FIP WHERE Item = @id');
+        res.json(result.recordset);
     } catch (error) {
-        throw error;
+        console.error('Database query error:', error);
+        res.status(500).json({ error: 'Erro ao buscar item por ID.' });
     } finally {
-        await sql.close();
+        sql.close();
     }
 }
 
-async function selectCustomers() {
+async function addSetupUsi(req, res) {
+    const { HRpedido, login, cc, maquina, item, operacao, lote, horario, status, calibrador, HRfinalizado, obs } = req.body;
     try {
-        await sql.connect(config);
-        const result = await sql.query`SELECT * FROM setupusi`;
-        return result.recordset;
+        let pool = await sql.connect(config);
+        let request = pool.request();
+        // Aqui, adicione .input para cada parâmetro necessário
+        const result = await request.query(`INSERT INTO setupusi (HRpedido, login, cc, maquina, item, operacao, lote, horario, status, calibrador, HRfinalizado, obs)
+                                            VALUES ('${HRpedido}', '${login}', '${cc}', '${maquina}', '${item}', '${operacao}', '${lote}', '${horario}', '${status}', '${calibrador}', '${HRfinalizado}', '${obs}')`);
+        res.status(201).json({ message: 'Setup adicionado com sucesso' });
     } catch (error) {
-        throw error;
+        console.error('Error adding setup:', error);
+        res.status(500).json({ error: 'Erro ao adicionar setup.' });
     } finally {
-        await sql.close();
+        sql.close();
     }
 }
 
-async function updateStatus(id, novoStatus) {
+async function getSetupsUsi(req, res) {
     try {
-        await sql.connect(config);
-        const result = await sql.query`UPDATE setupusi SET status = ${novoStatus} WHERE Id = ${id}`;
-        return result;
+        let pool = await sql.connect(config);
+        const result = await pool.request().query('SELECT * FROM setupusi');
+        res.json(result.recordset);
     } catch (error) {
-        throw error;
+        console.error('Error fetching setups:', error);
+        res.status(500).json({ error: 'Erro ao buscar setups.' });
     } finally {
-        await sql.close();
+        sql.close();
     }
 }
 
-async function excluirSetupUsiPorId(id) {
+async function updateSetupUsi(req, res) {
+    const { id } = req.params;
+    const { status } = req.body;
     try {
-        await sql.connect(config);
-        const result = await sql.query`DELETE FROM setupusi WHERE id = ${id}`;
-        return result;
+        let pool = await sql.connect(config);
+        let request = pool.request();
+        request.input('id', sql.Int, id);
+        request.input('status', sql.VarChar, status);
+        const result = await request.query('UPDATE setupusi SET status = @status WHERE Id = @id');
+        res.json({ message: 'Setup atualizado com sucesso.' });
     } catch (error) {
-        throw error;
+        console.error('Error updating setup:', error);
+        res.status(500).json({ error: 'Erro ao atualizar setup.' });
     } finally {
-        await sql.close();
+        sql.close();
+    }
+}
+
+async function deleteSetupUsi(req, res) {
+    const { id } = req.params;
+    try {
+        let pool = await sql.connect(config);
+        let request = pool.request();
+        request.input('id', sql.Int, id);
+        const result = await request.query('DELETE FROM setupusi WHERE id = @id');
+        res.json({ message: 'Setup excluído com sucesso.' });
+    } catch (error) {
+        console.error('Error deleting setup:', error);
+        res.status(500).json({ error: 'Erro ao excluir setup.' });
+    } finally {
+        sql.close();
     }
 }
 //__________________________________________________________________________________________________________
@@ -131,16 +174,20 @@ async function getMaquinasPorCentroCusto(centroCusto) {
 }
 //__________________________________________________________________________________________________________
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 FOLHA DE PROCESSO 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
-async function getFolhaProcessoItem(item) {
+async function getFolhaProcessoItem(req, res) {
+    const item = req.query.item;
+
     try {
-        await sql.connect(config);
-        const result = await sql.query`SELECT Docu FROM ferramentaria_x_item WHERE Item = ${item}`;
-        
-        return result.recordset;
+        let pool = await sql.connect(config);
+        let request = pool.request();
+        request.input('item', sql.VarChar, item);
+        const docu = await request.query('SELECT Docu FROM ferramentaria_x_item WHERE item = @item');
+        res.status(200).json(docu.recordset);
     } catch (error) {
-        throw error;
+        console.error('Database query error:', error);
+        res.status(500).json({ error: 'Erro ao buscar item por ID.' });
     } finally {
-        await sql.close();
+        sql.close();
     }
 }
 //__________________________________________________________________________________________________________
@@ -157,7 +204,7 @@ async function getEtiquetas() {
     }
 }
 
-async function insertEtq(modelo, nome, cod_etq, grf, cod_zpl, obs) {
+async function addEtiqueta(modelo, nome, cod_etq, grf, cod_zpl, obs) {
     try {
         await sql.connect(config);
         const result = await sql.query`INSERT INTO zpl_data (modelo, nome, cod_etq, grf, cod_zpl, obs) 
@@ -170,7 +217,7 @@ async function insertEtq(modelo, nome, cod_etq, grf, cod_zpl, obs) {
     }
 }
 
-async function buscarEtiquetaPorId(id) {
+async function getEtiquetaById(id) {
     try {
         // Supondo que `config` já esteja definido em outro lugar do seu código
         await sql.connect(config);
@@ -178,20 +225,6 @@ async function buscarEtiquetaPorId(id) {
         return result.recordset; // .recordset contém os registros retornados pela consulta
     } catch (error) {
         console.error('Erro na consulta ao banco de dados:', error);
-        throw error; // É uma boa prática relançar o erro após logá-lo
-    } finally {
-        await sql.close(); // Isso pode ser problemático se você estiver usando pool de conexões
-    }
-}
-//__________________________________________________________________________________________________________
-//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU FIP 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
-async function getItemByFipN(id) {
-    try {
-        await sql.connect(config);
-        const result = await sql.query`SELECT * FROM SMP_FIP WHERE Item = ${id}`;
-        return result.recordset;
-    } catch (error) {
-        console.error('Database query error:', error);
         throw error; // É uma boa prática relançar o erro após logá-lo
     } finally {
         await sql.close(); // Isso pode ser problemático se você estiver usando pool de conexões
@@ -206,34 +239,25 @@ async function gerarPlanilhaXLSX() {
         const result = await sql.query`SELECT * FROM gdm_ferra_apont WHERE status = 'Finalizado'`;
 
         const workbook = new ExcelJS.Workbook();
-        const worksheet = workbook.addWorksheet('Data');
+        const worksheet = workbook.addWorksheet('Apontamentos');
 
         worksheet.columns = [
-            //{ header: 'ID', key: 'Id', width: 10 },
-            //{ header: 'Login', key: 'login', width: 10 },
-            { header: 'Nº da ordem', key: 'n_op', width: 10 },
-            { header: 'Descrição da ordem', key: '----', width: 10 },
-            { header: 'Operação', key: 'n_ope', width: 10 },
-            { header: 'Descrição da operação', key: '----', width: 10 },
-            { header: 'Suboperação', key: '----', width: 10 },
-            { header: 'Empregado', key: 'n_user', width: 10 },
-            { header: 'Tipo de atividade', key: '----', width: 10 },
-            { header: 'Trabalho real', key: 'trab_real', width: 15 },
-            { header: 'Unidade de trabalho', key: 'uni_trab', width: 15 },
-            { header: 'Confirmação final (X=Sim, Nulo=Não)', key: 'conf_final', width: 15 },
-            { header: 'Data de lançamento', key: 'data_lanc', width: 15 },
-            { header: 'Texto de confirmação', key: '----', width: 10 },
-            { header: 'Data do início', key: 'data_ini', width: 15 },
-            { header: 'Hora de início (HH:MM:SS)', key: 'hora_ini', width: 10 },
-            { header: 'Data do fim', key: 'data_fim', width: 15 },
-            { header: 'Hora de fim (HH:MM:SS)', key: 'hora_fim', width: 10 },
-            { header: 'Data fim previsão', key: '----', width: 20 },
-            { header: 'Hora de fim de previsão (HH:MM:SS)', key: '----', width: 20 },
-            { header: 'Nenhum trabalho restante previsto (X=Sim, Nulo=Não)', key: '----', width: 20 },
-            { header: 'Trabalho restante', key: '----', width: 20 },
-            { header: 'Unidade de medida para trabalho restante', key: '----', width: 20 },
-            { header: 'Compensar reservas pendentes (X=Sim, Nulo=Não)', key: '----', width: 20 },
-            { header: 'Motivo para desvio', key: '----', width: 20 },
+            { header: 'ID', key: 'Id', width: 10 },
+            { header: 'Login', key: 'login', width: 10 },
+            { header: 'Número OP', key: 'n_op', width: 10 },
+            { header: 'Número OPE', key: 'n_ope', width: 10 },
+            { header: 'Número User', key: 'n_user', width: 10 },
+            { header: 'Número Turno', key: 'n_tur', width: 10 },
+            { header: 'Trabalho Realizado', key: 'trab_real', width: 15 },
+            { header: 'Unidade Trabalho', key: 'uni_trab', width: 15 },
+            { header: 'Confirmação Final', key: 'conf_final', width: 15 },
+            { header: 'Data Lançamento', key: 'data_lanc', width: 15 },
+            { header: 'Data Início', key: 'data_ini', width: 15 },
+            { header: 'Hora Início', key: 'hora_ini', width: 10 },
+            { header: 'Data Fim', key: 'data_fim', width: 15 },
+            { header: 'Hora Fim', key: 'hora_fim', width: 10 },
+            { header: 'Status', key: 'status', width: 20 },
+            { header: 'Observação', key: 'obs', width: 30 }
         ];
 
         // Aplicando estilo ao cabeçalho
@@ -256,22 +280,10 @@ async function gerarPlanilhaXLSX() {
                 right: {style:'thin'}
             };
         });
-        
+
         result.recordset.forEach(record => {
-            // Transforma as datas de 'YYYY-MM-DD' para 'MM/DD/YYYY'
-            if (record.data_ini) {
-                record.data_ini = record.data_ini.replace(/(\d{4})-(\d{2})-(\d{2})/, '$2/$3/$1');
-            }
-            if (record.data_fim) {
-                record.data_fim = record.data_fim.replace(/(\d{4})-(\d{2})-(\d{2})/, '$2/$3/$1');
-            }
-            if (record.data_lanc) {
-                record.data_lanc = record.data_lanc.replace(/(\d{4})-(\d{2})-(\d{2})/, '$2/$3/$1');
-            }        
-            // Adiciona a linha transformada
             worksheet.addRow(record);
         });
-        
 
         return workbook; // Retorna o workbook para ser usado fora dessa função
     } catch (error) {
@@ -282,19 +294,20 @@ async function gerarPlanilhaXLSX() {
 }
 //__________________________________________________________________________________________________________
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 MODULOS 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
-module.exports = { selectCustomers,
-    insertCustomer,
-    updateStatus,
-    excluirSetupUsiPorId, 
+module.exports = {
+    getSetupsUsi,
+    addSetupUsi,
+    updateSetupUsi,
+    deleteSetupUsi, 
     getMaquinasPorCentroCusto, 
     getEtiquetas, 
-    insertEtq, 
-    buscarEtiquetaPorId, 
+    addEtiqueta, 
+    getEtiquetaById, 
     getItemByFipN, 
     getFolhaProcessoItem, 
-    selectLogin, 
-    insertferr_apont, 
-    selectferr_apont,
+    loginProcess, 
+    add_ferr_apont, 
+    get_ferr_apont,
     update_ferr_apont,
-    gerarPlanilhaXLSX
+    gerarPlanilhaXLSX,
 };

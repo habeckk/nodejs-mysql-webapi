@@ -1,4 +1,0 @@
-^XA
-^CF0,30
-^FO10,20^AN,20^FDfernando^FS
-^XZ

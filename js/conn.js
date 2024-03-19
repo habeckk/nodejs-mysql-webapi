@@ -20,7 +20,7 @@ app.use(cors()); // Use o middleware do CORS para permitir solicitações de tod
 app.get('/', (req, res) => res.json({ message: 'Funcionando!' }));
 
 //__________________________________________________________________________________________________________
-//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU FIP 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU FIP 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 app.get('/pdfabrir/:fipN', async (req, res) => {
     const fipN = req.params.fipN;
     console.log(fipN + " teste"); // Para debug
@@ -31,7 +31,7 @@ app.get('/pdfabrir/:fipN', async (req, res) => {
     }
 
     const baseNetworkPath = '\\\\dfs\\SAP\\PP\\QUA\\FIP-PDF';
-    const filePath = path.join(baseNetworkPath, `${fipN}.pdf`); // Construindo o caminho do arquivo
+    const filePath = path.join(baseNetworkPath, `00001.pdf`); // Construindo o caminho do arquivo
 
     // Verifica se o arquivo existe
     fs.access(filePath, fs.constants.F_OK, (err) => {
@@ -46,7 +46,7 @@ app.get('/pdfabrir/:fipN', async (req, res) => {
     });
 });
 //__________________________________________________________________________________________________________
-//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 LOGIN 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 LOGIN 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 
 app.post('/login', async (req, res) => {
     const { username, password } = req.body; // Obtem username e password do corpo da requisição
@@ -79,6 +79,7 @@ app.post('/ferr_apont', async (req, res) => {
         res.status(500).json({ error: 'Erro ao adicionar Apontamento' });
     }
 });
+
 app.get('/ferr_apont', async (req, res) => {
     try {
         const setups = await db.selectferr_apont(); // Chame a função que obtém os setups do banco de dados
@@ -91,10 +92,10 @@ app.get('/ferr_apont', async (req, res) => {
 
 app.put('/ferr_apont/:id', async (req, res) => {
     const { id } = req.params;
-    const { trab_real, conf_final, data_lanc, data_ini, hora_ini, data_fim, hora_fim, status, obs } = req.body;
+    const { trab_real, conf_final, data_fim, hora_fim, status, obs } = req.body;
 
     try {
-        const result = await db.update_ferr_apont(id, trab_real, conf_final, data_lanc, data_ini, hora_ini, data_fim, hora_fim, status, obs);
+        const result = await db.update_ferr_apont(id, trab_real, conf_final, data_fim, hora_fim, status, obs);
         res.status(200).json({ message: 'Apontamento atualizado com sucesso.', id: result });
     } catch (error) {
         console.error('Erro ao atualizar o apontamento:', error);
@@ -112,7 +113,7 @@ app.get('/pdf/:id', async(req, res) => {
 });
 
 //__________________________________________________________________________________________________________
-//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU ADICIONAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU ADICIONAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 
 app.post('/setupusi', async (req, res) => {
     const { HRpedido, login, cc, maquina, item, operacao, lote, horario, status, calibrador, HRfinalizado, obs} = req.body;
@@ -126,7 +127,7 @@ app.post('/setupusi', async (req, res) => {
     }
 });
 //__________________________________________________________________________________________________________
-//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU SELECT 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU SELECT 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 app.get('/setupusi', async (req, res) => {
     try {
         const setups = await db.selectCustomers(); // Chame a função que obtém os setups do banco de dados
@@ -138,7 +139,7 @@ app.get('/setupusi', async (req, res) => {
 });
 
 //__________________________________________________________________________________________________________
-//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU ALTERAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU ALTERAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 
 app.put('/atualizar-status/:id', async (req, res) => {
     const setupId = req.params.id;
@@ -154,7 +155,7 @@ app.put('/atualizar-status/:id', async (req, res) => {
 });
 
 //__________________________________________________________________________________________________________
-//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU DELETAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU DELETAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 
 app.delete('/delete/:id', async (req, res) => {
     const id = req.params.id;
@@ -183,7 +184,7 @@ app.get('/maquinas', async (req, res) => {
 });
 
 //__________________________________________________________________________________________________________
-//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU FOLHA PROCESSO 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU FOLHA PROCESSO 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 
 app.get('/setupusiFolha', async (req, res) => {
     const item = req.query.item;
@@ -197,7 +198,7 @@ app.get('/setupusiFolha', async (req, res) => {
 });
 
 //__________________________________________________________________________________________________________
-//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 ETQ IMPRIMIR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 ETQ IMPRIMIR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 
 app.post('/zpl', async (req, res) => {
 
@@ -253,7 +254,7 @@ app.post('/zpl', async (req, res) => {
 });
 
 //__________________________________________________________________________________________________________
-//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 ETQ ADICIONAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 ETQ ADICIONAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 
 app.get('/etiqueta', async (req, res) => {
     try {
@@ -266,7 +267,7 @@ app.get('/etiqueta', async (req, res) => {
 });
 
 //__________________________________________________________________________________________________________
-//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 ETQ GRAVAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 ETQ GRAVAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 
 app.post('/salvaEtq', async (req, res) => {
     const { modelo, nome, cod_etq, grf, cod_zpl, obs} = req.body;
@@ -281,7 +282,7 @@ app.post('/salvaEtq', async (req, res) => {
 });
 
 //__________________________________________________________________________________________________________
-//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU SELECT 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU SELECT 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 
 app.get('/getEtiquetaById/:id', async (req, res) => {
     const id = req.params.id;
@@ -296,7 +297,7 @@ app.get('/getEtiquetaById/:id', async (req, res) => {
 });
 
 //__________________________________________________________________________________________________________
-//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 APF GERAR PLANILHA 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 APF GERAR PLANILHA 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 
 const { gerarPlanilhaXLSX } = require('./db');
 
@@ -317,6 +318,53 @@ app.get('/export-ferr_apont-xlsx', async (req, res) => {
 
 //__________________________________________________________________________________________________________
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 INICIAR SEVIDOR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+const { exec } = require('child_process');
+app.use(express.static(path.join(__dirname)));
+
+app.get('/executarPython', (req, res) => {
+    exec('python ./GRF.py', (error, stderr) => {
+
+        if (error) {
+            console.error(`Erro ao executar o script Python: ${error}`);
+            return res.status(500).send('Erro ao processar a imagem.');
+        }
+
+        const baseNetworkPath = './';
+        const filePath = path.join(baseNetworkPath, `2345200R00.GRF`); // Construindo o caminho do arquivo
+    
+        // Verifica se o arquivo existe
+        fs.access(filePath, fs.constants.F_OK, (err) => {
+            if (err) {
+                return res.status(404).send('Arquivo não encontrado');
+            }
+            // Se o arquivo existir, envia o arquivo
+            // Para forçar download, você pode descomentar a linha abaixo
+            // res.setHeader('Content-Disposition', 'attachment; filename="' + fipN + '.pdf"');
+            res.setHeader('Content-Type', 'application/pdf');
+            fs.createReadStream(filePath).pipe(res);
+        });
+        
+    });
+});
+
+app.get('/grfabrir', async (req, res) => {
+
+    const baseNetworkPath = '\\\\dfs\\SAP\\PP\\QUA\\FIP-PDF';
+    const filePath = path.join(baseNetworkPath, `00006.PDF`); // Construindo o caminho do arquivo
+
+    // Verifica se o arquivo existe
+    fs.access(filePath, fs.constants.F_OK, (err) => {
+        if (err) {
+            return res.status(404).send('Arquivo não encontrado');
+        }
+        // Se o arquivo existir, envia o arquivo
+        // Para forçar download, você pode descomentar a linha abaixo
+        // res.setHeader('Content-Disposition', 'attachment; filename="' + fipN + '.pdf"');
+        res.setHeader('Content-Type', 'application/pdf');
+        fs.createReadStream(filePath).pipe(res);
+    });
+});
+
 
 app.listen(port, () => {
     console.log(`API funcionando na porta ${port}`);

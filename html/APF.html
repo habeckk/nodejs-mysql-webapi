@@ -22,7 +22,7 @@
         </button> 
 
         <div class="sidebar-buttons-container">
-            <button class="sidebar-button" type="button" onclick="openForm0()">Abrir O.S</button>
+            <button class="sidebar-button" type="button" onclick="openForm0()">Iniciar O.S</button>
             <button class="sidebar-button" id="viewCardsBtn">Visualizar como Cartões</button>
             <button class="sidebar-button" id="viewListBtn">Visualizar como Lista</button>
             <button class="sidebar-button" id="viewExtrair">Extrair Dados</button>
@@ -43,6 +43,12 @@
                 <label for="operador">ID Operador:</label>
                 <input type="text" id="operador" name="operador"><br>        
 
+                <label for="dt-inicio">Data Inicio:</label>
+                <input type="date" id="dt-inicio" name="dt-inicio"><br>
+                
+                <label for="hr-inicio">Horário Inicio:</label>
+                <input type="time" id="hr-inicio" name="hr-inicio"><br>
+
                 <label for="turno">Turno:</label>
                 <select id="turno" name="turno"></select><br>
 
@@ -61,12 +67,6 @@
             <form id="formNovoApont1">
                 <input type="hidden" id="idSolicitacao" name="idSolicitacao">
                 <div class="hour">
-                    <label for="dt-inicio">Data Inicio:</label>
-                    <input type="date" id="dt-inicio" name="dt-inicio"><br>
-                    
-                    <label for="hr-inicio">Horário Inicio:</label>
-                    <input type="time" id="hr-inicio" name="hr-inicio"><br>
-
                     <label for="hr-fim">Horário Fim:</label>
                     <input type="time" id="hr-fim" name="hr-fim"><br>
                 </div>
@@ -87,20 +87,26 @@
     <div id="pedidosContainer"></div>
 
     <script>
-        document.getElementById('Ordem').addEventListener('keydown', function(event) {
+        document.getElementById('formNovoApont0').addEventListener('keydown', function(event) {
+            // Verifica se a tecla pressionada é 'Enter'
             if (event.key === "Enter" || event.keyCode === 13) {
                 event.preventDefault(); // Previne a ação padrão do "Enter"
-
-                this.value.trim();
-
-                const form = this.form;
-                const index = Array.prototype.indexOf.call(form, this);
-                const nextInput = form.elements[index + 1];
-                if (nextInput) {
-                    nextInput.focus();
+        
+                // Calcula o próximo índice de campo baseado no campo atual
+                const formFields = Array.from(this.elements).filter(el => el.tagName !== 'BUTTON' && !['submit', 'button', 'hidden'].includes(el.type));
+                const currentIndex = formFields.indexOf(document.activeElement);
+                const nextIndex = currentIndex + 1;
+        
+                // Se existir um próximo campo, move o foco para ele
+                if (nextIndex < formFields.length) {
+                    formFields[nextIndex].focus();
+                } else {
+                    // Se não, talvez voltar ao começo do formulário ou finalizar a edição
+                    formFields[0].focus();
                 }
             }
         });
+        
         
         //-------------------------------------------------------------------------
         const BASE_URL = 'http://localhost:5500';
@@ -116,9 +122,13 @@
             const operacao = document.getElementById('operacao').value;
             const operador = document.getElementById('operador').value;
             const turno = document.getElementById('turno').value;
+            const dtInicio = document.getElementById('dt-inicio').value;
+            const hrInicio = document.getElementById('hr-inicio').value;
             const obs = document.getElementById('observacao').value;
+            
             // Verifique se algum dos campos obrigatórios está vazio
-            if (!Ordem || !operacao || !operador || !turno ) {
+            if (!Ordem || !operacao || !operador || !turno || !dtInicio || !hrInicio ) {
+
                 showSuccessMessage('9');
                 return; // Pare a execução se algum campo estiver vazio
             }
@@ -132,9 +142,9 @@
                 trab_real: "-----",
                 uni_trab: "H",
                 conf_final:"-----",
-                data_lanc: "-----",
-                data_ini: "-----",
-                hora_ini: "-----",
+                data_lanc: dtInicio,
+                data_ini: dtInicio,
+                hora_ini: hrInicio + ":00",
                 data_fim: "-----",
                 hora_fim: "-----",
                 status: "Aguardando",
@@ -150,14 +160,76 @@
                     body: JSON.stringify(novoSetup)
                 });
 
-                showSuccessMessage('4');
+                showSuccessMessage('5');
                 closeForm0();
                 atualizarDados()
                 
             } catch (error) {
                 console.error('Erro ao enviar solicitação:', error);
             }
-        });
+        });        
+        
+        document.getElementById('formNovoApont1').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Previne o comportamento padrão do formulário
+        
+            // Extrai as informações diretamente dos inputs no formulário
+            const id = ApontId; // Usa a variável global 
+            const dtInicio = ApontDataIni; // Supondo que este campo existe no seu formulário de apontamento
+            const hrInicio = ApontHoraIni; // Supondo que este campo existe e foi preenchido pelo openForm1
+            const hrfim = document.getElementById('hr-fim').value;
+            const conf_final = document.getElementById('switch').checked ? "X" : ""; // Exemplo de coleta para o switch
+            const obs = document.getElementById('observacao').value;
+
+            if (!id || !dtInicio || !hrInicio || !hrfim) {
+                showSuccessMessage('9');
+                return;
+            }
+        
+            // Converte os horários para objetos Date
+            const inicio = new Date(dtInicio + 'T' + hrInicio);
+            const fim = new Date(dtInicio + 'T' + hrfim); // Usando dtInicio aqui também, ajuste conforme sua lógica
+        
+            // Calcula a diferença em milissegundos
+            const diferencaMs = fim.getTime() - inicio.getTime();
+        
+            // Converte a diferença para horas decimais
+            const horasDecimais = diferencaMs / 1000 / 60 / 60;
+        
+
+            if (id) {
+                const novoSetup = {
+                    trab_real: horasDecimais.toFixed(2),
+                    conf_final: conf_final,
+                    data_fim: dtInicio, // Usando dtInicio aqui
+                    hora_fim: hrfim + ":00",
+                    status: "Finalizado",
+                    obs: obs
+                };
+        
+                try {
+                    const response = await fetch(`${BASE_URL}/ferr_apont/${id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(novoSetup)
+                    });
+        
+                    if (response.ok) {
+                        showSuccessMessage('2'); // Assumindo que esta função exibe uma mensagem de sucesso
+                        closeForm1(); // Fechar o formulário/modal
+                        atualizarDados(); // Se houver necessidade de atualizar a visualização dos dados na página
+                    } else {
+                        throw new Error('Falha na atualização do apontamento');
+                    }
+                } catch (error) {
+                    console.error('Erro ao enviar solicitação:', error);
+                }
+            }
+            closeForm1();
+            atualizarDados();
+        });        
+
         //-------------------------------------------------------------------------
         // Rota para adicionar um novo apontamento
         //-------------------------------------------------------------------------
@@ -165,7 +237,7 @@
             const dtInicioInput = document.getElementById('dt-inicio');
             const hrInicioInput = document.getElementById('hr-inicio');
             const hrFimInput = document.getElementById('hr-fim');
-        
+
             // Define a data mínima como a data atual
             const hoje = new Date();
             const dataMinima = hoje.toISOString().split('T')[0];
@@ -176,7 +248,7 @@
             const horaAtual = hoje.getHours().toString().padStart(2, '0') + ':' + hoje.getMinutes().toString().padStart(2, '0');
             hrInicioInput.setAttribute('min', horaAtual);
             hrFimInput.setAttribute('min', horaAtual);
-        
+
             // Atualiza o horário mínimo de início e fim baseado na data selecionada
             dtInicioInput.addEventListener('change', function() {
                 const dataSelecionada = new Date(dtInicioInput.value);
@@ -192,102 +264,49 @@
                 }
             });
         });
-        
-        document.getElementById('formNovoApont1').addEventListener('submit', async function(event) {
-            event.preventDefault(); // Previne o comportamento padrão do formulário
-
-            const dtinicio = document.getElementById('dt-inicio').value;
-            const hrinicio = document.getElementById('hr-inicio').value;
-            const hrfim = document.getElementById('hr-fim').value;
-            const conf_final = document.getElementById('switch').checked ? "X" : ""; // Exemplo de coleta para o switch
-            const obs = document.getElementById('observacao').value;
-
-            if (!dtinicio || !hrinicio || !hrfim) {
-                showSuccessMessage('9');
-                return;
-            }
-            // Converte os horários para objetos Date
-            const inicio = new Date(dtinicio + 'T' + hrinicio);
-            const fim = new Date(dtinicio + 'T' + hrfim);
-
-            // Calcula a diferença em milissegundos
-            const diferencaMs = fim.getTime() - inicio.getTime();
-
-            // Converte a diferença para horas decimais
-            const horasDecimais = diferencaMs / 1000 / 60 / 60;
-
-            const id = currentSolicitacaoId; // Usa a variável global
-            if (id) {
-                const novoSetup = {
-                    trab_real: horasDecimais.toFixed(2),
-                    conf_final: conf_final,
-                    data_lanc: dtinicio,
-                    data_ini: dtinicio,
-                    hora_ini: hrinicio + ":00",
-                    data_fim: dtinicio, // Ajuste conforme necessário
-                    hora_fim: hrfim + ":00",
-                    status: "Finalizado",
-                    obs:obs
-                }; 
-                        
-                try {
-                    const response = await fetch(`${BASE_URL}/ferr_apont/${id}`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(novoSetup)
-                    });
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        console.log('Resposta do servidor:', data);
-                        showSuccessMessage('2'); // Assumindo que esta função exibe uma mensagem de sucesso
-                        closeForm1(); // Fechar o formulário/modal
-                        // atualizarDados(); // Se houver necessidade de atualizar a visualização dos dados na página
-                    } else {
-                        throw new Error('Falha na atualização do apontamento');
-                    }
-                } catch (error) {
-                    console.error('Erro ao enviar solicitação:', error);
-                }
-            }
-            closeForm1();
-            atualizarDados()
-        });
         //-------------------------------------------------------------------------
         // Rota para carregar dados apontados
         //-------------------------------------------------------------------------
-
         function renderizarComoCartoes(data) {
             fetch(`${BASE_URL}/ferr_apont`)
                 .then(response => response.json())
                 .then(data => {
-                    //data.sort((a, b) => {
-                        // Converta as horas para objetos Date para que possam ser comparados
-                        //const horaA = new Date(`1970-01-01T${a.horario}`);
-                        //const horaB = new Date(`1970-01-01T${b.horario}`);
-
-                        // Compare as horas e retorne o resultado da comparação
-                        //return horaA - horaB;
-                    //});
-                    // Limpe o conteúdo do contêiner antes de adicionar novos elementos
+                    const ordenarPorStatus = (a, b) => {
+                        const statusOrder = {
+                            'Aguardando': 1,
+                            'Finalizado': 2,
+                            // Adicione mais status conforme necessário
+                        };
+                        return statusOrder[a.status] - statusOrder[b.status];
+                    };
+            
+                    data.sort(ordenarPorStatus);
+            
                     const pedidosContainer = document.getElementById('pedidosContainer');
                     pedidosContainer.innerHTML = '';
-
-                    // Itere sobre os dados recebidos e crie um cartão para cada solicitação
-                    data.forEach(solicitacao => {
-                        // Cria um novo elemento div para representar o cartão
+        
+                    // Obtém a data atual formatada como AAAA-MM-DD
+                    const hoje = new Date().toISOString().slice(0, 10);
+        
+                    // Filtra os dados para incluir todos os "Aguardando" e "Finalizado" apenas se a data for igual a hoje
+                    const dadosFiltrados = data.filter(solicitacao => {
+                        if (solicitacao.status === 'Finalizado') {
+                            return solicitacao.data_lanc === hoje;
+                        }
+                        return true; // Inclui todos os "Aguardando"
+                    });
+        
+                    dadosFiltrados.forEach(solicitacao => {
                         const card = document.createElement('div');
                         card.classList.add('card1');
-
-                        // Crie um novo elemento div para representar o conteúdo do cartão
+        
                         const cardContent = document.createElement('div');
-                        cardContent.classList.add('card-content');      
+                        cardContent.classList.add('card-content');
+                        // Conteúdo do cartão aqui, como no seu código original...
                         cardContent.innerHTML = `
                                             <button class="menu-button">Menu</button>
                                             <div class="status-buttons">       
-                                                <button class="button-apontamento" onclick="openForm1(${solicitacao.Id})">Apontamento</button>
+                                                <button class="button-apontamento" onclick="openForm1(${solicitacao.Id}, '${solicitacao.hora_ini}', '${solicitacao.data_ini}')">Apontamento</button>
                                                 <button class="button-finalizar">Finalizar</button>
                                             </div>
 
@@ -312,19 +331,18 @@
                                                     <div class="linha-separadora"></div>    
                                                     <div><label class="texto1">Horas Trabalhadas</label></div>  
                                                     <div><label class="info-line">${solicitacao.trab_real}</p></label ></div>
-                                                    
-                                                    <!-- Adicione a linha abaixo para o elemento de status -->
-                                                    <div class="linha-separadora"></div>    
-                                                    <div class="objeto-card status"><label class="texto1">Status:</label></div>  
-                                                    <div class="objeto-card status"><label class="info-line">${solicitacao.status}</p></label></div>
 
+                                                    <div class="linha-separadora"></div>    
+                                                    <div><label class="texto1">Data Inicio:</label></div>  
+                                                    <div><label class="info-line">${solicitacao.data_ini}</p></label></div>
+
+                                                    <div class="linha-separadora"></div>    
+                                                    <div><label class="texto1">Hora Inicio:</label></div>  
+                                                    <div><label class="info-line">${solicitacao.hora_ini}</p></label></div>
+                                                    
                                                     <div class="linha-separadora"></div>    
                                                     <div><label class="texto1">Confirmação final:</label></div>  
                                                     <div><label class="info-line">${solicitacao.conf_final}</p></label></div>
-
-                                                    <div class="linha-separadora"></div>    
-                                                    <div><label class="texto1">Lote:</label></div>  
-                                                    <div><label class="info-line">${solicitacao.data_lanc}</p></label></div>
 
                                                     <div class="linha-separadora"></div>    
                                                     <div><label class="texto1">Observacao:</label></div>  
@@ -332,20 +350,16 @@
                                                 </div>
                                         </form>
                                         `;
-                                        // Adicione o conteúdo do cartão ao cartão
-                                        card.appendChild(cardContent);
-
-                                        // Adicione o cartão ao contêiner de pedidos
-                                        pedidosContainer.appendChild(card);
-
-                                        // Aplique a classe de status ao cartão
-                                        card.classList.add(`status-${solicitacao.status.toLowerCase()}`);
-                                    });
-                                })
-                                .catch(error => {
-                                    console.error('Erro ao buscar dados do servidor:', error);
-                                });
-        }
+        
+                        card.appendChild(cardContent);
+                        pedidosContainer.appendChild(card);
+                        card.classList.add(`status-${solicitacao.status.toLowerCase()}`);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar dados do servidor:', error);
+                });
+        }        
 
         document.getElementById('viewCardsBtn').addEventListener('click', () => {
             fetch(`${BASE_URL}/ferr_apont`)
@@ -424,12 +438,12 @@
                     'Un.': 'uni_trab',
                     'Coclu.': 'conf_final',
                     'Data Lanç': 'data_lanc',
-                     'Data Inic.': 'data_ini',
-                     'Hora Inic.': 'hora_ini',
-                     'Data Fim': 'data_fim',
-                     'Hora Fim': 'hora_fim',
-                     'Status': 'status',
-                     'Observação': 'obs',
+                    'Data Inic.': 'data_ini',
+                    'Hora Inic.': 'hora_ini',
+                    'Data Fim': 'data_fim',
+                    'Hora Fim': 'hora_fim',
+                    'Status': 'status',
+                    'Observação': 'obs',
                     // Adicione mapeamentos adicionais conforme necessário
                 }[propriedade] || propriedade;
         
@@ -536,14 +550,25 @@
             if (firstInput) {
                 firstInput.focus();
             }
+            carregarHoraAtual()
         }
 
-        let currentSolicitacaoId = null; // Variável global para armazenar o id atual
+        let ApontId = null; // Variável global para armazenar o id atual
+        let ApontHoraIni = null; // Variável global para armazenar o id atual
+        let ApontDataIni = null; // Variável global para armazenar o id atual
 
-        function openForm1(id) {
-            currentSolicitacaoId = id; // Armazena o id na variável global
-            document.getElementById('idSolicitacao').textContent = 'ID: ' + id; // Para exibir visualmente
+        function openForm1(id, horaIni, dataIni) {
+
+            ApontId = id; // Armazena o id na variável global
+            ApontHoraIni=horaIni
+            ApontDataIni=dataIni
+
+            document.getElementById('idSolicitacao').value = id; // Certifique-se de usar .value para inputs 
+            document.getElementById('hr-inicio').value = horaIni; // Supondo que você tenha um campo para isso no formNovoApont1
+            document.getElementById('dt-inicio').value = dataIni; // Supondo que você tenha um campo para isso no formNovoApont1
             document.getElementById("overlay1").style.display = "block";
+
+            carregarHoraAtual(); // Esta chamada pode sobrescrever o valor de 'hr-fim', certifique-se de que é o comportamento desejado
         }
 
         function closeForm0() {
@@ -553,6 +578,22 @@
         function closeForm1() {
             document.getElementById("overlay1").style.display = "none";
         }
+
+        function carregarHoraAtual() {
+            const agora = new Date();
+            // Formata a hora para garantir que tenha dois dígitos para horas e minutos
+            const horas = agora.getHours().toString().padStart(2, '0');
+            const minutos = agora.getMinutes().toString().padStart(2, '0');
+            const dataAtual = agora.toISOString().split('T')[0];
+            // Formatando a turno para HH:MM
+            const turnoAtual = agora.toTimeString().split(' ')[0].substring(0, 5);
+            // Combina horas e minutos no formato HH:mm
+            const horaFormatada = `${horas}:${minutos}`;
+            // Define o valor do input "hr-fim" para a hora atual formatada
+            document.getElementById('hr-fim').value = horaFormatada;
+            document.getElementById('hr-inicio').value = horaFormatada;
+            document.getElementById('dt-inicio').value = dataAtual;
+        }    
         
         fetch('/json/data.json')
         .then(response => response.json())
@@ -578,26 +619,6 @@
         window.addEventListener('load', function() {
             showSuccessMessage('3');
         });
-
-        window.onload = function() {
-            const agora = new Date();
-            
-            // Formatando a data para YYYY-MM-DD
-            const dataAtual = agora.toISOString().split('T')[0];
-            
-            // Formatando a turno para HH:MM
-            const turnoAtual = agora.toTimeString().split(' ')[0].substring(0, 5);
-
-            // Definindo os valores dos campos de data e turno
-            document.getElementById('dt-inicio').value = dataAtual;
-            document.getElementById('hr-inicio').value = turnoAtual;
-
-            // Para o horário de fim, você pode querer definir um valor padrão
-            // ou calcular um tempo futuro. Exemplo: Adicionando 1 turno ao horário atual
-            //const umaturnoMaisTarde = new Date(agora.getTime() + 60*60*1000);
-            //const turnoFim = umaturnoMaisTarde.toTimeString().split(' ')[0].substring(0, 5);
-            //document.getElementById('hr-fim').value = turnoFim;
-        }
 
     </script>
 

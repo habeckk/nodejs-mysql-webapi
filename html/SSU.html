@@ -305,32 +305,10 @@
                                         card.classList.add(solicitacao.status.toLowerCase());
                                     });
                                 })
-                                .catch(error => {
-                                    console.error('Erro ao buscar dados do servidor:', error);
-                                });
-            return cartoesContainer; // Retorna o container preenchido com cartões
         }
         
         function atualizarDados() {
-            fetch(`${BASE_URL}/setupusi`)
-                .then(response => response.json())
-                .then(data => {
-                    const pedidosContainer = document.getElementById('pedidosContainer');
-                    pedidosContainer.innerHTML = ''; // Limpa o contêiner atual
-        
-                    // Agora, chame as funções de renderização e adicione seus retornos ao DOM
-                    const lista = renderizarComoLista(data);
-                    const cartoes = renderizarComoCartoes(data); // Esta função agora apenas cria os elementos, não busca dados
-        
-                    pedidosContainer.appendChild(cartoes);
-                    pedidosContainer.appendChild(lista);
-        
-                    // Inicialmente, esconda um dos modos de visualização
-                    lista.style.display = 'none'; // Esconde a lista inicialmente
-                })
-                .catch(error => {
-                    console.error('Erro ao buscar dados do servidor:', error);
-                });
+            renderizarComoCartoes();
         }
 
         
@@ -446,9 +424,12 @@
                             // Faça o que for necessário com o ID aqui
 
                             // Faça uma solicitação fetch para atualizar o status do setup
-                            fetch(`${BASE_URL}/atualizar-status/${id}`, {
+                            fetch(`${BASE_URL}/setupusi/${id}`, {
+                                
                                 method: 'PUT',
+                                
                                 headers: {
+                                    
                                     'Content-Type': 'application/json'
                                 },
                                 body: JSON.stringify({ status: status })
@@ -459,7 +440,7 @@
                                     console.log(`Status atualizado para ${status} com sucesso.`);
                                     // Recarregue os dados após a atualização do status
                                     atualizarDados();
-                                    atualizarDadosEMostrarMensagem();
+                                    showSuccessMessage('2');
                                 } else {
                                     console.error('Erro ao atualizar o status.');
                                 }
@@ -489,7 +470,7 @@
                             const id = infoLineElement.textContent.trim(); // Obtém o ID do setup
 
                             try {
-                                const response = await fetch(`${BASE_URL}/delete/${id}`, {
+                                const response = await fetch(`${BASE_URL}/setupusi/${id}`, {
                                     method: 'DELETE',
                                     headers: {
                                         'Content-Type': 'application/json'
@@ -498,10 +479,8 @@
                                 });
 
                                 if (response.ok) {
-                                    console.log(`Setup excluído ${id} com sucesso.`);
-                                    // Recarregue os dados após a exclusão do setup
                                     atualizarDados();
-                                    atualizarDadosEMostrarMensagem();
+                                    showSuccessMessage('10');
                                 } else {
                                     console.error('Erro ao excluir o setup.');
                                 }
@@ -531,24 +510,20 @@
                     const infoLineElement = card.querySelector('.item');
                     if (infoLineElement) {
                         const id = infoLineElement.textContent.trim(); // Obtém o ID do item
-                        console.log(id)
                         fetch(`${BASE_URL}/setupusiFolha?item=${id}`)
                         .then(response => response.json())
                         .then(data => {
                             data.forEach(item => {
-                                console.log(item.Docu)
                                 const docu = item.Docu;
-                                if (docu.length > 0) {
+                                if (docu === "999999") {
+                                    showSuccessMessage('11');
+                                } else if (docu.length > 0) {
                                     window.open(`http://172.18.1.10:54451/Reports/Pages/JobReports.aspx?JobId=${docu}`, '_blank');
                                 } else {
-                                    console.log('Nenhum resultado encontrado.');
+                                    showSuccessMessage('10');
                                 }
                             });             
                         })
-                        .catch(error => {
-                            console.error('Erro ao buscar dados do servidor:', error);
-                        });
-
                     }
                 }
             }
@@ -599,7 +574,7 @@
                                                         <td>${new Date(item.Dta_Implantacao).toLocaleDateString()}</td>
                                                         <td>${item.FIP_N}</td>
                                                         <td>${new Date(item.Ult_REV).toLocaleDateString()}</td>
-                                                        <td><button class="button-open" data-fip-n="${item.FIP_N}">Abrir</button></td>
+                                                        <td><button class="button-open" onclick="openFip('${item.FIP_N}')" data-fip-n="${item.FIP_N}">Abrir</button></td>
                                                     </tr>`;
                                 });
 
@@ -623,16 +598,25 @@
                 
             });
 
-            // Adicionando um ouvinte de eventos direto no documento pode ajudar a evitar problemas de elementos dinâmicos
-            document.addEventListener('click', function(event) {
-                if (event.target.classList.contains('button-open')) {
-                    const fipN = event.target.getAttribute('data-fip-n');
-                    // Construa a URL completa para o PDF
-                    const pdfUrl = `${BASE_URL}/pdfabrir/${fipN}`;
+            window.openFip = function(id) {
+                fetch(`${BASE_URL}/pdfabrir/${id}`)
+                .then(response => {
+                    // Verifica se a resposta é bem-sucedida
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    // Cria um URL para o blob
+                    const pdfUrl = URL.createObjectURL(blob);
                     // Abre o PDF em uma nova aba
                     window.open(pdfUrl, '_blank');
-                }
-            });
+                })
+                .catch(error => {
+                    console.error('Erro ao abrir o PDF:', error);
+                });
+            };
 
 //___________________________________________________________________________________
 // Adicione um evento de escuta ao elemento <select> de centro de custo
