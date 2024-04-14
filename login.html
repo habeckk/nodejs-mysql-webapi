@@ -49,43 +49,28 @@
             },
             body: JSON.stringify({ username: username, password: password })
         })
-        .then(response => {
-
-            if (!response.ok) {
-                showSuccessMessage('8');
-            }
-    
-            // Verifica o tipo de conteúdo antes de tentar converter para JSON
-            const contentType = response.headers.get('content-type');
-            if (!contentType || !contentType.includes('application/json')) {
-                throw new TypeError("Oops, não recebemos JSON!");
-            }
-    
-            return response.json();
-        })
+        .then(response => response.json()) // Converte a resposta em JSON
         .then(data => {
-            console.log(data);
             if (data.success) {
-                // Armazenar uma flag ou token de autenticação no armazenamento local
                 localStorage.setItem('usuarioLogado', 'true');
-
+                localStorage.setItem('acess', data.acess); // Armazenar o acesso no localStorage
+    
                 showSuccessMessage('6');
-
                 setTimeout(() => {
                     window.location.href = '/html/Menu.html';
                 }, 3000);
-
             } else {
-                // Usando SweetAlert2 para uma melhor experiência de usuário
-                showSuccessMessage('8');
+                showSuccessMessage('8'); // Mensagem de erro
             }
-        })        
+        }).catch(error => {
+            console.error('Erro na autenticação:', error);
+        });
     }
     
     document.getElementById('loginButton').addEventListener('click', function(event) {
         event.preventDefault();
         login();
-    });
+    });    
     
 </script>
 

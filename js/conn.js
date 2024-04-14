@@ -1,17 +1,15 @@
 require("dotenv").config();
 
 const express = require('express');
-const fs = require('fs');
+const fs = require('fs').promises; // Importação correta para usar Promises
 const path = require('path');
-const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT;
 const db = require('./db'); // Importe o arquivo db.js
 const cors = require('cors'); // Importe o pacote CORS
 
 app.use(express.json());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true })); // Middleware para analisar dados do formulário
+app.use(express.urlencoded({ extended: true })); // Middleware para analisar os corpos das requisições URL-encoded
 app.use(cors()); // Use o middleware do CORS para permitir solicitações de todas as origens
 
 //__________________________________________________________________________________________________________
@@ -49,14 +47,19 @@ app.get('/pdfabrir/:fipN', async (req, res) => {
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 LOGIN 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 
 app.post('/login', async (req, res) => {
-    const { username, password } = req.body; // Obtem username e password do corpo da requisição
+    const { username, password } = req.body;
     try {
         const result = await db.selectLogin(username, password);
+        console.log(result); // Verifique a estrutura do resultado e confirme a presença do campo `access`
         if (result.length > 0) {
-            // Login bem-sucedido
-            res.status(200).json({ success: true, message: "Login bem-sucedido" });
+            const user = result[0];
+            console.log(user); // Verifique se o objeto `user` inclui o campo `access`
+            res.status(200).json({
+                success: true,
+                message: "Login bem-sucedido",
+                acess: user.acess // Certifique-se de que esta linha corresponde à estrutura do seu objeto `result`
+            });
         } else {
-            // Falha no login
             res.status(401).json({ success: false, message: "Credenciais inválidas" });
         }
     } catch (error) {
@@ -201,55 +204,27 @@ app.get('/setupusiFolha', async (req, res) => {
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 ETQ IMPRIMIR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 
 app.post('/zpl', async (req, res) => {
-
-    const fs = require('fs');
-    const path = require('path');
-
-    // Capturando os dados do formulário HTML
     const { printerDirectory, zplData, grfData, qtdetq } = req.body;
-
-    // Imprimindo os dados recebidos no console
-    console.log('Diretório da Impressora:', printerDirectory);
-    console.log('Código ZPL:', zplData);
-
-    if (grfData.trim()) {
-        const printerDir1 = "//172.18.1.232/" + printerDirectory.trim();
-        // Conteúdo ZPL a ser impresso
-        const grfContent = grfData.trim();
-        // Nome do arquivo de impressão
-        const fileName1 = 'label_template.grf';
-        // Caminho completo do arquivo de impressão
-        const filePath1 = path.join(printerDir1, fileName1);
-        fs.writeFile(filePath1, grfContent, (err) => {
-            if (err) {
-                console.error('Erro ao escrever arquivo grf:', err);
-            } else {
-                console.log('Arquivo grf criado com sucesso:', filePath1);
-            }
-        });
-    }
-//-----------------------------------------------------------------------------------------------
-    // Diretório da impressora compartilhada
     const printerDir = "//172.18.1.232/" + printerDirectory.trim();
-    // Conteúdo ZPL a ser impresso
-    const zplContent = zplData.trim();
-    // Nome do arquivo de impressão
-    const fileName = 'label_template.zpl';
-    // Caminho completo do arquivo de impressão
-    const filePath = path.join(printerDir, fileName);
-    // Escrever os comandos ZPL no arquivo
-    if (qtdetq.trim()) {
-        const qtdetq2 = qtdetq.trim();  
 
-        for (let i = 0; i < qtdetq2; i++) {
-            fs.writeFile(filePath, zplContent, (err) => {
-                if (err) {
-                    console.error('Erro ao escrever arquivo ZPL:', err);
-                } else {
-                    console.log('Arquivo ZPL criado com sucesso:', filePath);
-                }
-            });
+    try {
+        if (grfData.trim()) {
+            const grfFilePath = path.join(printerDir, 'label_template.grf');
+            await fs.writeFile(grfFilePath, grfData.trim()); // Uso correto com async/await
+            console.log('Arquivo grf criado com sucesso:', grfFilePath);
         }
+
+        const qtdetqNum = parseInt(qtdetq.trim(), 10);
+        for (let i = 0; i < qtdetqNum; i++) {
+            const zplFilePath = path.join(printerDir, `label_template_${i}.zpl`);
+            await fs.writeFile(zplFilePath, zplData.trim()); // Uso correto com async/await
+            console.log('Arquivo ZPL criado com sucesso:', zplFilePath);
+        }
+
+        res.json({ success: true, message: "12" });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "14" });
+        console.error('Erro ao imprimir etiquetas:', error);
     }
 });
 

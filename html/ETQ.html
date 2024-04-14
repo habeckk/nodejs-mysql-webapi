@@ -21,7 +21,7 @@
         <div class="sidebar-buttons-container">
             <button class="sidebar-button" type="button" onclick="openForm()">Cadastrar Etiquetas</button>
             <button class="sidebar-button" type="button" onclick="openForm1()">Imprimir</button>
-<button onclick="convertImageToGRF()">Convert to GRF</button>
+            <button onclick="convertImageToGRF()">Convert to GRF</button>
         </div>
     </div>
 
@@ -64,7 +64,7 @@
         <div class="overlay1" id="overlay1">
             <div class="modal">
                 <h1>Imprimir</h1>
-                <form action="http://localhost:5500/zpl" method="POST">
+                <form id="imprimirForm" action="http://localhost:5500/zpl" method="POST">
 
                     <label for="printerDirectory">Diretório da Impressora:</label><br>
                     <input type="text" id="printerDirectory" name="printerDirectory"><br>
@@ -101,6 +101,63 @@
     <script>
         const BASE_URL = 'http://localhost:5500';
 
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 ACESSOS 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
+        const userAcess = localStorage.getItem('acess');
+        const thirdNumber = userAcess.charAt(2);
+
+        if (thirdNumber !== '1') {
+            // Usuário não tem o acesso desejado
+            alert('Acesso negado.');
+            window.location.href = '/html/Menu.html'; // Redireciona ou oculta certos elementos da página
+            // Se o terceiro número for 4, o usuário tem acesso e o código continua normalmente
+        } else {
+            // Se userAccess for null ou undefined, trata como não logado ou sem acesso
+            alert('Acesso com Sucesso');
+        }
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
+        document.getElementById('imprimirForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevenir o comportamento padrão de envio do formulário
+        
+            // Aqui, coletamos os dados do formulário
+            const formData = new FormData(this);
+        
+            // Substituímos por um objeto para usar no fetch
+            const formObject = {};
+            formData.forEach((value, key) => formObject[key] = value);
+        
+            try {
+                const response = await fetch(`${BASE_URL}/zpl`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formObject),
+                });
+
+                if (!response.ok) {
+                    throw new Error('A resposta do servidor não foi OK.');
+                }
+        
+                const data = await response.json();
+        
+                // Verifica se a operação foi bem-sucedida
+                if (data.success) {
+                    showSuccessMessage('12'); // Mostra mensagem de sucesso
+                } else {
+                    showSuccessMessage('14'); // Mostra mensagem de erro recebida do servidor
+                }                
+                
+            } catch (error) {
+                console.error('Erro ao enviar solicitação:', error);
+                showSuccessMessage('13');
+            }
+        });
+        
+//---------------------------------------------------------------------------------------------------------------
         // Função para executar o script Python
         async function convertImageToGRF() {
             try {

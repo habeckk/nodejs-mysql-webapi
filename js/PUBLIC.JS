@@ -1,5 +1,20 @@
 document.getElementById("INFO1").src = "/img/icons8-logout-96.png";
 
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 Validação da authenticação do usuário 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
+window.onload = () => {
+    // Verificar se o usuário está autenticado
+    const usuarioLogado = localStorage.getItem('usuarioLogado');
+    if (usuarioLogado !== 'true') {
+        // Usuário não está autenticado; redirecionar para a página de login
+        window.location.href = '/login.html';
+    }
+};
+
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 Validação da authenticação do usuário 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
 async function carregarValores0() {
     try {
     // Simulando uma operação bem-sucedida removendo o item e redirecionando.

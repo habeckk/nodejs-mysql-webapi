@@ -36,8 +36,7 @@
   width: 300px;
   background-color: var(--paleta250);
   border: 1px solid var(--paleta251);
-  box-shadow: 1px 3px 8px var(--paleta252); /* Sombra 3D */
-  border-radius: 8px;
+  box-shadow: 1px 3px 4px var(--paleta1); /* Sombra 3D */
   transition: transform 0.3s ease;
   padding: 10px;
   max-width: 400px;

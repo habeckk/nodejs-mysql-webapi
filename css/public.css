@@ -93,7 +93,7 @@
 /*📌📌📌_______________________________________________ Corpo da Página _________________________________________________📌📌📌*/
 * {
     padding: 0;
-    font-family: 'Roboto', sans-serif;
+    font-family:Arial, Helvetica, sans-serif;
   }
 
   body {
@@ -113,8 +113,8 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(var(--min-card-width), 1fr));
     gap: 10px;
-    padding: 20px;
-    margin-top: 10px;
+    padding: 10px;
+    margin-top: 0px;
     margin-left: 0px;
     margin-right: 10px;
 }
@@ -123,7 +123,7 @@
 /*📌📌📌_______________________________________________ Cabeçario Padrão _________________________________________________📌📌📌*/
   .header {
     align-items: center; /* Centraliza verticalmente o conteúdo */
-    height: 115px;
+    height: 80px;
     position: fixed;
     top: 0;
     left: 0;
@@ -134,9 +134,6 @@
     padding: 20px 0;
     z-index: 1000; /* Para garantir que o cabeçalho esteja sempre na frente */
     border: none; /* Remova a borda padrão */
-    box-shadow: 0 3px 10px var(--paleta1); /* Adicione uma sombra com desfoque para criar o efeito luminoso na parte inferior */
-    border-bottom-left-radius: 10px; /* Borda arredondada apenas no canto inferior esquerdo */
-    border-bottom-right-radius: 10px; /* Borda arredondada apenas no canto inferior direito */
     background-repeat: no-repeat;
     background-size:cover;
     background-attachment: fixed;
@@ -147,12 +144,10 @@
     position:absolute;
     height: auto;
     width: 280px;
-    top: 16%; /* Altere as unidades de medida conforme necessário */
+    top: 15%; /* Altere as unidades de medida conforme necessário */
     left: 50%; /* Altere as unidades de medida conforme necessário */
     transform: translate(-50%, -50%);
     padding: 5px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.4);
     color: var(--paleta7);
     text-align: center;
   }
@@ -165,7 +160,7 @@
     text-shadow: 0.7px 0.7px 0.7px #000; /* Sombra no texto para melhorar a leitura */
     height: auto;
     width: 400px;
-    margin-top: 70px;
+    margin-top: 45px;
     left: 50%;
     text-align: center;
     transform: translate(-50%, -50%);
@@ -236,7 +231,7 @@
 
   /*-------📌 Botões Cabeçario 📌-------*/
   .sidebar-buttons-container {
-    margin-top: 70px; /* Ajuste a margem do topo conforme necessário */
+    margin-top: 50px; /* Ajuste a margem do topo conforme necessário */
     display: flex;
     justify-content: center; /* Centraliza os elementos horizontalmente */
     align-items: center; /* Centraliza os elementos verticalmente */
@@ -245,9 +240,8 @@
   .sidebar-button {
     text-shadow: var(--paleta0); /* Sombra no texto para melhorar a leitura */
     margin-bottom: 0px; /* Espaçamento entre os botões */
-    border-radius: 4px;
     width: 160px; /* Ajuste a largura conforme necessário */
-    height: 30px;
+    height: 35px;
     font-size: 14px;
     background-color: var(--paleta41);
     color: var(--paleta40);
@@ -478,7 +472,6 @@
     width: 170px; /* Ajuste a largura conforme necessário */
     margin: 10px;
     height: 350px;
-    border-radius: 20px;
     border: 1px solid;
     transition: transform 0.3s ease; /* Adiciona uma transição suave para a propriedade transform */
     font-family: Arial, Helvetica, sans-serif;
@@ -496,26 +489,26 @@
 
 /* Estilos para diferentes status aplicados a ambos, cards e listas */
 .card1.atendendo, .status-atendendo {
-  box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+  box-shadow: 1px 3px 8px var(--paleta1); /* Sombra 3D */
   background-color: var(--paleta100);
   border-color: var(--paleta200);
 }
 
 .card1.aguardando, .status-aguardando {
-  box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+  box-shadow: 1px 3px 8px var(--paleta1); /* Sombra 3D */
   background-color: var(--paleta101);
   border-color: var(--paleta201);
 }
 
 .card1.pronto, .status-pronto {
-  box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+  box-shadow: 1px 3px 8px var(--paleta1); /* Sombra 3D */
   background-color: var(--paleta102);
   border-color: var(--paleta202);
 }
 
 
 .status-finalizado {
-  box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+  box-shadow: 1px 3px 8px var(--paleta1); /* Sombra 3D */
   background-image: repeating-linear-gradient(
     45deg,
     var(--paleta102),
@@ -526,7 +519,7 @@
 }
 
 .card1.cancelado, .status-cancelado {
-  box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+  box-shadow: 1px 3px 8px var(--paleta1); /* Sombra 3D */
   background-image: repeating-linear-gradient(
     45deg,
     var(--paleta103),
@@ -537,19 +530,19 @@
 }
 
 .card1.esperando, .status-esperando, .status-aberto{
-  box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+  box-shadow: 1px 3px 8px var(--paleta1); /* Sombra 3D */
   background-color: var(--paleta104);
   border-color: var(--paleta204);
 }
 
 .card1.parado, .status-parado {
-  box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+  box-shadow: 1px 3px 8px var(--paleta1); /* Sombra 3D */
   background-color: var(--paleta105);
   border-color: var(--paleta205);
 }
 
 .card1.try_out, .status-try_out {
-  box-shadow: 1px 3px 15px var(--paleta1); /* Sombra 3D */
+  box-shadow: 1px 3px 4px var(--paleta1); /* Sombra 3D */
   background-color: var(--paleta106);
   border-color: var(--paleta206);
 }
@@ -611,7 +604,6 @@
   }
 
   .card1 button {
-    border-radius: 15px;
     font-size: 16px;
     text-align: center;
     grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -641,7 +633,6 @@
     position: absolute;
     top: 30px; /* Posicione os status-buttons abaixo do menu-button */
     left: 0; /* Alinhe os status-buttons com o menu-button */
-    border-radius: 8px;
     z-index: 1;
   }
 
@@ -662,7 +653,6 @@
     background-color: var(--paleta33);
     color: var(--paleta32);
     border: 1px solid var(--paleta32);
-    border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
   }
@@ -673,9 +663,18 @@
   }
 /*📌📌📌__________________________________________________________________________________________________________________📌📌📌*/
 /*_______________________________________________ Estilo das tabelas de dados (LISTA)  _____________________________________________*/
+/* Estilo do gráfico */
+#resultadosChart {
+  width: 100%;
+  max-width: 900px; /* Largura máxima do gráfico */
+  margin: 0 auto; /* Centraliza o gráfico horizontalmente */
+  margin-top: 20px; /* Espaçamento superior */
+}
 
-.thead {
-  border-bottom: 1px solid var(--paleta); /* Borda inferior para separar as linhas */
+/* Estilo para a tabela de dados */
+table {
+  border-collapse: collapse;
+  width: 100%;
 }
 
 th {
@@ -694,6 +693,12 @@ th:hover {
   color:  var(--paleta505); /* Altera o gradiente */
   box-shadow: 0px 5px 10px var(--paleta506); /* Sombra mais pronunciada para efeito 3D elevado */
   cursor: pointer; /* Muda o cursor para indicar interatividade */
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
 }
 
 /* Estilo para as células da tabela */
@@ -718,6 +723,12 @@ tr:hover td {
   color: var(--paleta513); /* Opcional: Muda a cor do texto */
   box-shadow: inset 0px 0px 20px  var(--paleta512); /* Sombra interna para um efeito sutil */
 }
+/* Estilo para as linhas pares da tabela */
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+
 }
 /*_______________________________________________ Estilo dos menus das tabelas de dados (LISTA)  _____________________________________________*/
 .menu-contexto {

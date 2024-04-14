@@ -85,6 +85,24 @@
     <div id="agendamentosContainer1"></div>
 
     <script>
+        //__________________________________________________________________________________________________________
+        //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 ACESSOS 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
+        const userAcess = localStorage.getItem('acess');
+        const thirdNumber = userAcess.charAt(1);
+
+        if (thirdNumber !== '1') {
+            // Usuário não tem o acesso desejado
+            alert('Acesso negado.');
+            window.location.href = '/html/Menu.html'; // Redireciona ou oculta certos elementos da página
+            // Se o terceiro número for 4, o usuário tem acesso e o código continua normalmente
+        } else {
+            // Se userAccess for null ou undefined, trata como não logado ou sem acesso
+            alert('Acesso com Sucesso');
+        }
+        //__________________________________________________________________________________________________________
+        //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
         document.addEventListener('DOMContentLoaded', function () {
             const menuContexto = document.getElementById('menuContexto');
         

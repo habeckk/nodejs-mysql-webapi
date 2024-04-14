@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/imagem/Troca Rapida.ico">
-    <title>Menu - GDM</title>
+    <title>Troca Rápida - Menu</title>
 </head>
 <body>
   <style>.dialog {overflow-y: auto;}</style>
@@ -20,8 +20,8 @@
         <img id="INFO1" class="imagem" src="" alt="imagem">
       </button> 
 
-      <h1>GDM</h1>
-      <label class="titulo-escopo">Gerenciador Digital Manufatura</label>
+      <h1>Troca Rápida</h1>
+      <label class="titulo-escopo">Menu</label>
       
     </div>
     
@@ -63,6 +63,15 @@
             </button>      
           </div> 
 
+          <div class="card" draggable="true">                     
+            <button onclick="carregarValores5()">
+              <h1>
+                <img id="ImgButton" src="/img/icons8-manuseie-com-cuidado-64.png" alt="button">                                                      
+              </h1>
+              Carga Máquina
+            </button>      
+          </div> 
+
       </div>
 
       <script>
@@ -74,7 +83,22 @@
                 window.location.href = '/login.html';
             }
         };
+        //__________________________________________________________________________________________________________
+        //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 ACESSOS 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+        const userAcess = localStorage.getItem('acess');
+        const thirdNumber = userAcess.charAt(0);
 
+        if (thirdNumber !== '1') {
+            // Usuário não tem o acesso desejado
+            alert('Acesso negado.');
+            window.location.href = '/login.html'; // Redireciona ou oculta certos elementos da página
+            // Se o terceiro número for 4, o usuário tem acesso e o código continua normalmente
+        } else {
+            // Se userAccess for null ou undefined, trata como não logado ou sem acesso
+            alert('Acesso com Sucesso');
+        }
+        //__________________________________________________________________________________________________________
+        //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
       </script>
 
       <link rel="stylesheet" href="/css/public.css">

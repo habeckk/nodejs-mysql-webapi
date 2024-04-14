@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados da Análise</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+</head>
+<body>
+
+    <div class="popup" id="popup"></div>
+    <div class="header">       
+        <button class="LOGO0" type="button" onclick="carregarValores()">
+            <img src="/img/logoDocol.png" alt="Imagem 3D">
+        </button> 
+
+        <button class="LOGOLogin" type="button" onclick="carregarValores0()">
+            <img id="INFO1" class="imagem" src="" alt="imagem">
+        </button> 
+
+        <h1>Troca Rápida</h1>
+        <label class="titulo-escopo">Carga Máquina</label>
+
+        <div class="sidebar-buttons-container">
+            <button class="sidebar-button" type="button" onclick="openForm()">Filtros</button>
+        </div>
+
+    </div>
+
+    <div class="overlay" id="overlay">
+        <div class="modal">
+            <h2>Filtros</h2>
+            <select id="filtroCentroDeCusto" onchange="atualizarFiltrosSecundarios('centroDeCusto')"></select>
+            <select id="filtroCentroDeTrabalho" onchange="atualizarFiltrosSecundarios('centroDeTrabalho')"></select>
+            <select id="filtroGestorDoCC" onchange="atualizarFiltrosSecundarios('gestorDoCC')"></select>
+            <select id="filtroCores" onchange="filtrarPorCores()"></select>
+            <button onclick="atualizarGrafico()">Atualizar</button>
+            <div class="switch">
+                <input type="checkbox" id="switch" onchange="toggleMostrarValores()" />
+                <label for="switch"></label>
+            </div>
+            <button onclick="closeForm()">Cancelar</button>
+        </div>
+    </div>
+
+    <canvas id="resultadosChart"></canvas>
+    <div id="dataList" style="margin-top: 20px;"></div> <!-- Container para a tabela de dados -->
+    <script>
+        function closeForm() {
+            document.getElementById("overlay").style.display = "none";
+        }
+        function openForm() {
+            document.getElementById("overlay").style.display = "block";
+        }
+
+        let chart;
+        let resultados; // Armazenamos os resultados globalmente para acessar de outras funções
+        let mostrarValoresAcimaDeZero = true; // Variável para controlar se devemos mostrar apenas os valores acima de zero
+
+        document.addEventListener('DOMContentLoaded', function() {
+            resultados = JSON.parse(localStorage.getItem('resultados'));
+            inicializarFiltros(); // Chama a função para inicializar os filtros na carga da página
+        });
+
+        function inicializarFiltros() {
+            // Inicializar cada filtro com opções
+            inicializarSelect(document.getElementById('filtroCentroDeCusto'), extrairOpcoes('centroDeCusto'));
+            inicializarSelect(document.getElementById('filtroCentroDeTrabalho'), extrairOpcoes('centroDeTrabalho'));
+            inicializarSelect(document.getElementById('filtroGestorDoCC'), extrairOpcoes('gestorDoCC'));
+            inicializarSelect(document.getElementById('filtroCores'), extrairOpcoes('cor')); // Adiciona o filtro de cores
+
+            carregarGrafico(); // Carregar o gráfico inicialmente
+        }
+
+        function extrairOpcoes(campo) {
+            return new Set(resultados.map(item => item[campo]));
+        }
+
+        function inicializarSelect(selectElement, options) {
+            selectElement.innerHTML = '<option value="">Todos</option>'; // Opção para não selecionar nada
+            options.forEach(option => {
+                selectElement.options.add(new Option(option, option));
+            });
+        }
+
+        function atualizarFiltrosSecundarios(filtroPrincipal) {
+            if (filtroPrincipal === 'centroDeCusto') {
+                atualizarSelect('centroDeTrabalho');
+                atualizarSelect('gestorDoCC');
+            } else if (filtroPrincipal === 'centroDeTrabalho') {
+                atualizarSelect('centroDeCusto');
+                atualizarSelect('gestorDoCC');
+            } else {
+                atualizarSelect('centroDeCusto');
+                atualizarSelect('centroDeTrabalho');
+            }
+        }
+
+        function atualizarSelect(filtroSecundario) {
+            const filtroCusto = document.getElementById('filtroCentroDeCusto').value;
+            const filtroTrabalho = document.getElementById('filtroCentroDeTrabalho').value;
+            const filtroGestor = document.getElementById('filtroGestorDoCC').value;
+
+            const filteredResults = resultados.filter(item => 
+                (item.centroDeCusto === filtroCusto || filtroCusto === "") &&
+                (item.centroDeTrabalho === filtroTrabalho || filtroTrabalho === "") &&
+                (item.gestorDoCC === filtroGestor || filtroGestor === "")
+            );
+
+            const options = new Set(filteredResults.map(item => item[filtroSecundario]));
+            inicializarSelect(document.getElementById('filtro' + capitalizeFirstLetter(filtroSecundario)), options);
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function carregarGrafico() {
+            atualizarGrafico(); // Carrega o gráfico inicial com todos os dados ou filtrados
+        }
+
+        function atualizarGrafico() {
+            closeForm()
+            const filtroCusto = document.getElementById('filtroCentroDeCusto').value;
+            const filtroTrabalho = document.getElementById('filtroCentroDeTrabalho').value;
+            const filtroGestor = document.getElementById('filtroGestorDoCC').value;
+            const filtroCor = document.getElementById('filtroCores').value; // Obtém a cor selecionada
+            let dadosFiltrados;
+            if (mostrarValoresAcimaDeZero) {
+                dadosFiltrados = resultados.filter(item =>
+                (item.centroDeCusto === filtroCusto || filtroCusto === "") &&
+                (item.centroDeTrabalho === filtroTrabalho || filtroTrabalho === "") &&
+                (item.gestorDoCC === filtroGestor || filtroGestor === "") &&
+                (item.cor === filtroCor || filtroCor === "")
+            );
+            } else {
+                dadosFiltrados = resultados.filter(item =>
+                    (item.centroDeCusto === filtroCusto || filtroCusto === "") &&
+                    (item.centroDeTrabalho === filtroTrabalho || filtroTrabalho === "") &&
+                    (item.gestorDoCC === filtroGestor || filtroGestor === "") &&
+                    (item.cor === filtroCor || filtroCor === "") &&
+                    item.valor > 0 // Filtra os valores maiores que zero
+                );
+            }
+
+            const ctx = document.getElementById('resultadosChart').getContext('2d');
+            if (chart) chart.destroy();
+            chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: dadosFiltrados.map(item => item.nome),
+                    datasets: [{
+                        label: 'Valor (%)',
+                        data: dadosFiltrados.map(item => item.valor),
+                        backgroundColor: dadosFiltrados.map(item => item.cor)
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: { stacked: true },
+                        y: { stacked: true, beginAtZero: true }
+                    },
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.dataset.label + ': ' + tooltipItem.raw.toFixed(2) + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            atualizarLista(dadosFiltrados); // Atualiza a lista de dados abaixo do gráfico
+        }
+
+        function atualizarLista(dados) {
+            const container = document.getElementById('dataList');
+            container.innerHTML = ''; // Limpa o conteúdo anterior
+
+            // Cria a tabela
+            const table = document.createElement('table');
+            const thead = document.createElement('thead');
+            const tbody = document.createElement('tbody');
+
+            // Cria a linha de cabeçalho
+            const headerRow = document.createElement('tr');
+            headerRow.innerHTML = `
+                <th>Centro de custo</th>
+                <th>Descricao Centro de Custo</th>
+                <th>Centro de trabalho</th>
+                <th>Dias Uteis</th>
+                <th>% de OEE</th>
+            `;
+            thead.appendChild(headerRow);
+
+            // Preenche os dados na tabela
+            dados.forEach(data => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${data.centroDeCusto}</td>
+                    <td>${data.gestorDoCC}</td>
+                    <td>${data.centroDeTrabalho}</td>
+                    <td>${data.diasUteis}</td>
+                    <td style="color: ${data.cor};">${data.valor.toFixed(2)}%</td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            // Adiciona o cabeçalho e o corpo à tabela
+            table.appendChild(thead);
+            table.appendChild(tbody);
+
+            // Adiciona a tabela ao container
+            container.appendChild(table);
+        }
+
+        function toggleMostrarValores() {
+            mostrarValoresAcimaDeZero = !mostrarValoresAcimaDeZero;
+            atualizarGrafico(); // Atualiza o gráfico ao alternar o interruptor
+        }
+
+        function filtrarPorCores() {
+            // Atualiza o gráfico ao selecionar uma nova cor
+            atualizarGrafico();
+        }
+    </script>
+<link rel="stylesheet" href="/css/public.css">
+<script src="/js/public.js"></script>
+
+</body>
+</html>

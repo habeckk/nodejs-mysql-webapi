@@ -3,7 +3,7 @@
   flex-wrap: wrap;
   gap: 20px;
   padding: 20px;
-  margin-top: 30px;
+  margin-top: 0px;
   overflow-y: auto;
   font-size: 12px;
   justify-content: center; /* Centraliza os itens horizontalmente */
@@ -21,9 +21,8 @@
   }
   
   .card button {
-    border-radius: 10px;
     border: var(--paleta11);
-    box-shadow: 1px 1px 8px var(--paleta1); /* Sombra 3D */
+    box-shadow: 0px 0px 5px var(--paleta1); /* Sombra 3D */
     background-color: var(--paleta10); 
     width: 185px;
     height: 178px;

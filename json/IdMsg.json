@@ -64,5 +64,23 @@
         "tipo": "erro",
         "descricao": "Não encontrado",
         "caminhoImagem": "/img/icons8-excluir.svg"
+    },
+    {
+        "IdMsg": "12",
+        "tipo": "sucesso",
+        "descricao": "Etiquetas impressas com sucesso!",
+        "caminhoImagem": "/img/icons8-ok.svg"
+    },
+    {
+        "IdMsg": "13",
+        "tipo": "erro",
+        "descricao": "Erro ao imprimir etiquetas.",
+        "caminhoImagem": "/img/icons8-excluir.svg"
+    },
+    {
+        "IdMsg": "14",
+        "tipo": "erro",
+        "descricao": "Erro ao se conectar ao servidor.",
+        "caminhoImagem": "/img/icons8-excluir.svg"
     }
 ]
