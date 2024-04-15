@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-    <title>Carga Máquina</title>
+    <title>Carga Máquina Importar</title>
 </head>
 <body>
     <div class="popup" id="popup"></div>
@@ -17,8 +17,8 @@
             <img id="INFO1" class="imagem" src="" alt="imagem">
         </button> 
 
-        <h1>Troca Rápida</h1>
-        <label class="titulo-escopo">Carga Máquina</label>
+        <h1>CARGA MÁQUINA</h1>
+        <label class="titulo-escopo">Importar</label>
     </div>
 
     <div class="main-container">
@@ -106,17 +106,21 @@
             const resultados = [];
             const filtros = {
                 centroDeCusto: new Set(),
+                descriDeCusto: new Set(),
                 centroDeTrabalho: new Set(),
-                gestorDoCC: new Set()
+                gestorDoCC: new Set(),
+                periodo: new Set()
             };
-
+        
             data.forEach(item => {
                 const nomeItem = item[3]; // Item da coluna 4
                 const valorPorcentagem = parseFloat(item[19]); // Valor da coluna 20
-                filtros.centroDeCusto.add(item[1]); // Coluna 2 - Centro de custo
+                filtros.centroDeCusto.add(item[0]); // Coluna 0 - Número do Centro de custo
+                filtros.descriDeCusto.add(item[1]); // Coluna 2 - Centro de custo
                 filtros.centroDeTrabalho.add(item[3]); // Coluna 4 - Centro de trabalho
                 filtros.gestorDoCC.add(item[5]); // Coluna 6 - Gestor do CC
-
+                filtros.periodo.add(item[6]); // Coluna 6 - Periodo
+        
                 let cor;
                 if (valorPorcentagem <= 79) {
                     cor = 'green';
@@ -125,25 +129,30 @@
                 } else if (valorPorcentagem > 99) {
                     cor = 'red';
                 }
-
+        
                 resultados.push({
-                    centroDeCusto: item[1],
+                    centroDeCusto: item[0],
+                    descriDeCusto: item[1],
                     centroDeTrabalho: item[3],
                     gestorDoCC: item[5],
+                    periodo: item[6],
                     nome: nomeItem,
                     valor: valorPorcentagem,
                     cor: cor
                 });
             });
-
+        
             localStorage.setItem('resultados', JSON.stringify(resultados));
             localStorage.setItem('filtros', JSON.stringify({
                 centroDeCusto: Array.from(filtros.centroDeCusto),
+                descriDeCusto: Array.from(filtros.descriDeCusto),
                 centroDeTrabalho: Array.from(filtros.centroDeTrabalho),
-                gestorDoCC: Array.from(filtros.gestorDoCC)
+                gestorDoCC: Array.from(filtros.gestorDoCC),
+                periodo: Array.from(filtros.periodo)
             }));
-            window.open('/html/SOFTDESK1.html', '_blank');
-        }   
+            window.open('/html/CMG.html', '_blank');
+        }
+        
     </script>
 
     <link rel="stylesheet" href="/css/public.css">

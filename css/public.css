@@ -671,6 +671,12 @@
   margin-top: 20px; /* Espaçamento superior */
 }
 
+  /* Estilo para a última coluna da tabela */
+  #dataList td:last-child {
+    background-color: #333; /* Cor de fundo mais escura */
+    color: #fff; /* Cor do texto branco */
+}
+
 /* Estilo para a tabela de dados */
 table {
   border-collapse: collapse;
@@ -727,8 +733,6 @@ tr:hover td {
 tr:nth-child(even) {
   background-color: #f2f2f2;
 }
-
-
 }
 /*_______________________________________________ Estilo dos menus das tabelas de dados (LISTA)  _____________________________________________*/
 .menu-contexto {

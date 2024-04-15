@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Resultados da Análise</title>
+    <title>Carga Máquina</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 </head>
@@ -18,8 +18,8 @@
             <img id="INFO1" class="imagem" src="" alt="imagem">
         </button> 
 
-        <h1>Troca Rápida</h1>
-        <label class="titulo-escopo">Carga Máquina</label>
+        <h1>CARGA MÁQUINA</h1>
+        <label class="titulo-escopo">Dashboards</label>
 
         <div class="sidebar-buttons-container">
             <button class="sidebar-button" type="button" onclick="openForm()">Filtros</button>
@@ -30,22 +30,42 @@
     <div class="overlay" id="overlay">
         <div class="modal">
             <h2>Filtros</h2>
-            <select id="filtroCentroDeCusto" onchange="atualizarFiltrosSecundarios('centroDeCusto')"></select>
+            <label>Centro Custo</label>
+            <select id="filtrocentroDeCusto" onchange="atualizarFiltrosSecundarios('centroDeCusto')"></select>
+            <label>Descricão Centro Custo</label>
+            <select id="filtroDesriCentroDeCusto" onchange="atualizarFiltrosSecundarios('descriDeCusto')"></select>
+            <label>Centro de Trabalho</label>
             <select id="filtroCentroDeTrabalho" onchange="atualizarFiltrosSecundarios('centroDeTrabalho')"></select>
+            <label>Gestor</label>
             <select id="filtroGestorDoCC" onchange="atualizarFiltrosSecundarios('gestorDoCC')"></select>
+            <label>Metas Cores</label>
             <select id="filtroCores" onchange="filtrarPorCores()"></select>
+            <label>Periodo</label>
+            <select id="filtroPeriodo" onchange="atualizarFiltrosSecundarios('periodo')"></select>
             <button onclick="atualizarGrafico()">Atualizar</button>
             <div class="switch">
                 <input type="checkbox" id="switch" onchange="toggleMostrarValores()" />
                 <label for="switch"></label>
             </div>
             <button onclick="closeForm()">Cancelar</button>
+            <button class="sidebar-button" type="button" onclick="limparFiltros()">Limpar Filtros</button>
         </div>
     </div>
 
     <canvas id="resultadosChart"></canvas>
     <div id="dataList" style="margin-top: 20px;"></div> <!-- Container para a tabela de dados -->
     <script>
+        function limparFiltros() {
+            // Limpa todos os filtros e atualiza o gráfico
+            document.getElementById('filtrocentroDeCusto').value = '';
+            document.getElementById('filtroDesriCentroDeCusto').value = '';
+            document.getElementById('filtroCentroDeTrabalho').value = '';
+            document.getElementById('filtroGestorDoCC').value = '';
+            document.getElementById('filtroPeriodo').value = '';
+            document.getElementById('filtroCores').value = '';
+            atualizarGrafico();
+        }
+
         function closeForm() {
             document.getElementById("overlay").style.display = "none";
         }
@@ -64,9 +84,11 @@
 
         function inicializarFiltros() {
             // Inicializar cada filtro com opções
-            inicializarSelect(document.getElementById('filtroCentroDeCusto'), extrairOpcoes('centroDeCusto'));
+            inicializarSelect(document.getElementById('filtrocentroDeCusto'), extrairOpcoes('centroDeCusto'));
+            inicializarSelect(document.getElementById('filtroDesriCentroDeCusto'), extrairOpcoes('descriDeCusto'));
             inicializarSelect(document.getElementById('filtroCentroDeTrabalho'), extrairOpcoes('centroDeTrabalho'));
             inicializarSelect(document.getElementById('filtroGestorDoCC'), extrairOpcoes('gestorDoCC'));
+            inicializarSelect(document.getElementById('filtroPeriodo'), extrairOpcoes('periodo'));
             inicializarSelect(document.getElementById('filtroCores'), extrairOpcoes('cor')); // Adiciona o filtro de cores
 
             carregarGrafico(); // Carregar o gráfico inicialmente
@@ -87,6 +109,11 @@
             if (filtroPrincipal === 'centroDeCusto') {
                 atualizarSelect('centroDeTrabalho');
                 atualizarSelect('gestorDoCC');
+                atualizarSelect('periodo');
+            } else if (filtroPrincipal === 'descriDeCusto') {
+                atualizarSelect('centroDeTrabalho');
+                atualizarSelect('gestorDoCC');
+                atualizarSelect('periodo');
             } else if (filtroPrincipal === 'centroDeTrabalho') {
                 atualizarSelect('centroDeCusto');
                 atualizarSelect('gestorDoCC');
@@ -97,14 +124,18 @@
         }
 
         function atualizarSelect(filtroSecundario) {
-            const filtroCusto = document.getElementById('filtroCentroDeCusto').value;
-            const filtroTrabalho = document.getElementById('filtroCentroDeTrabalho').value;
-            const filtroGestor = document.getElementById('filtroGestorDoCC').value;
+            const filtrocentroDeCusto = document.getElementById('filtrocentroDeCusto').value;
+            const filtroDesriCentroDeCusto = document.getElementById('filtroDesriCentroDeCusto').value;
+            const filtroCentroDeTrabalho = document.getElementById('filtroCentroDeTrabalho').value;
+            const filtroGestorDoCC = document.getElementById('filtroGestorDoCC').value;
+            const filtroPeriodo = document.getElementById('filtroPeriodo').value;
 
             const filteredResults = resultados.filter(item => 
-                (item.centroDeCusto === filtroCusto || filtroCusto === "") &&
-                (item.centroDeTrabalho === filtroTrabalho || filtroTrabalho === "") &&
-                (item.gestorDoCC === filtroGestor || filtroGestor === "")
+                (item.centroDeCusto === filtrocentroDeCusto || filtrocentroDeCusto === "") &&
+                (item.descriDeCusto === filtroDesriCentroDeCusto || filtroDesriCentroDeCusto === "") &&
+                (item.centroDeTrabalho === filtroCentroDeTrabalho || filtroCentroDeTrabalho === "") &&
+                (item.gestorDoCC === filtroGestorDoCC || filtroGestorDoCC === "") &&
+                (item.periodo === filtroPeriodo || filtroPeriodo === "")
             );
 
             const options = new Set(filteredResults.map(item => item[filtroSecundario]));
@@ -121,24 +152,29 @@
 
         function atualizarGrafico() {
             closeForm()
-            const filtroCusto = document.getElementById('filtroCentroDeCusto').value;
-            const filtroTrabalho = document.getElementById('filtroCentroDeTrabalho').value;
-            const filtroGestor = document.getElementById('filtroGestorDoCC').value;
+            const filtrocentroDeCusto = document.getElementById('filtrocentroDeCusto').value;
+            const filtroDesriCentroDeCusto = document.getElementById('filtroDesriCentroDeCusto').value;
+            const filtroCentroDeTrabalho = document.getElementById('filtroCentroDeTrabalho').value;
+            const filtroGestorDoCC = document.getElementById('filtroGestorDoCC').value;
+            const filtroPeriodo = document.getElementById('filtroPeriodo').value; // Obtém a cor selecionada
             const filtroCor = document.getElementById('filtroCores').value; // Obtém a cor selecionada
             let dadosFiltrados;
             if (mostrarValoresAcimaDeZero) {
                 dadosFiltrados = resultados.filter(item =>
-                (item.centroDeCusto === filtroCusto || filtroCusto === "") &&
-                (item.centroDeTrabalho === filtroTrabalho || filtroTrabalho === "") &&
-                (item.gestorDoCC === filtroGestor || filtroGestor === "") &&
+                (item.centroDeCusto === filtrocentroDeCusto || filtrocentroDeCusto === "") &&
+                (item.descriDeCusto === filtroDesriCentroDeCusto || filtroDesriCentroDeCusto === "") &&
+                (item.centroDeTrabalho === filtroCentroDeTrabalho || filtroCentroDeTrabalho === "") &&
+                (item.gestorDoCC === filtroGestorDoCC || filtroGestorDoCC === "") &&
+                (item.periodo === filtroPeriodo || filtroPeriodo === "") &&
                 (item.cor === filtroCor || filtroCor === "")
             );
             } else {
                 dadosFiltrados = resultados.filter(item =>
-                    (item.centroDeCusto === filtroCusto || filtroCusto === "") &&
-                    (item.centroDeTrabalho === filtroTrabalho || filtroTrabalho === "") &&
-                    (item.gestorDoCC === filtroGestor || filtroGestor === "") &&
-                    (item.cor === filtroCor || filtroCor === "") &&
+                    (item.centroDeCusto === filtrocentroDeCusto || filtrocentroDeCusto === "") &&
+                    (item.descriDeCusto === filtroDesriCentroDeCusto || filtroDesriCentroDeCusto === "") &&
+                    (item.centroDeTrabalho === filtroCentroDeTrabalho || filtroCentroDeTrabalho === "") &&
+                    (item.gestorDoCC === filtroGestorDoCC || filtroGestorDoCC === "") &&
+                    (item.periodo === filtroPeriodo || filtroPeriodo === "") &&
                     item.valor > 0 // Filtra os valores maiores que zero
                 );
             }
@@ -167,54 +203,72 @@
                         },
                         tooltip: {
                             callbacks: {
-                                label: function(tooltipItem) {
-                                    return tooltipItem.dataset.label + ': ' + tooltipItem.raw.toFixed(2) + '%';
+                                label: function(context) {
+                                    const data = dadosFiltrados[context.dataIndex];
+                                    return [
+                                        `Centro de Custo: ${data.centroDeCusto}`,
+                                        `Descrição Centro de Custo: ${data.descriDeCusto}`,
+                                        `Centro de Trabalho: ${data.centroDeTrabalho}`,
+                                        `Gestor: ${data.gestorDoCC}`,
+                                        `Período: ${data.periodo}`,
+                                        `% de OEE: ${context.raw.toFixed(2)}%`
+                                    ];
                                 }
                             }
                         }
                     }
                 }
             });
-            atualizarLista(dadosFiltrados); // Atualiza a lista de dados abaixo do gráfico
+            atualizarLista(dadosFiltrados); // Atualiza a lista de dados abaixo do gráfico                  
         }
 
         function atualizarLista(dados) {
             const container = document.getElementById('dataList');
             container.innerHTML = ''; // Limpa o conteúdo anterior
-
+        
             // Cria a tabela
             const table = document.createElement('table');
             const thead = document.createElement('thead');
             const tbody = document.createElement('tbody');
-
+        
             // Cria a linha de cabeçalho
             const headerRow = document.createElement('tr');
             headerRow.innerHTML = `
                 <th>Centro de custo</th>
-                <th>Descricao Centro de Custo</th>
+                <th>Descrição Centro de custo</th>
                 <th>Centro de trabalho</th>
-                <th>Dias Uteis</th>
+                <th>Gestor</th>
+                <th>Período</th>
                 <th>% de OEE</th>
             `;
             thead.appendChild(headerRow);
-
+        
             // Preenche os dados na tabela
             dados.forEach(data => {
                 const row = document.createElement('tr');
+                let corSelect = ''; // Variável para armazenar a cor do texto
+                if (data.cor === 'green') {
+                    corSelect = '#54D744'; // Verde
+                } else if (data.cor === 'red') {
+                    corSelect = '#FF2D00'; // Vermelho
+                } else if (data.cor === 'yellow') {
+                    corSelect = '#FFFF00'; // Amarelo
+                }
                 row.innerHTML = `
                     <td>${data.centroDeCusto}</td>
-                    <td>${data.gestorDoCC}</td>
+                    <td>${data.descriDeCusto}</td>
                     <td>${data.centroDeTrabalho}</td>
-                    <td>${data.diasUteis}</td>
-                    <td style="color: ${data.cor};">${data.valor.toFixed(2)}%</td>
+                    <td>${data.gestorDoCC}</td>
+                    <td>${data.periodo}</td>
+                    <td style="color: ${corSelect};">${data.valor.toFixed(2)}%</td>
                 `;
                 tbody.appendChild(row);
             });
-
+        
             // Adiciona o cabeçalho e o corpo à tabela
             table.appendChild(thead);
             table.appendChild(tbody);
-
+        
             // Adiciona a tabela ao container
             container.appendChild(table);
         }
@@ -224,10 +278,13 @@
             atualizarGrafico(); // Atualiza o gráfico ao alternar o interruptor
         }
 
+        let corSelect
         function filtrarPorCores() {
+
             // Atualiza o gráfico ao selecionar uma nova cor
             atualizarGrafico();
         }
+
     </script>
 <link rel="stylesheet" href="/css/public.css">
 <script src="/js/public.js"></script>

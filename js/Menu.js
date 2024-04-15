@@ -76,5 +76,5 @@ function carregarValores4() {
   window.location.href = '/html/CAD.html'
 }
 function carregarValores5() {
-  window.location.href = '/html/SOFTDESK.html'
+  window.location.href = '/html/CMI.html'
 }
