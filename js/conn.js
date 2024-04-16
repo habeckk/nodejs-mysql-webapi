@@ -27,7 +27,6 @@ app.get('/pdfabrir/:fipN', async (req, res) => {
     if (!/^[a-zA-Z0-9_-]+$/.test(fipN)) {
         return res.status(400).send('ID inválido');
     }
-
     const baseNetworkPath = '\\\\dfs\\SAP\\PP\\QUA\\FIP-PDF';
     const filePath = path.join(baseNetworkPath, `00001.pdf`); // Construindo o caminho do arquivo
 
