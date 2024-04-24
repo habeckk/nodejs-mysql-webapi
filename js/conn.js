@@ -18,31 +18,6 @@ app.use(cors()); // Use o middleware do CORS para permitir solicitações de tod
 app.get('/', (req, res) => res.json({ message: 'Funcionando!' }));
 
 //__________________________________________________________________________________________________________
-//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU FIP 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
-app.get('/pdfabrir/:fipN', async (req, res) => {
-    const fipN = req.params.fipN;
-    console.log(fipN + " teste"); // Para debug
-
-    // Validação do ID
-    if (!/^[a-zA-Z0-9_-]+$/.test(fipN)) {
-        return res.status(400).send('ID inválido');
-    }
-    const baseNetworkPath = '\\\\dfs\\SAP\\PP\\QUA\\FIP-PDF';
-    const filePath = path.join(baseNetworkPath, `00001.pdf`); // Construindo o caminho do arquivo
-
-    // Verifica se o arquivo existe
-    fs.access(filePath, fs.constants.F_OK, (err) => {
-        if (err) {
-            return res.status(404).send('Arquivo não encontrado');
-        }
-        // Se o arquivo existir, envia o arquivo
-        // Para forçar download, você pode descomentar a linha abaixo
-        // res.setHeader('Content-Disposition', 'attachment; filename="' + fipN + '.pdf"');
-        res.setHeader('Content-Type', 'application/pdf');
-        fs.createReadStream(filePath).pipe(res);
-    });
-});
-//__________________________________________________________________________________________________________
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 LOGIN 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 
 app.post('/login', async (req, res) => {
@@ -105,6 +80,31 @@ app.put('/ferr_apont/:id', async (req, res) => {
     }
 });
 //__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU FIP 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+app.get('/pdfabrir/:fipN', async (req, res) => {
+    const fipN = req.params.fipN;
+    console.log(fipN + " teste"); // Para debug
+
+    // Validação do ID
+    if (!/^[a-zA-Z0-9_-]+$/.test(fipN)) {
+        return res.status(400).send('ID inválido');
+    }
+    const baseNetworkPath = '\\\\dfs\\SAP\\PP\\QUA\\FIP-PDF';
+    const filePath = path.join(baseNetworkPath, `00001.pdf`); // Construindo o caminho do arquivo
+
+    // Verifica se o arquivo existe
+    fs.access(filePath, fs.constants.F_OK, (err) => {
+        if (err) {
+            return res.status(404).send('Arquivo não encontrado');
+        }
+        // Se o arquivo existir, envia o arquivo
+        // Para forçar download, você pode descomentar a linha abaixo
+        // res.setHeader('Content-Disposition', 'attachment; filename="' + fipN + '.pdf"');
+        res.setHeader('Content-Type', 'application/pdf');
+        fs.createReadStream(filePath).pipe(res);
+    });
+});
+//__________________________________________________________________________________________________________
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU PDF 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 app.get('/pdf/:id', async(req, res) => {
     const id = req.params.id;
@@ -159,7 +159,7 @@ app.put('/atualizar-status/:id', async (req, res) => {
 //__________________________________________________________________________________________________________
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU DELETAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 
-app.delete('/delete/:id', async (req, res) => {
+app.delete('/setupusi/:id', async (req, res) => {
     const id = req.params.id;
 
     try {
@@ -199,6 +199,20 @@ app.get('/setupusiFolha', async (req, res) => {
     }
 });
 
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 ETQ SELECT 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
+app.get('/getEtiquetaById/:id', async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const result = await db.buscarEtiquetaPorId(id);
+        res.status(200).json(result);
+    } catch (error) {
+        console.error('Erro ao obter Etiqueta:', error);
+        res.status(500).json({ error: 'Erro ao obter Etiquetanas' });
+    }
+});
 //__________________________________________________________________________________________________________
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 ETQ IMPRIMIR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 
@@ -255,20 +269,6 @@ app.post('/salvaEtq', async (req, res) => {
     }
 });
 
-//__________________________________________________________________________________________________________
-//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU SELECT 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
-
-app.get('/getEtiquetaById/:id', async (req, res) => {
-    const id = req.params.id;
-
-    try {
-        const result = await db.buscarEtiquetaPorId(id);
-        res.status(200).json(result);
-    } catch (error) {
-        console.error('Erro ao obter Etiqueta:', error);
-        res.status(500).json({ error: 'Erro ao obter Etiquetanas' });
-    }
-});
 
 //__________________________________________________________________________________________________________
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 APF GERAR PLANILHA 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
@@ -338,6 +338,86 @@ app.get('/grfabrir', async (req, res) => {
         fs.createReadStream(filePath).pipe(res);
     });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSP ADICIONAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
+app.post('/gdm_setup_polimento', async (req, res) => {
+    const { HRpedido, login, cc, maquina, item, operacao, lote, horario, status, calibrador, HRfinalizado, obs} = req.body;
+
+    try {
+        const result = await db.insert_setup_polimento( HRpedido, login, cc, maquina, item, operacao, lote, horario, status, calibrador, HRfinalizado, obs);
+        res.status(201).json({ message: 'Setup adicionado com sucesso', id: result.insertId });
+    } catch (error) {
+        console.error('Erro ao adicionar Setup:', error);
+        res.status(500).json({ error: 'Erro ao adicionar Setup' });
+    }
+});
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSP SELECT 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+app.get('/gdm_setup_polimento', async (req, res) => {
+    try {
+        const setups = await db.select_setup_polimento(); // Chame a função que obtém os setups do banco de dados
+        res.status(200).json(setups); // Envie os setups obtidos como resposta
+    } catch (error) {
+        console.error('Erro ao buscar setups:', error);
+        res.status(500).json({ error: 'Erro ao buscar setups' });
+    }
+});
+
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSP ALTERAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
+app.put('/gdm_setup_polimento/:id', async (req, res) => {
+    const setupId = req.params.id;
+    const { status } = req.body;
+
+    try {
+        const result = await db.update_setup_polimento(setupId, status);
+        res.status(200).json({ message: 'Status atualizado com sucesso.' });
+    } catch (error) {
+        console.error('Erro ao atualizar o status:', error);
+        res.status(500).json({ error: 'Erro interno ao atualizar o status.' });
+    }
+});
+
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSP DELETAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+app.delete('/gdm_setup_polimento/:id', async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const result = await db.excluir_setup_polimento(id);
+        res.status(200).json({ message: 'Setup de usinagem excluído com sucesso' });
+    } catch (error) {
+        console.error('Erro ao excluir setup de usinagem:', error);
+        res.status(500).json({ error: 'Erro ao excluir setup de usinagem' });
+    }
+});
+
+
+
+
+
+
+
 
 
 app.listen(port, () => {

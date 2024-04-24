@@ -19,6 +19,10 @@ async function carregarValores0() {
     try {
     // Simulando uma operação bem-sucedida removendo o item e redirecionando.
     localStorage.removeItem('usuarioLogado');
+    localStorage.removeItem('acess');
+    localStorage.removeItem('resultados');
+    localStorage.removeItem('dadosDetalhados');
+    localStorage.removeItem('filtros');
     
     // Se chegou até aqui, significa que não houve erro
     showSuccessMessage('7'); // Mensagem de sucesso
@@ -47,6 +51,7 @@ function carregarValores1() {
 
 // Função assíncrona para exibir uma mensagem de sucesso baseada em um ID
 async function showSuccessMessage(messageId) {
+    console.log('teste')
     try {
         // Carrega o JSON com as mensagens
         const response = await fetch('/json/IdMsg.json'); // Atualize o caminho conforme necessário

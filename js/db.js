@@ -66,6 +66,7 @@ async function update_ferr_apont(id, trab_real, conf_final, data_fim, hora_fim, 
         await sql.close();
     }
 }
+
 //__________________________________________________________________________________________________________
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 async function insertCustomer(HRpedido, login, cc, maquina, item, operacao, lote, horario, status, calibrador, HRfinalizado, obs) {
@@ -116,17 +117,19 @@ async function excluirSetupUsiPorId(id) {
         await sql.close();
     }
 }
+
 //__________________________________________________________________________________________________________
-//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 GRUPO DE MÁQUINAS 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
-async function getMaquinasPorCentroCusto(centroCusto) {
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU FIP 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+async function getItemByFipN(id) {
     try {
         await sql.connect(config);
-        const result = await sql.query`SELECT Maquina FROM rotina_faci_status_maquina WHERE C_C = ${centroCusto}`;
+        const result = await sql.query`SELECT * FROM SMP_FIP WHERE Item = ${id}`;
         return result.recordset;
     } catch (error) {
-        throw error;
+        console.error('Database query error:', error);
+        throw error; // É uma boa prática relançar o erro após logá-lo
     } finally {
-        await sql.close();
+        await sql.close(); // Isso pode ser problemático se você estiver usando pool de conexões
     }
 }
 //__________________________________________________________________________________________________________
@@ -143,6 +146,20 @@ async function getFolhaProcessoItem(item) {
         await sql.close();
     }
 }
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 GRUPO DE MÁQUINAS 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+async function getMaquinasPorCentroCusto(centroCusto) {
+    try {
+        await sql.connect(config);
+        const result = await sql.query`SELECT Maquina FROM rotina_faci_status_maquina WHERE C_C = ${centroCusto}`;
+        return result.recordset;
+    } catch (error) {
+        throw error;
+    } finally {
+        await sql.close();
+    }
+}
+
 //__________________________________________________________________________________________________________
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 ETQ 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 async function getEtiquetas() {
@@ -178,20 +195,6 @@ async function buscarEtiquetaPorId(id) {
         return result.recordset; // .recordset contém os registros retornados pela consulta
     } catch (error) {
         console.error('Erro na consulta ao banco de dados:', error);
-        throw error; // É uma boa prática relançar o erro após logá-lo
-    } finally {
-        await sql.close(); // Isso pode ser problemático se você estiver usando pool de conexões
-    }
-}
-//__________________________________________________________________________________________________________
-//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU FIP 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
-async function getItemByFipN(id) {
-    try {
-        await sql.connect(config);
-        const result = await sql.query`SELECT * FROM SMP_FIP WHERE Item = ${id}`;
-        return result.recordset;
-    } catch (error) {
-        console.error('Database query error:', error);
         throw error; // É uma boa prática relançar o erro após logá-lo
     } finally {
         await sql.close(); // Isso pode ser problemático se você estiver usando pool de conexões
@@ -280,6 +283,68 @@ async function gerarPlanilhaXLSX() {
         await sql.close();
     }
 }
+
+
+
+
+
+
+
+
+
+
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSP 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+async function insert_setup_polimento(HRpedido, login, cc, maquina, item, operacao, lote, horario, status, calibrador, HRfinalizado, obs) {
+    try {
+        await sql.connect(config);
+        const result = await sql.query`INSERT INTO gdm_setup_polimento (HRpedido, login, cc, maquina, item, operacao, lote, horario, status, calibrador, HRfinalizado, obs) 
+                                    VALUES (${HRpedido}, ${login}, ${cc}, ${maquina}, ${item}, ${operacao}, ${lote}, ${horario}, ${status}, ${calibrador}, ${HRfinalizado}, ${obs})`;
+        return result;
+    } catch (error) {
+        throw error;
+    } finally {
+        await sql.close();
+    }
+}
+
+async function select_setup_polimento() {
+    try {
+        await sql.connect(config);
+        const result = await sql.query`SELECT * FROM gdm_setup_polimento`;
+        return result.recordset;
+    } catch (error) {
+        throw error;
+    } finally {
+        await sql.close();
+    }
+}
+
+async function update_setup_polimento(id, novoStatus) {
+    try {
+        await sql.connect(config);
+        const result = await sql.query`UPDATE gdm_setup_polimento SET status = ${novoStatus} WHERE Id = ${id}`;
+        return result;
+    } catch (error) {
+        throw error;
+    } finally {
+        await sql.close();
+    }
+}
+
+async function excluir_setup_polimento(id) {
+    try {
+        await sql.connect(config);
+        const result = await sql.query`DELETE FROM gdm_setup_polimento WHERE id = ${id}`;
+        return result;
+    } catch (error) {
+        throw error;
+    } finally {
+        await sql.close();
+    }
+}
+
+
 //__________________________________________________________________________________________________________
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 MODULOS 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 module.exports = { selectCustomers,
@@ -296,5 +361,10 @@ module.exports = { selectCustomers,
     insertferr_apont, 
     selectferr_apont,
     update_ferr_apont,
-    gerarPlanilhaXLSX
+    gerarPlanilhaXLSX,
+
+    excluir_setup_polimento,
+    update_setup_polimento,
+    select_setup_polimento,
+    insert_setup_polimento
 };

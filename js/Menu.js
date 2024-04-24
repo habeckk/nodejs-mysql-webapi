@@ -78,3 +78,9 @@ function carregarValores4() {
 function carregarValores5() {
   window.location.href = '/html/CMI.html'
 }
+function carregarValores6() {
+  window.location.href = '/html/SSP.html'
+}
+function carregarValores7() {
+  window.location.href = '/html/MAP.html'
+}

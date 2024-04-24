@@ -507,7 +507,7 @@
 }
 
 
-.status-finalizado {
+.card1.finalizado, .status-finalizado {
   box-shadow: 1px 3px 8px var(--paleta1); /* Sombra 3D */
   background-image: repeating-linear-gradient(
     45deg,
