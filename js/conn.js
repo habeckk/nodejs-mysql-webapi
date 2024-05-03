@@ -215,6 +215,23 @@ app.get('/getEtiquetaById/:id', async (req, res) => {
 });
 //__________________________________________________________________________________________________________
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 ETQ IMPRIMIR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+app.post('/zplReset', async (req, res) => {
+    const { printerDirectory } = req.body;
+    const printerDir = "//172.18.1.232/" + printerDirectory.trim();
+
+    try {
+        // Gerar o conteúdo ZPL de reset
+        const zplData = '^XA^JUF^XZ';
+
+        // Salvar o arquivo ZPL na pasta da impressora
+        const zplFilePath = path.join(printerDir, 'reset_label.zpl');
+        await fs.writeFile(zplFilePath, zplData); 
+
+        res.json({ success: true, message: "15" });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "16" });
+    }
+});
 
 app.post('/zpl', async (req, res) => {
     const { printerDirectory, zplData, grfData, qtdetq } = req.body;

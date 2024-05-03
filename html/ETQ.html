@@ -21,7 +21,8 @@
         <div class="sidebar-buttons-container">
             <button class="sidebar-button" type="button" onclick="openForm()">Cadastrar Etiquetas</button>
             <button class="sidebar-button" type="button" onclick="openForm1()">Imprimir</button>
-            <button onclick="convertImageToGRF()">Convert to GRF</button>
+            <button class="sidebar-button" type="button" onclick="openForm2()">Reset Impre.</button>
+            <!--<button onclick="convertImageToGRF()">Convert to GRF</button> -->
         </div>
     </div>
 
@@ -87,6 +88,20 @@
             </div>
         </div>
 
+        <div class="overlay2" id="overlay2">
+            <div class="modal">
+                <h1>Imprimir</h1>
+                <form id="imprimirForm1" action="http://localhost:5500/zplReset" method="POST">
+
+                    <label for="printerDirectory">Diretório da Impressora:</label><br>
+                    <input type="text" id="printerDirectory" name="printerDirectory"><br>
+
+                    <button type="submit" onclick="Imprimir()">Resetar</button>
+                    <button type="button" onclick="closeForm2()">Cancelar</button>
+                </form>
+            </div>
+        </div>
+
     <div id="pedidosContainer"></div>
     <!-- Restante do seu HTML -->
 
@@ -116,12 +131,50 @@
             // Se userAccess for null ou undefined, trata como não logado ou sem acesso
             alert('Acesso com Sucesso');
         }
+    //__________________________________________________________________________________________________________
+    //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+    document.getElementById('imprimirForm1').addEventListener('submit', async function(event) {
+        event.preventDefault(); // Prevenir o comportamento padrão de envio do formulário
+        // Aqui, coletamos os dados do formulário
+        const formData = new FormData(this);
+
+        // Substituímos por um objeto para usar no fetch
+        const formObject = {};
+        formData.forEach((value, key) => formObject[key] = value);
+
+    //---------------------------------------------------------------------------------------------------------------
+        try {
+            const response = await fetch(`${BASE_URL}/zplReset`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formObject),
+            });
+
+            if (!response.ok) {
+                throw new Error('A resposta do servidor não foi OK.');
+            }
+
+            const data = await response.json();
+
+            // Verifica se a operação foi bem-sucedida
+            if (data.success) {
+                showSuccessMessage('15'); // Mostra mensagem de sucesso
+            } else {
+                showSuccessMessage('16'); // Mostra mensagem de erro recebida do servidor
+            }                
+            
+        } catch (error) {
+            showSuccessMessage('16');
+        }
+    });
+
 //__________________________________________________________________________________________________________
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
-
-        document.getElementById('imprimirForm').addEventListener('submit', async function(event) {
+    document.getElementById('imprimirForm').addEventListener('submit', async function(event) {
             event.preventDefault(); // Prevenir o comportamento padrão de envio do formulário
-        
+            console.log("zplReset")
             // Aqui, coletamos os dados do formulário
             const formData = new FormData(this);
         
@@ -152,19 +205,14 @@
                 }                
                 
             } catch (error) {
-                console.error('Erro ao enviar solicitação:', error);
                 showSuccessMessage('13');
             }
-        });
+    });
         
 //---------------------------------------------------------------------------------------------------------------
         // Função para executar o script Python
         async function convertImageToGRF() {
             try {
-                // Faz a solicitação POST para o servidor para executar o script Python
-                const response = await fetch(`${BASE_URL}/executarPython`, {
-                    method: 'GET'
-                });
                 // Após a execução bem-sucedida do script Python, abre o grfabrir em uma nova aba
                 const fipN = "2345200R00";
                 const pdfUrl = `${BASE_URL}/grfabrir`; // A URL para o PDF que você deseja abrir
@@ -273,13 +321,21 @@
         function closeForm() {
             document.getElementById("overlay").style.display = "none";
         }
+
         function openForm1() {
             document.getElementById("overlay1").style.display = "block";
         }
-
         function closeForm1() {
             document.getElementById("overlay1").style.display = "none";
         }
+
+        function openForm2() {
+            document.getElementById("overlay2").style.display = "block";
+        }
+        function closeForm2() {
+            document.getElementById("overlay2").style.display = "none";
+        }
+
         function Imprimir () {
             closeForm1();
         }

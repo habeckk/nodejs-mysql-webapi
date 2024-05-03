@@ -82,5 +82,17 @@
         "tipo": "erro",
         "descricao": "Erro ao se conectar ao servidor.",
         "caminhoImagem": "/img/icons8-excluir.svg"
+    },
+    {
+        "IdMsg": "15",
+        "tipo": "erro",
+        "descricao": "Reset com Sucesso.",
+        "caminhoImagem": "/img/icons8-ok.svg"
+    },
+    {
+        "IdMsg": "16",
+        "tipo": "erro",
+        "descricao": "Falha ao resetar.",
+        "caminhoImagem": "/img/icons8-excluir.svg"
     }
 ]

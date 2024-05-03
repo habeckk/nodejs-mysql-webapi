@@ -11,6 +11,7 @@
     --paleta4: #ffffff;/* Fundo superior da página*/
     --paleta5: #ffffff;/* Fundo inferior da página e da caixa de mensagem*/
     --paleta7: #ffffff;/* Fonte do Título Header 2*/
+    --paleta8: #FF5733;/* Fonte do Título Header 2*/
 
 /* 🎨🎨🎨🎨🎨🎨🎨---------- Caixa de mensagem -----------🎨🎨🎨🎨🎨🎨🎨   */
 
@@ -294,7 +295,8 @@
 /* __________________________________________________________ Formulários _________________________________________________________*/
 
   .overlay,
-  .overlay1 {
+  .overlay1,
+  .overlay2 {
     display: none;
     flex-direction: column;
     text-align: center;

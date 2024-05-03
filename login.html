@@ -6,14 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/img/Troca Rapida.ico" type="image/x-icon">  
     <title>Login</title>
+	<style>
+        body{
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+        }
+    
+        canvas {
+            background: #606366;
+			position: absolute;
+			top: 43%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			z-index: -1; /* Garanta que a mensagem apareça na frente de outros elementos */
+        }
+    </style>
 </head>
 
 <body>
     <div id="app">   
         <div id="auth" class="center">
-            <a href="/login.html">
-                <img class="imagem" src="/img/logoDocol.png" alt="imagem">
-            </a>
             <div class="cadastro">
                 <form id="authForm">
                     <h3 id="authFormTitle">Acesse a sua conta para continuar</h3>
@@ -37,12 +52,13 @@
             </div>
         </div>
     </div>
+    <canvas id="wavesCanvas"></canvas>
 <script>
     function login() {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
     
-        fetch('http://localhost:5500/login', {
+        fetch('http://gdi.docol.com.br:5500/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -71,11 +87,107 @@
         event.preventDefault();
         login();
     });    
-    
-</script>
 
-<link rel="stylesheet" href="/css/public.css">
+    const canvas = document.getElementById('wavesCanvas');
+    const ctx = canvas.getContext('2d');
+    const squareWidth = 900; // Largura do quadrado
+    const squareHeight =900; // Altura do quadrado
+    const maxRadius = 350;
+    const minRadius = -100;
+    const waveFrequencies = [0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.10]; // Frequências das ondas
+    const waveAmplitudes = [20, 13, 26, 22, 12, 15, 18, 31]; // Amplitudes das ondas
+    const waveColors = ['#00a9e0', '#FF5733', '#00a9e0', '#FF5733', '#FF5733', '#00a9e0', '#00a9e0', '#FF5733']; // Cores das ondas
+    const waveWords = ['Protagonismo', 'Excelência', 'Padrão', 'Simplicidade', 'Empatia', 'Controle e Agilidade', 'Experimentação', 'Mérito']; // Palavras a serem exibidas nas ondas
+    const wordSpeeds = [2.3, 2.3, 2.3, 2.3, 2.3, 2.3, 2.3, 2.3]; // Velocidade das palavras
+    let phases = [0, Math.PI / 2, Math.PI, 3 * Math.PI / 2, Math.PI / 4, Math.PI / 2, Math.PI / 3, Math.PI / 4]; // Fases iniciais das ondas
+    
+    // Definir o tamanho do canvas com base no quadrado e no raio das ondas
+    const canvasSize = Math.max(squareWidth, squareHeight) + maxRadius * 3;
+    canvas.width = canvasSize;
+    canvas.height = canvasSize;
+    
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    
+    // Definir a largura da linha
+    ctx.lineWidth = 35.5; // Defina o valor desejado
+    ctx.font = '18px Arial'; // Defina a fonte e o tamanho do texto
+    
+    function drawWaves() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+      for (let i = 0; i < waveFrequencies.length; i++) {
+        const frequency = waveFrequencies[i];
+        const amplitude = waveAmplitudes[i];
+        const color = waveColors[i];
+        const word = waveWords[i];
+        const wordSpeed = wordSpeeds[i];
+        let phase = phases[i];
+    
+        ctx.beginPath();
+        for (let angle = 1.5; angle <= Math.PI * 3; angle += 1.58) {
+          const radius = minRadius + (maxRadius - minRadius) * (2 + Math.sin(phase)) / 2; // Calcula o raio com base na fase
+          const x = centerX + Math.cos(angle) * (radius + Math.sin(angle * 1,5 + phase) * amplitude);
+          const y = centerY + Math.sin(angle) * (radius + Math.sin(angle * 1,5 + phase) * amplitude);
+          ctx.lineTo(x, y);
+        }
+    
+        ctx.strokeStyle = color;
+        ctx.stroke();
+    
+    
+        // Calcular a posição inicial da palavra
+        const initialX = centerX + Math.cos(phase) * minRadius;
+        const initialY = centerY + Math.sin(phase) * minRadius;
+    
+        // Calcular a posição final da palavra
+        const finalX = centerX + Math.cos(phase) * (maxRadius + amplitude * 1.0);
+        const finalY = centerY + Math.sin(phase) * (maxRadius + amplitude * 1.0);
+    
+        // Calcular a posição atual da palavra com base no tempo
+        const currentX = initialX + (finalX - initialX) * wordSpeed * (Math.sin(phase) + .7) / 2;
+        const currentY = initialY + (finalY - initialY) * wordSpeed * (Math.sin(phase) + .3) / 2;
+    
+        // Verificar a cor da linha na posição atual da palavra
+        const lineColor = ctx.getImageData(currentX, currentY, 1, 1).data;
+    
+        // Converter a cor da linha para uma string hexadecimal
+        const lineHexColor = "#" + ("000000" + rgbToHex(lineColor[0], lineColor[1], lineColor[2])).slice(-6);
+    
+        // Definir a cor da palavra com base na cor da linha
+        const wordFillColor = (lineHexColor === color) ? getNextColor(color) : color;
+    
+        // Desenhar a palavra
+        ctx.fillStyle = wordFillColor;
+        ctx.fillText(word, currentX, currentY);
+    
+        phase += frequency * 0.02; // Ajuste para velocidade diferente
+        phases[i] = phase;
+      }
+    
+      requestAnimationFrame(drawWaves);
+    }
+    
+    drawWaves();
+    
+    // Função auxiliar para converter RGB para hexadecimal
+    function rgbToHex(r, g, b) {
+      return ((r << 16) | (g << 8) | b).toString(16);
+    }
+    
+    // Função auxiliar para obter a próxima cor na lista de cores
+    function getNextColor(currentColor) {
+      const currentIndex = waveColors.indexOf(currentColor);
+      const nextIndex = (currentIndex + 1) % waveColors.length;
+      return waveColors[nextIndex];
+    }
+    
+    
+    </script>
+
+
 <link rel="stylesheet" href="/css/login.css">
+<link rel="stylesheet" href="/css/public.css">
 <script src="/js/public.js"></script>
 <script src="/js/auth.js"></script>
 
