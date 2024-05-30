@@ -49,7 +49,7 @@
                     
                     <label for="grf-etq">GRF:</label>
                     <textarea id="grf-etq" name="grf-etq"></textarea><br>
-                    
+
                     <label for="zpl-etq">ZPL Etiqueta:</label>
                     <textarea type="zpl-etq" id="zpl-etq" name="zpl-etq"></textarea><br>
                     
@@ -72,15 +72,22 @@
 
                     <label for="qtdetq">QTD:</label><br>
                     <input type="text" id="qtdetq" name="qtdetq"><br>
-                    <label for="data-etq">Data:</label>
 
-                    <input type="text" id="data-etq" name="data-etq"><br>
-                    <label for="zplData">Código ZPL:</label><br>
-                    
-                    <textarea id="zplData" name="zplData"></textarea><br>
+                    <div style="display: none;">
+                        <label for="data-etq">Data:</label>
+                        <input type="text" id="data-etq" name="data-etq"><br>
+                    </div> 
 
-                    <label for="grfData">Código GRF:</label><br>
-                    <textarea id="grfData" name="grfData"></textarea><br>
+                    <label for="infetq">INFO 1:</label>
+                    <input type="text" id="infetq" name="infetq"><br>
+
+                    <div style="display: none;">
+                        <label for="zplData">Código ZPL:</label><br>
+                        <textarea id="zplData" name="zplData"></textarea><br>
+        
+                        <label for="grfData">Código GRF:</label><br>
+                        <textarea id="grfData" name="grfData"></textarea><br>
+                    </div>
 
                     <button type="submit" onclick="Imprimir()">Enviar para Impressão</button>
                     <button type="button" onclick="closeForm1()">Cancelar</button>
@@ -129,7 +136,7 @@
             // Se o terceiro número for 4, o usuário tem acesso e o código continua normalmente
         } else {
             // Se userAccess for null ou undefined, trata como não logado ou sem acesso
-            alert('Acesso com Sucesso');
+            //alert('Acesso com Sucesso');
         }
     //__________________________________________________________________________________________________________
     //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
@@ -279,10 +286,6 @@
         
             // Atualize o valor do campo zplData com o valor modificado
             document.getElementById('zplData').value = novo1.replace(/\^PQ\d+/, `^PQ${novo2}`);
-        
-            // Imprima o novo valor no console
-            console.log('ZPL Data atualizado:', document.getElementById('zplData').value);
-        
         });
 //___________________________________________________________________________________
 // Abrir formulário
@@ -408,7 +411,7 @@ function selecionarEtiqueta(id) {
 
             // Substituir "#100@" pelo valor atual da data
             
-            const zplData = etiqueta.cod_zpl.replace(/#100@/g, getCurrentDate());
+            const zplData = etiqueta.cod_zpl;
 
             // Atualizar o campo zplData com o ZPL atualizado
             document.getElementById('zplData').value = zplData;

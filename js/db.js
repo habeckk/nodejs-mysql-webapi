@@ -284,15 +284,6 @@ async function gerarPlanilhaXLSX() {
     }
 }
 
-
-
-
-
-
-
-
-
-
 //__________________________________________________________________________________________________________
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSP 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 async function insert_setup_polimento(HRpedido, login, cc, maquina, item, operacao, lote, horario, status, calibrador, HRfinalizado, obs) {
@@ -345,6 +336,69 @@ async function excluir_setup_polimento(id) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 IPG 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+async function inserttabeImpregna(HRpedido, login, documentoCompras, item, fornecedor, grupoMercadorias, material, orgCompras, grpCompradores, centro, deposito, dataDocumento, qtdPedido, umPedido, valorLiqPedido, moeda, unidPrcPedido, incompleto, tipoDocCompras, centroFornecedor, textoBreve) {
+    try {
+        await sql.connect(config);
+        const result = await sql.query`INSERT INTO gdm_tabela_impregna (HRpedido, login, Documento_compras, item, Fornecedor, Grupo_mercadorias, Material, Org_compras, Grp_compradores, Centro, Deposito, Data_documento, Qtd_pedido, UM_pedido, Valor_líq_pedido, Moeda, Unid_prc_pedido, Incompleto, Tipo_doc_compras, Centro_fornecedor, Texto_breve) 
+                                    VALUES (${HRpedido}, ${login}, ${documentoCompras}, ${item}, ${fornecedor}, ${grupoMercadorias}, ${material}, ${orgCompras}, ${grpCompradores}, ${centro}, ${deposito}, ${dataDocumento}, ${qtdPedido}, ${umPedido}, ${valorLiqPedido}, ${moeda}, ${unidPrcPedido}, ${incompleto}, ${tipoDocCompras}, ${centroFornecedor}, ${textoBreve})`;
+        return result;
+    } catch (error) {
+        throw error;
+    } finally {
+        await sql.close();
+    }
+}
+
+
+async function selecttabeImpregna() {
+    try {
+        await sql.connect(config);
+        const result = await sql.query`SELECT * FROM gdm_tabela_impregna`;
+        return result.recordset;
+    } catch (error) {
+        throw error;
+    } finally {
+        await sql.close();
+    }
+}
+
+async function updatetabeImpregna(id, novoStatus) {
+    try {
+        await sql.connect(config);
+        const result = await sql.query`UPDATE gdm_tabela_impregna SET status = ${novoStatus} WHERE Id = ${id}`;
+        return result;
+    } catch (error) {
+        throw error;
+    } finally {
+        await sql.close();
+    }
+}
+
+async function excluirtabeImpregnaId(id) {
+    try {
+        await sql.connect(config);
+        const result = await sql.query`DELETE FROM gdm_tabela_impregna WHERE id = ${id}`;
+        return result;
+    } catch (error) {
+        throw error;
+    } finally {
+        await sql.close();
+    }
+}
+
 //__________________________________________________________________________________________________________
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 MODULOS 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 module.exports = { selectCustomers,
@@ -366,5 +420,10 @@ module.exports = { selectCustomers,
     excluir_setup_polimento,
     update_setup_polimento,
     select_setup_polimento,
-    insert_setup_polimento
+    insert_setup_polimento,
+
+    inserttabeImpregna,
+    selecttabeImpregna,
+    updatetabeImpregna,
+    excluirtabeImpregnaId
 };

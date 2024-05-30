@@ -84,3 +84,6 @@ function carregarValores6() {
 function carregarValores7() {
   window.location.href = '/html/MAP.html'
 }
+function carregarValores8() {
+  window.location.href = '/html/IPG.html'
+}

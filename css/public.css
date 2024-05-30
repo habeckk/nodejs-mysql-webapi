@@ -293,179 +293,143 @@
   }
 /*📌📌📌__________________________________________________________________________________________________________________📌📌📌*/
 /* __________________________________________________________ Formulários _________________________________________________________*/
+/* Adiciona uma cor de fundo amarelo creme quando o campo está preenchido */
 
-  .overlay,
-  .overlay1,
-  .overlay2 {
-    display: none;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    box-sizing: border-box;
+/* Estilos para as overlays */
+.overlay, .overlay1, .overlay2 {
+  display: none;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  box-sizing: border-box;
+  color: var(--paleta6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--paleta9);
+  z-index: 1000;
+}
 
-    color: var(--paleta6);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--paleta9);
-    z-index: 1000;
+/* Estilos para animação */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
   }
+  to {
+      opacity: 1;
+  }
+}
 
-  /* Estilos para animação */
-  @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+@keyframes fadeOut {
+  from {
+      opacity: 1;
   }
+  to {
+      opacity: 0;
+  }
+}
 
-  @keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
-  }
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
 
-  .fade-in {
-    animation: fadeIn 0.3s ease-in;
-  }
+.fade-out {
+  animation: fadeOut 0.3s ease-out;
+}
 
-  .fade-out {
-    animation: fadeOut 0.3s ease-out;
-  }
+/* Estilos para a modal */
+.modal {
+  border-radius: 8px;
+  max-height: 80%;
+  overflow: auto;
+  background-color: var(--paleta10);
+  width: 300px;
+  padding: 15px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
-  .modal {
-    background-color: var(--paleta10);
-    width: 300px;
-    padding: 15px;
-    border-radius: 8px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
+.modal h2 {
+  margin-top: 0;
+  font-size: 20px;
+  color: var(--paleta8);
+}
 
-  .modal h2 {
-    margin-top: 0px;
-    font-size: 24px;
-    color: var(--paleta8);
-  }
+.modal label {
+  font-size: 14px;
+  margin-bottom: 2px;
+  font-weight: bold;
+}
 
-  .modal label {
-    margin-bottom:2px;
-    font-weight: bold;
-  }
+/* Estilos para os campos de input e select */
+.modal input[type="password"],
+.modal input[type="email"],
+.modal input[type="text"],
+.modal select,
+input[type="number"],
+input[type="date"],
+input[type="time"],
+textarea {
+  width: 95%;
+  padding: 5px;
+  margin-bottom: 5px;
+  border-radius: 20px;
+  background-color: var(--paleta13);
+  border: 1px solid var(--paleta11);
+  text-align: center;
+  font-size: 14px;
+}
 
-  .modal input[type="password"],
-  .modal input[type="email"],
-  .modal input[type="text"]{
-    background-color: var(--paleta13); /* Cor de fundo */
-    text-align: center; /* Centraliza o texto horizontalmente */
-    width: 95%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid var(--paleta11);
-    border-radius: 20px; /* Arredondamento da borda */
-    font-size: 16px;
-  }
+.modal input[type="time"] {
+  width: 35%;
+  margin-top: 5px;
+}
 
-  .modal select {
-    text-align: center; /* Centraliza o texto horizontalmente */
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    background-color: var(--paleta13); /* Cor de fundo */
-    border: 1px solid var(--paleta11); /* Borda */
-    border-radius: 20px;
-    font-size: 16px;
-  }
-  
-  input[type="date"],
-  input[type="text"],
-  input[type="password"],
-  input[type="email"] {
-    text-align: center; /* Centraliza o texto horizontalmente */
-    background-color: var(--paleta13); /* Cor de fundo */
-    border: 1px solid var(--paleta11); /* Borda */
-    padding: 8px; /* Espaçamento interno */
-    font-size: 16px; /* Tamanho da fonte */
-    border-radius: 20px; /* Arredondamento da borda */
-  }
+.modal textarea {
+  height: 50px;
+  margin-bottom: 5px;
+}
 
-  .hour {
-    padding: 5px;
-    border: 1px solid var(--paleta7);
-    border-radius: 20px; /* Arredondamento da borda */
-    text-align: end;
-  }
+/* Estilizando o foco dos campos */
+input[type="number"]:focus,
+input[type="date"]:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="time"]:focus,
+textarea:focus,
+select:focus {
+  border: 2px solid var(--paleta12);
+  outline: none;
+  box-shadow: 0 0 0 0.05rem var(--paleta7);
+}
 
-  /* Estilizando o foco do campo de data */
-  input[type="date"]:focus,
-  input[type="text"]:focus,
-  input[type="password"]:focus,
-  input[type="email"]:focus,
-  textarea:focus,
-  select:focus,
-  input[type="time"]:focus{
-    border: 2px solid ;
-    border-color: var(--paleta12); /* Cor da borda ao focar */
-    outline: none; /* Remove o contorno padrão */
-    box-shadow: 0 0 0 0.05rem var(--paleta7); /* Sombra ao redor do campo */
-  }
-  
-  .modal label[for="hora"] {
-    text-align: center; /* Centraliza o texto horizontalmente */
-  }
-  /* Estilizando o campo de hora */
-  .modal input[type="time"] {
-    border-radius: 20px; /* Arredondamento da borda */
-    text-align: center; /* Centraliza o texto horizontalmente */
-    margin-top: 5px;
-    background-color: var(--paleta13); /* Cor de fundo */
-    border: 1px solid var(--paleta11); /* Borda */
-    width: 35%; /* Reduzindo a largura para 50% */
-    padding: 5px;
-    font-size: 16px;
-  }
+/* Estilos para os botões */
+.modal button {
+  text-shadow: var(--paleta0);
+  padding: 10px 20px;
+  background-color: var(--paleta30);
+  color: var(--paleta31);
+  border: 1px solid var(--paleta31);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
 
+.modal button:hover {
+  background-color: var(--paleta33);
+  color: var(--paleta32);
+  border: 1px solid var(--paleta32);
+}
 
-  .modal textarea {
-    margin-bottom: 5px; /* Adiciona um espaço entre o label e o campo de hora */
-    height: 50px;
-  }
+.modal button + button {
+  margin-left: 3%;
+}
 
-  .modal button {
-    text-shadow: var(--paleta0); /* Sombra no texto para melhorar a leitura */
-    padding: 10px 20px;
-    background-color: var(--paleta30);
-    color: var(--paleta31);
-    border: 1px solid var(--paleta31);
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-
-  .modal button:hover {
-    background-color: var(--paleta33);
-    color: var(--paleta32);
-    border: 1px solid var(--paleta32);
-  }
-
-  .modal button + button {
-    margin-left: 3%;
-  }
-
-  textarea {
-    width: 100%; /* Faz o input se ajustar ao contêiner, mas não maior que isso */
-    max-width: 100%; /* Impede que o input ultrapasse o contêiner */
-    box-sizing: border-box; /* Garante que paddings e bordas estejam incluídos na largura total */
-  }
   
 /*📌📌📌__________________________________________________________________________________________________________________📌📌📌*/
 /* _______________________________________________ Estilo do cartão setup _________________________________________________________*/

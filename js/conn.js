@@ -1,7 +1,8 @@
 require("dotenv").config();
 
 const express = require('express');
-const fs = require('fs').promises; // Importação correta para usar Promises
+const fs = require('fs');
+const fs1 = require('fs').promises;
 const path = require('path');
 const app = express();
 const port = process.env.PORT;
@@ -83,27 +84,29 @@ app.put('/ferr_apont/:id', async (req, res) => {
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU FIP 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 app.get('/pdfabrir/:fipN', async (req, res) => {
     const fipN = req.params.fipN;
-    console.log(fipN + " teste"); // Para debug
 
     // Validação do ID
     if (!/^[a-zA-Z0-9_-]+$/.test(fipN)) {
         return res.status(400).send('ID inválido');
     }
-    const baseNetworkPath = '\\\\dfs\\SAP\\PP\\QUA\\FIP-PDF';
-    const filePath = path.join(baseNetworkPath, `00001.pdf`); // Construindo o caminho do arquivo
 
-    // Verifica se o arquivo existe
-    fs.access(filePath, fs.constants.F_OK, (err) => {
-        if (err) {
-            return res.status(404).send('Arquivo não encontrado');
-        }
-        // Se o arquivo existir, envia o arquivo
-        // Para forçar download, você pode descomentar a linha abaixo
-        // res.setHeader('Content-Disposition', 'attachment; filename="' + fipN + '.pdf"');
+    const baseNetworkPath = '\\\\dfs\\SAP\\PP\\QUA\\FIP-PDF';
+    const filePath = path.join(baseNetworkPath, `${fipN}.pdf`);
+
+    try {
+        // Verifique se o arquivo existe
+        await fs.promises.access(filePath, fs.constants.F_OK);
+        
         res.setHeader('Content-Type', 'application/pdf');
-        fs.createReadStream(filePath).pipe(res);
-    });
+        res.setHeader('Content-Disposition', 'inline; filename="' + fipN + '.pdf"');
+        const stream = fs.createReadStream(filePath);
+        stream.pipe(res);
+    } catch (err) {
+        console.error('Erro ao acessar o arquivo:', err);
+        return res.status(404).send('Arquivo não encontrado');
+    }
 });
+
 //__________________________________________________________________________________________________________
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSU PDF 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 app.get('/pdf/:id', async(req, res) => {
@@ -225,7 +228,7 @@ app.post('/zplReset', async (req, res) => {
 
         // Salvar o arquivo ZPL na pasta da impressora
         const zplFilePath = path.join(printerDir, 'reset_label.zpl');
-        await fs.writeFile(zplFilePath, zplData); 
+        await fs1.writeFile(zplFilePath, zplData); 
 
         res.json({ success: true, message: "15" });
     } catch (error) {
@@ -234,23 +237,35 @@ app.post('/zplReset', async (req, res) => {
 });
 
 app.post('/zpl', async (req, res) => {
-    const { printerDirectory, zplData, grfData, qtdetq } = req.body;
+    const { printerDirectory, zplData, grfData, qtdetq, infetq } = req.body;
     const printerDir = "//172.18.1.232/" + printerDirectory.trim();
+
+    // Copiando o valor de zplData para uma nova variável
+    let zplContent = zplData.replace(/#101@/g, infetq);
+    let Dta = getCurrentDate().replace(/-/g, '/');
+    zplContent = zplContent.replace(/#100@/g, Dta);
+
+    function getCurrentDate() {
+        const date = new Date();
+        const year = date.getFullYear().toString().slice(-2);
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        return `${day}/${month}/${year}`;
+    }
 
     try {
         if (grfData.trim()) {
             const grfFilePath = path.join(printerDir, 'label_template.grf');
-            await fs.writeFile(grfFilePath, grfData.trim()); // Uso correto com async/await
+            await fs1.writeFile(grfFilePath, grfData.trim()); // Uso correto com async/await
             console.log('Arquivo grf criado com sucesso:', grfFilePath);
         }
 
         const qtdetqNum = parseInt(qtdetq.trim(), 10);
         for (let i = 0; i < qtdetqNum; i++) {
             const zplFilePath = path.join(printerDir, `label_template_${i}.zpl`);
-            await fs.writeFile(zplFilePath, zplData.trim()); // Uso correto com async/await
+            await fs1.writeFile(zplFilePath, zplContent.trim()); // Uso correto com async/await
             console.log('Arquivo ZPL criado com sucesso:', zplFilePath);
         }
-
         res.json({ success: true, message: "12" });
     } catch (error) {
         res.status(500).json({ success: false, message: "14" });
@@ -338,41 +353,6 @@ app.get('/executarPython', (req, res) => {
     });
 });
 
-app.get('/grfabrir', async (req, res) => {
-
-    const baseNetworkPath = '\\\\dfs\\SAP\\PP\\QUA\\FIP-PDF';
-    const filePath = path.join(baseNetworkPath, `00006.PDF`); // Construindo o caminho do arquivo
-
-    // Verifica se o arquivo existe
-    fs.access(filePath, fs.constants.F_OK, (err) => {
-        if (err) {
-            return res.status(404).send('Arquivo não encontrado');
-        }
-        // Se o arquivo existir, envia o arquivo
-        // Para forçar download, você pode descomentar a linha abaixo
-        // res.setHeader('Content-Disposition', 'attachment; filename="' + fipN + '.pdf"');
-        res.setHeader('Content-Type', 'application/pdf');
-        fs.createReadStream(filePath).pipe(res);
-    });
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //__________________________________________________________________________________________________________
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 SSP ADICIONAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 
@@ -429,6 +409,62 @@ app.delete('/gdm_setup_polimento/:id', async (req, res) => {
     }
 });
 
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 IPG ADICIONAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
+app.post('/tabeImpregna', async (req, res) => {
+    const { HRpedido, login, Documento_compras, item, Fornecedor, Grupo_mercadorias, Material, Org_compras, Grp_compradores, Centro, Deposito, Data_documento, Qtd_pedido, UM_pedido, Valor_líq_pedido, Moeda, Unid_prc_pedido, Incompleto, Tipo_doc_compras, Centro_fornecedor, Texto_breve, obs} = req.body;
+
+    try {
+        const result = await db.inserttabeImpregna(HRpedido, login, Documento_compras, item, Fornecedor, Grupo_mercadorias, Material, Org_compras, Grp_compradores, Centro, Deposito, Data_documento, Qtd_pedido, UM_pedido, Valor_líq_pedido, Moeda, Unid_prc_pedido, Incompleto, Tipo_doc_compras, Centro_fornecedor, Texto_breve, obs);
+        res.status(201).json({ message: 'Dados adicionados com sucesso', id: result.insertId });
+    } catch (error) {
+        console.error('Erro ao adicionar dados:', error);
+        res.status(500).json({ error: 'Erro ao adicionar dados' });
+    }
+});
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 IPG SELECT 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+app.get('/tabeImpregna', async (req, res) => {
+    try {
+        const setups = await db.selecttabeImpregna(); // Chame a função que obtém os setups do banco de dados
+        res.status(200).json(setups); // Envie os setups obtidos como resposta
+    } catch (error) {
+        console.error('Erro ao buscar setups:', error);
+        res.status(500).json({ error: 'Erro ao buscar setups' });
+    }
+});
+
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 IPG ALTERAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
+app.put('/atualizar-status/:id', async (req, res) => {
+    const setupId = req.params.id;
+    const { status } = req.body;
+
+    try {
+        const result = await db.updatetabeImpregna(setupId, status);
+        res.status(200).json({ message: 'Status atualizado com sucesso.' });
+    } catch (error) {
+        console.error('Erro ao atualizar o status:', error);
+        res.status(500).json({ error: 'Erro interno ao atualizar o status.' });
+    }
+});
+
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 IPG DELETAR 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+
+app.delete('/tabeImpregna/:id', async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const result = await db.excluirtabeImpregnaId(id);
+        res.status(200).json({ message: 'Setup de usinagem excluído com sucesso' });
+    } catch (error) {
+        console.error('Erro ao excluir setup de usinagem:', error);
+        res.status(500).json({ error: 'Erro ao excluir setup de usinagem' });
+    }
+});
 
 
 
@@ -436,6 +472,13 @@ app.delete('/gdm_setup_polimento/:id', async (req, res) => {
 
 
 
+
+
+
+
+
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 PORTA 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 
 app.listen(port, () => {
     console.log(`API funcionando na porta ${port}`);
