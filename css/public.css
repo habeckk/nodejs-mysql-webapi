@@ -296,7 +296,7 @@
 /* Adiciona uma cor de fundo amarelo creme quando o campo está preenchido */
 
 /* Estilos para as overlays */
-.overlay, .overlay1, .overlay2 {
+.overlay, .overlay1, .overlay2, .overlay3 {
   display: none;
   flex-direction: column;
   text-align: center;

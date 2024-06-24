@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IMPRESSÃO DE ETIQUETAS</title>
 </head>
+
 <body>
     <div class="header">
         <h1>CENTRAL ETIQUETAS</h1>
@@ -22,6 +23,7 @@
             <button class="sidebar-button" type="button" onclick="openForm()">Cadastrar Etiquetas</button>
             <button class="sidebar-button" type="button" onclick="openForm1()">Imprimir</button>
             <button class="sidebar-button" type="button" onclick="openForm2()">Reset Impre.</button>
+            <button class="sidebar-button" type="button" onclick="openForm3()">Filtro</button>
             <!--<button onclick="convertImageToGRF()">Convert to GRF</button> -->
         </div>
     </div>
@@ -109,6 +111,28 @@
             </div>
         </div>
 
+        <div class="overlay3" id="overlay3">
+            <div class="modal">
+                <label for="filtro-nome">Filtrar por Nome:</label>
+                <input type="text" id="filtro-nome" name="filtro-nome">
+                
+                <label for="filtro-item">Filtrar por Item:</label>
+                <input type="text" id="filtro-item" name="filtro-item">
+                
+                <label for="filtro-modelo">Filtrar por Modelo:</label>
+                <input type="text" id="filtro-modelo" name="filtro-modelo">
+                
+                <button onclick="filtrarEtiquetas()">Filtrar</button>       
+            </div> 
+        </div> 
+
+        <div class="overlay4" id="imageModal4" style="display: none;">
+            <div class="modal4">
+                <span class="close4" onclick="closeImageModal()">&times;</span>
+                <img class="modal-content4" id="imgModal4">
+            </div>
+        </div>
+
     <div id="pedidosContainer"></div>
     <!-- Restante do seu HTML -->
 
@@ -119,10 +143,72 @@
             </div>    
         </div>
     </div>
-
+    
     <script>
         const BASE_URL = 'http://localhost:5500';
 
+// Função para abrir o modal e exibir a imagem ampliada
+function selecionarEtiqueta1(id) {
+    // Fetch para obter os dados da etiqueta pelo ID
+    fetch(`${BASE_URL}/getEtiquetaById/${id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro na rede ou endpoint não encontrado');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const etiqueta = data[0]; // Ajuste conforme a estrutura real da sua resposta
+            const imgSrc = `/img/etq/${etiqueta.Id}.png`;
+
+            // Atualizar a fonte da imagem do modal
+            const modalImg = document.getElementById("imgModal4");
+            modalImg.src = imgSrc;
+
+            // Exibir o modal
+            document.getElementById("imageModal4").style.display = "block";
+        })
+        .catch(error => console.error('Erro ao buscar etiqueta:', error));
+}
+
+    // Função para fechar o modal
+    function closeImageModal() {
+        document.getElementById("imageModal4").style.display = "none";
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelectorAll('.card-content4').forEach(card => {
+            card.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                selecionarEtiqueta(id);
+            });
+        });
+    });
+
+//__________________________________________________________________________________________________________
+//🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 Filtros 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
+    function filtrarEtiquetas() {
+        const filtroNome = document.getElementById('filtro-nome').value.toLowerCase();
+        const filtroItem = document.getElementById('filtro-item').value.toLowerCase();
+        const filtroModelo = document.getElementById('filtro-modelo').value.toLowerCase();
+    
+        // Seleciona todas as etiquetas
+        const etiquetas = document.querySelectorAll('.card-content');
+        etiquetas.forEach(etiqueta => {
+            const nome = etiqueta.querySelector('p:nth-child(2)').textContent.toLowerCase(); // Assume que o nome está na segunda linha
+            const item = etiqueta.querySelector('p:nth-child(3)').textContent.toLowerCase(); // Assume que o item está na terceira linha
+            const modelo = etiqueta.querySelector('p:nth-child(4)').textContent.toLowerCase(); // Assume que o modelo está na quarta linha
+    
+            // Verifica se a etiqueta atende aos critérios de filtragem e exibe ou oculta conforme necessário
+            if (nome.includes(filtroNome) && item.includes(filtroItem) && modelo.includes(filtroModelo)) {
+                etiqueta.style.display = 'block'; // Exibe a etiqueta
+            } else {
+                etiqueta.style.display = 'none'; // Oculta a etiqueta
+            }
+        });
+        closeForm3();
+    }
+    
 //__________________________________________________________________________________________________________
 //🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥 ACESSOS 🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥🚥
 
@@ -339,6 +425,13 @@
             document.getElementById("overlay2").style.display = "none";
         }
 
+        function openForm3() {
+            document.getElementById("overlay3").style.display = "block";
+        }
+        function closeForm3() {
+            document.getElementById("overlay3").style.display = "none";
+        }
+
         function Imprimir () {
             closeForm1();
         }
@@ -370,14 +463,16 @@ setInterval(atualizarDados, 1 * 60 * 1000); // 5 minutos * 60 segundos * 1000 mi
                         cardContent.innerHTML = `
                             <div class="card-content">
                                 <h2>${etiqueta.Id}</h2>
-                                <p><strong>Modelo--:</strong> ${etiqueta.modelo}</p>
                                 <p><strong>Nome----:</strong> ${etiqueta.nome}</p>
-                                <p><strong>Tamanho:</strong> ${etiqueta.tamanho}</p>
-                                <p><strong>Codigo :</strong> ${etiqueta.cod_etq}</p>
+                                <p><strong>Código do Modelo:</strong> ${etiqueta.item}</p>
+                                <p><strong>Modelo Etiqueta:</strong> ${etiqueta.modelo}</p>
+                                <p><strong>Tamanho ETQ:</strong> ${etiqueta.tamanho}</p>
                                 <div class="card-image-container">
                                     <img src="/img/etq/${etiqueta.Id}.png" alt="Imagem da Etiqueta">
                                 </div>
+                                <p><strong>Codigo da Etiqueta:</strong> ${etiqueta.cod_etq}</p><br>
                                 <button onclick="selecionarEtiqueta(${etiqueta.Id})">Carregar</button>
+                                <button onclick="selecionarEtiqueta1(${etiqueta.Id})">Visualizar IMG</button>
                             </div>
                         `;
         

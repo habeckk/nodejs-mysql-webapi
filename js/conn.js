@@ -1,8 +1,8 @@
 require("dotenv").config();
 
 const express = require('express');
-const fs = require('fs');
-const fs1 = require('fs').promises;
+const fs1 = require('fs'); // Importação correta para usar Promises
+const fs = require('fs').promises; // Importação correta para usar Promises
 const path = require('path');
 const app = express();
 const port = process.env.PORT;
@@ -95,11 +95,11 @@ app.get('/pdfabrir/:fipN', async (req, res) => {
 
     try {
         // Verifique se o arquivo existe
-        await fs.promises.access(filePath, fs.constants.F_OK);
+        await fs1.promises.access(filePath, fs1.constants.F_OK);
         
         res.setHeader('Content-Type', 'application/pdf');
         res.setHeader('Content-Disposition', 'inline; filename="' + fipN + '.pdf"');
-        const stream = fs.createReadStream(filePath);
+        const stream = fs1.createReadStream(filePath);
         stream.pipe(res);
     } catch (err) {
         console.error('Erro ao acessar o arquivo:', err);
@@ -228,7 +228,7 @@ app.post('/zplReset', async (req, res) => {
 
         // Salvar o arquivo ZPL na pasta da impressora
         const zplFilePath = path.join(printerDir, 'reset_label.zpl');
-        await fs1.writeFile(zplFilePath, zplData); 
+        await fs.writeFile(zplFilePath, zplData); 
 
         res.json({ success: true, message: "15" });
     } catch (error) {
@@ -256,14 +256,14 @@ app.post('/zpl', async (req, res) => {
     try {
         if (grfData.trim()) {
             const grfFilePath = path.join(printerDir, 'label_template.grf');
-            await fs1.writeFile(grfFilePath, grfData.trim()); // Uso correto com async/await
+            await fs.writeFile(grfFilePath, grfData.trim()); // Uso correto com async/await
             console.log('Arquivo grf criado com sucesso:', grfFilePath);
         }
 
         const qtdetqNum = parseInt(qtdetq.trim(), 10);
         for (let i = 0; i < qtdetqNum; i++) {
             const zplFilePath = path.join(printerDir, `label_template_${i}.zpl`);
-            await fs1.writeFile(zplFilePath, zplContent.trim()); // Uso correto com async/await
+            await fs.writeFile(zplFilePath, zplContent.trim()); // Uso correto com async/await
             console.log('Arquivo ZPL criado com sucesso:', zplFilePath);
         }
         res.json({ success: true, message: "12" });

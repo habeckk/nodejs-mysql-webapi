@@ -10,22 +10,21 @@ fetch('/json/data.json')
 
     function preencherCamposFormulario(data) {
     // Preenche o campo de centro de custo com os dados do JSON
-    const centroCustoSelect = document.getElementById('centro-custo');
-    data.CentroCusto.forEach(cc => {
-        const option = document.createElement('option');
-        option.value = cc;
-        option.textContent = cc;
-        centroCustoSelect.appendChild(option);
-    });
-
-    // Preenche o campo de operação com os dados do JSON
-    const operacaoSelect = document.getElementById('operacao');
-    data.Operacao.forEach(op => {
-        const option = document.createElement('option');
-        option.value = op;
-        option.textContent = op;
-        operacaoSelect.appendChild(option);
-    });
+        const centroCustoSelect = document.getElementById('centro-custo');
+        data.CentroCusto.forEach(cc => {
+            const option = document.createElement('option');
+            option.value = cc;
+            option.textContent = cc;
+            centroCustoSelect.appendChild(option);
+        });
+        // Preenche o campo de operação com os dados do JSON
+        const operacaoSelect = document.getElementById('operacao');
+        data.Operacao.forEach(op => {
+            const option = document.createElement('option');
+            option.value = op;
+            option.textContent = op;
+            operacaoSelect.appendChild(option);
+        });
 }
 
 function preencherSelectMaquinas(data) {
