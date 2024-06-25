@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exemplo de Gráficos com Chart.js</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/FAC.js"></script> <!-- Seu arquivo FAC.js -->
 </head>
 <body>
     <div class="header">
@@ -21,48 +23,15 @@
             <button class="sidebar-button" type="button" onclick="openForm0()">SETOR</button>
         </div>
     </div>
-    <div class="card-container">
-    <h2>Gráfico em Pizza</h2>
-    <div class="card-container">
-        <div class="pizza-card">
-            <canvas id="pieChart1"></canvas>
+    <div class="chart-container">
+        <div class="pie-charts">
+            <h2>Gráficos em Pizza</h2>
+            <div class="chart-pie" id="pieChartsRow"></div>
         </div>
-        <div class="pizza-card">
-            <canvas id="pieChart2"></canvas>
-        </div>
-        <div class="pizza-card">
-            <canvas id="pieChart3"></canvas>
-        </div>
-        <div class="pizza-card">
-            <canvas id="pieChart4"></canvas>
-        </div>
-        <div class="pizza-card">
-            <canvas id="pieChart5"></canvas>
-        </div>
-        <div class="pizza-card">
-            <canvas id="pieChart6"></canvas>
-        </div>
-    </div>
 
-    <h2>Gráfico de Barras</h2>
-    <div class="card-container">
-        <div class="bar-card">
-            <canvas id="barChart1"></canvas>
-        </div>
-        <div class="bar-card">
-            <canvas id="barChart2"></canvas>
-        </div>
-        <div class="bar-card">
-            <canvas id="barChart3"></canvas>
-        </div>
-        <div class="bar-card">
-            <canvas id="barChart4"></canvas>
-        </div>
-        <div class="bar-card">
-            <canvas id="barChart5"></canvas>
-        </div>
-        <div class="bar-card">
-            <canvas id="barChart6"></canvas>
+        <div class="bar-charts">
+            <h2>Gráficos de Barras</h2>
+            <div class="chart-bar" id="barChartsRow"></div>
         </div>
     </div>
         <!-- Formulário sobreposto -->
@@ -93,6 +62,5 @@
 
     <link rel="stylesheet" href="/css/FAC.css">
     <link rel="stylesheet" href="/css/public.css">
-    <script src="/js/FAC.js"></script>
 </body>
 </html>
